@@ -11,7 +11,7 @@
  * @author Ryan Instrell
  */
 
-/* Debugging Ini Parameters */
+/** Debugging and Ini Parameters. */
 ini_set('xdebug.trace_output_name', 'telemetry_processing');
 ini_set('display_errors', 'On');
 ini_set('html_errors', 'On');
