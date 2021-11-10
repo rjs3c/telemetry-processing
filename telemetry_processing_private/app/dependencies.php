@@ -11,42 +11,87 @@
  * @author Ryan Instrell
  */
 
-/** Specific Components within <TelemProc> namespace. */
-use TelemProc\DatabaseWrapper;
-use TelemProc\SoapWrapper;
-use TelemProc\TelemetryWrapper;
-use TelemProc\TelemetryModel;
-use TelemProc\TelemetryParser;
-use TelemProc\TelemetryValidator;
-
-$container['databaseWrapper'] = function () {
-    return new DatabaseWrapper();
-};
-
-$container['soapWrapper'] = function () {
-    return new SoapWrapper();
-};
-
-$container['telemetryWrapper'] = function () {
-    return new TelemetryWrapper();
-};
-
-$container['telemetryModel'] = function () {
-    return new TelemetryModel();
-};
-
-$container['telemetryParser'] = function () {
-    return new TelemetryParser();
-};
-
-$container['telemetryValidator'] = function () {
-    return new TelemetryValidator();
-};
-
-/** External namespaces from <Slim>, <Twig> and <Monolog>. */
+/**
+ * External namespaces from <Slim>, <Twig> and <Monolog>.
+ */
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
-use Slim\Http\Request;
-use Slim\Http\Response;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
+
+/**
+ * Specific Components within <TelemProc> namespace.
+ *
+ * @todo Create below classes in '/src'.
+ */
+//use TelemProc\DatabaseWrapper;
+//use TelemProc\SoapWrapper;
+//use TelemProc\TelemetryWrapper;
+//use TelemProc\TelemetryModel;
+//use TelemProc\TelemetryParser;
+//use TelemProc\TelemetryValidator;
+
+/**
+ * <Monolog> Functionality.
+ */
+$container['telemetryLogger'] = function ($container) {
+    $telemetry_logger = new Logger('telemetryLogger');
+
+    /* Logs of level NOTICE */
+    $log_notice_name = 'telemetry_processing_notice.log';
+    $log_notice_path = LOG_PATH . $log_notice_name;
+    $notice_stream_handler = new StreamHandler($log_notice_path, Logger::NOTICE);
+
+    /* Logs of level ERROR */
+    $log_error_name = 'telemetry_processing_error.log';
+    $log_error_path = LOG_PATH . $log_error_name;
+    $error_stream_handler = new StreamHandler($log_error_path, Logger::ERROR);
+
+    $telemetry_logger->pushHandler($notice_stream_handler);
+    $telemetry_logger->pushHandler($error_stream_handler);
+
+    return $telemetry_logger;
+};
+
+/**
+ * <Twig> Functionality.
+ */
+$container['telemetryView'] = function ($container) {
+    $telemetry_view = new Twig(
+        TEMPLATE_PATH,
+        $container['telemetryView']['twig_attributes'],
+        array(
+            'debug' => true
+        )
+    );
+
+    $base_uri = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBasePath()), '/'); // Seek a replacement
+    $router = $container['router'];
+    $telemetry_view->addExtension(new TwigExtension($router, $base_uri));
+
+    return $telemetry_view;
+};
+
+//$container['databaseWrapper'] = function ($container) {
+//    return new DatabaseWrapper();
+//};
+//
+//$container['soapWrapper'] = function ($container) {
+//    return new SoapWrapper();
+//};
+//
+//$container['telemetryWrapper'] = function ($container) {
+//    return new TelemetryWrapper();
+//};
+//
+//$container['telemetryModel'] = function ($container) {
+//    return new TelemetryModel();
+//};
+//
+//$container['telemetryParser'] = function ($container) {
+//    return new TelemetryParser();
+//};
+//
+//$container['telemetryValidator'] = function ($container) {
+//    return new TelemetryValidator();
+//};
