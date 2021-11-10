@@ -1,5 +1,6 @@
 # Telemetry Processing
-Team **21-3110-AF**
+Telemetry Data Processing using PHP and EE's M2M SOAP Service. 
+Team: **21-3110-AF**
 ## Created by:
 * @MoAziz123
 * @JamesB38
