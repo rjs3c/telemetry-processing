@@ -20,18 +20,6 @@ use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
 
 /**
- * Specific Components within <TelemProc> namespace.
- *
- * @todo Create below classes in '/src'.
- */
-//use TelemProc\DatabaseWrapper;
-//use TelemProc\SoapWrapper;
-//use TelemProc\TelemetryWrapper;
-//use TelemProc\TelemetryModel;
-//use TelemProc\TelemetryParser;
-//use TelemProc\TelemetryValidator;
-
-/**
  * <Monolog> Functionality.
  */
 $container['telemetryLogger'] = function ($container) {
@@ -72,26 +60,9 @@ $container['telemetryView'] = function ($container) {
     return $telemetry_view;
 };
 
-//$container['databaseWrapper'] = function ($container) {
-//    return new DatabaseWrapper();
-//};
-//
-//$container['soapWrapper'] = function ($container) {
-//    return new SoapWrapper();
-//};
-//
-//$container['telemetryWrapper'] = function ($container) {
-//    return new TelemetryWrapper();
-//};
-//
-//$container['telemetryModel'] = function ($container) {
-//    return new TelemetryModel();
-//};
-//
-//$container['telemetryParser'] = function ($container) {
-//    return new TelemetryParser();
-//};
-//
-//$container['telemetryValidator'] = function ($container) {
-//    return new TelemetryValidator();
-//};
+/**
+ * <SOAP> Functionality.
+ */
+$container['soapWrapper'] = function ($container) {
+    return new \TelemProc\SoapWrapper();
+};
