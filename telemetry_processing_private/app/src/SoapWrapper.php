@@ -15,7 +15,10 @@ namespace TelemProc;
 
 class SoapWrapper
 {
+    /** @var null $soap_client Contains the handle to <SoapClient>. */
     private $soap_client;
+
+    /** @var array $soap_settings Contains settings for <SoapClient>.*/
     private $soap_settings;
 
     public function __construct()
