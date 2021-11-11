@@ -64,10 +64,10 @@ class SoapWrapper
      * Calls SOAP-based user-defined function.
      *
      * @param string $function_name
-     * @param null $function_params
+     * @param array|null $function_params
      * @return mixed
      */
-    public function callSoapFunction(string $function_name, $function_params = null) : string
+    public function callSoapFunction(string $function_name, ?array $function_params = null) : string
     {
         $soap_result = null;
 
