@@ -44,7 +44,7 @@ class SoapWrapper {
 
         try
         {
-            $soap_handle = new \SoapClient($soap_settings['wsdl'], $soap_settings['attributes']);
+            $soap_handle = new \SoapClient($soap_settings['wsdl'], $soap_settings['soap_attributes']);
             // var_dump($soap_handle->__getFunctions());
             // var_dump($soap_handle->__getTypes());
             $this->soap_client = $soap_handle;
