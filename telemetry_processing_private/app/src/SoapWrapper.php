@@ -13,15 +13,15 @@
 
 namespace TelemProc;
 
-class SoapWrapper {
+class SoapWrapper
+{
     private $soap_client;
     private $soap_settings;
-    private $soap_result;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->soap_client = null;
         $this->soap_settings = array();
-        $this->soap_result = null;
     }
 
     public function __destruct() {}
@@ -33,35 +33,27 @@ class SoapWrapper {
      *
      * @param array $soap_settings
      */
-    public function setSoapSettings(array $soap_settings) : void {
+    public function setSoapSettings(array $soap_settings) : void
+    {
         $this->soap_settings = $soap_settings;
-    }
-
-    /**
-     * Returns result generated from SOAP function call.
-     *
-     * @return null
-     */
-    public function getSoapResult() {
-        return $this->soap_result;
     }
 
     /**
      * Creates SOAP Client and Handle using <SoapClient>.
      */
-    public function createSOAPHandle() : void {
+    public function createSoapHandle() : string
+    {
         $soap_settings = $this->soap_settings;
         $soap_error = '';
 
         try {
             $soap_handle = new \SoapClient($soap_settings['wsdl'], $soap_settings['soap_attributes']);
-            // var_dump($soap_handle->__getFunctions());
-            // var_dump($soap_handle->__getTypes());
             $this->soap_client = $soap_handle;
         } catch (\SoapFault $exception) {
-           $soap_error = $exception->getMessage();
-           /* Log for Sysadmin Attention */
+           $soap_error = $exception->getMessage(); // Log for sysadmin attention.
         }
+
+        return $soap_error;
     }
 
     /**
@@ -71,25 +63,24 @@ class SoapWrapper {
      * @param null $function_params
      * @return mixed
      */
-    public function callSOAPFunction(string $function_name, $function_params = null) : array {
-        $soap_result = false;
-        $soap_error = '';
+    public function callSoapFunction(string $function_name, $function_params = null) : string
+    {
+        $soap_result = null;
 
         try {
-            if ($this->soap_client !== null) {
+            if ($this->soap_client) {
                 if ($function_params !== null) {
                     $soap_result = $this->soap_client->__soapCall($function_name, $function_params);
                 } else {
                     $soap_result = $this->soap_client->__soapCall($function_name);
                 }
             } else {
-                throw new \SoapFault('Soap Handle is not set.');
+                throw new \SoapFault('Soap handle is not set');
             }
         } catch (\SoapFault $exception) {
-            $soap_error = $exception->getMessage();
-            /* Log for Sysadmin Attention */
+            $soap_result = $exception->getMessage(); // Log for sysadmin attention.
         }
 
-        $this->soap_result = $soap_result;
+        return $soap_result;
     }
 }
