@@ -12,8 +12,6 @@ In composer.json:
 ```json
 "autoload": {
         "psr-4": {
-            ...
             "TelemProc\\" : "telemetry_processing/app/src"
-            ...
         }
 ```
