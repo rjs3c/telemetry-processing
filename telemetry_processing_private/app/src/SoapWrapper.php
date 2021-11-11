@@ -5,6 +5,7 @@
  * Provides a wrapper for SOAP-related operations.
  *
  * @package telemetry_processing
+ * @\TelemProc
  *
  * @author James Brass
  * @author Mo Aziz
