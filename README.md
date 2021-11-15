@@ -16,7 +16,7 @@ In composer.json:
         }
 ```
 In telemetry-processing_private/app/settings.php:
-```
+```php
 return array(
         'databaseSettings' => array( # PDO/DB Details Here!
             'rdbms' => '', 
