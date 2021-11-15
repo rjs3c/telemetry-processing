@@ -34,7 +34,7 @@ return array(
             )
         ),
         /* PDO Settings. */
-        'databaseSettings' => array( # Change these to your own DB settings!
+        'databaseSettings' => array( # Change these to your own PDO/DB settings!
             'rdbms' => '',
             'db_host' => '',
             'db_port' => '',
