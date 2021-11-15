@@ -14,11 +14,11 @@
 /** <PSR-4> Autoloading using <Composer>. */
 require 'vendor/autoload.php';
 
+/** Settings File - Global Constants and Configurations. */
+$settings = require __DIR__ . '/app/' . 'settings.php';
+
 /** Points to relative /app/ directory. */
 $app_path = __DIR__ . APP_PATH;
-
-/** Settings File - Global Constants and Configurations. */
-$settings = require $app_path . 'settings.php';
 
 /** XDebug Start Trace/Profiling */
 if (function_exists(xdebug_start_trace()))
