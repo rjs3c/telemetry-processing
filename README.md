@@ -15,7 +15,7 @@ In composer.json:
             "TelemProc\\" : "telemetry_processing/app/src"
         }
 ```
-```
+```bash
 $ composer update
 ```
 In telemetry-processing_private/app/settings.php:
