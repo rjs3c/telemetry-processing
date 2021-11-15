@@ -26,13 +26,15 @@ return array(
         'addContentLengthHeader' => false,
         'mode' => 'development',
         'debug' => true,
+        /* TWIG Settings. */
         'telemetryView' => array(
             'twig_attributes' => array(
                 'cache' => false,
                 'auto_reload' => true,
             )
         ),
-        'databaseSettings' => array(
+        /* PDO Settings. */
+        'databaseSettings' => array( # Change these to your own DB settings!
             'rdbms' => '',
             'db_host' => '',
             'db_port' => '',
@@ -45,10 +47,11 @@ return array(
                 PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             )
         ),
+        /* SOAP Settings. */
         'soapSettings' => array(
             'ee_m2m_username' => '', # Enter your own details!
             'ee_m2m_password' => '', # Enter your own details!
-            'ee_m2m_phone_number' => '+447817814149',
+            'ee_m2m_phone_number' => '', # Enter M2M Server MSISDN!
             'wsdl' => 'https://m2mconnect.ee.co.uk/orange-soap/services/MessageServiceByCountry?wsdl',
             'soap_attributes' => array(
                 'trace' => true,
