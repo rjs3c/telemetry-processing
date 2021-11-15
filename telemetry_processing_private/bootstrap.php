@@ -15,7 +15,7 @@
 require 'vendor/autoload.php';
 
 /** Points to relative /app/ directory. */
-$app_path = __DIR__ . '/app/';
+$app_path = __DIR__ . APP_PATH;
 
 /** Settings File - Global Constants and Configurations. */
 $settings = require $app_path . 'settings.php';
