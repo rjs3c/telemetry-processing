@@ -14,6 +14,8 @@
 /** Ini Configurations and XDebug. **/
 ini_set('display_errors', 'On');
 ini_set('html_errors', 'On');
+ini_set('xdebug.profiler_output_name', 'telemetry_processing.%t');
+ini_set('xdebug.profiler_enable', '1'); # Set to '1' to enable!
 ini_set('xdebug.trace_output_name', 'telemetry_processing.%t');
 ini_set('xdebug.trace_format', '1');
 
