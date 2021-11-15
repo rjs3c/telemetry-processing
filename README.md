@@ -21,8 +21,19 @@ $ composer update
 In telemetry-processing_private/app/settings.php:
 ```php
 return array(
-        'databaseSettings' => array( # PDO/DB Details Here!
-            'rdbms' => '', 
+    'telemetry_settings' => array(
+        'displayErrorDetails' => true,
+        'addContentLengthHeader' => false,
+        'mode' => 'development',
+        'debug' => true,
+        'telemetryView' => array(
+            'twig_attributes' => array(
+                'cache' => false,
+                'auto_reload' => true,
+            )
+        ),
+        'databaseSettings' => array(
+            'rdbms' => '',
             'db_host' => '',
             'db_port' => '',
             'db_name' => '',
@@ -37,7 +48,7 @@ return array(
         'soapSettings' => array(
             'ee_m2m_username' => '', # Enter your own details!
             'ee_m2m_password' => '', # Enter your own details!
-            'ee_m2m_phone_number' => '', # MSISDN here!
+            'ee_m2m_phone_number' => '+447817814149',
             'wsdl' => 'https://m2mconnect.ee.co.uk/orange-soap/services/MessageServiceByCountry?wsdl',
             'soap_attributes' => array(
                 'trace' => true,
@@ -49,6 +60,7 @@ return array(
 ```
 To access these settings:
 ```php
+$app->getContainer()->get('telemetry_settings')['telemetryView'];
 $app->getContainer()->get('telemetry_settings')['soapSettings'];
 $app->getContainer()->get('telemetry_settings')['databaseSettings'];
 ```
