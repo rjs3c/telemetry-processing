@@ -20,12 +20,14 @@ ini_set('xdebug.trace_output_name', 'telemetry_processing.%t');
 ini_set('xdebug.trace_format', '1');
 
 /** Paths needed for <CSS>, <Twig> and <Monolog>. **/
+$app_path = '/app/';
 $css_file_name = ''; // CSS file name needed here.
 $css_path = dirname($_SERVER['SCRIPT_NAME'] . '/css/' . $css_file_name);
 $template_path = __DIR__ . '/templates/';
 $log_path = '/p3t/phpappfolder/logs/';
 
 /** Constants for <CSS>, <Twig> and <Monolog> paths. **/
+define('APP_PATH', $app_path);
 define('CSS_PATH', $css_path);
 define('TEMPLATE_PATH', $template_path);
 define('LOG_PATH', $log_path);
@@ -54,8 +56,6 @@ return array(
             'db_collation' => 'utf8_unicode_ci',
             'pdo_attributes' => array(
                 PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES   => true,
             )
         ),
         'soapSettings' => array(
