@@ -30,7 +30,7 @@ define('LOG_PATH', $log_path);
 
 /** Settings for <Twig> (telemetryView), <PDO> (databaseSettings) and <SOAPClient> (soapSettings). **/
 return array(
-    'telemetrySettings' => array(
+    'telemetry_settings' => array(
         'displayErrorDetails' => true,
         'addContentLengthHeader' => false,
         'mode' => 'development',
@@ -57,6 +57,9 @@ return array(
             )
         ),
         'soapSettings' => array(
+            'ee_m2m_username' => '', # Enter your own details!
+            'ee_m2m_password' => '', # Enter your own details!
+            'ee_m2m_phone_number' => '+447817814149',
             'wsdl' => 'https://m2mconnect.ee.co.uk/orange-soap/services/MessageServiceByCountry?wsdl',
             'soap_attributes' => array(
                 'trace' => true,
