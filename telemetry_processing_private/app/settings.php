@@ -46,12 +46,12 @@ return array(
             )
         ),
         'databaseSettings' => array(
-            'rdbms' => '',
-            'db_host' => '',
-            'db_port' => '',
-            'db_name' => '',
-            'db_user_name' => '',
-            'db_user_password' => '',
+            'rdbms' => 'mysql',
+            'db_host' => 'localhost',
+            'db_port' => '3306',
+            'db_name' => 'telemetry_db',
+            'db_user_name' => 'telemetry_user',
+            'db_user_password' => 'telemetry_user_pass',
             'db_encoding' => 'utf8',
             'db_collation' => 'utf8_unicode_ci',
             'pdo_attributes' => array(
