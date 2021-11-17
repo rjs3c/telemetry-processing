@@ -34,7 +34,7 @@ define('LOG_PATH', $log_path);
 
 /** Settings for <Twig> (telemetryView), <PDO> (databaseSettings) and <SOAPClient> (soapSettings). **/
 return array(
-    'telemetry_settings' => array(
+    'telemetrySettings' => array(
         'displayErrorDetails' => true,
         'addContentLengthHeader' => false,
         'mode' => 'development',
