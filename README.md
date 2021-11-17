@@ -63,7 +63,7 @@ return array(
 ```
 To access these settings:
 ```php
-$app->getContainer()->get('telemetry_settings')['telemetryView'];
-$app->getContainer()->get('telemetry_settings')['soapSettings'];
-$app->getContainer()->get('telemetry_settings')['databaseSettings'];
+$app->getContainer()->get('telemetrySettings')['telemetryView'];
+$app->getContainer()->get('telemetrySettings')['soapSettings'];
+$app->getContainer()->get('telemetrySettings')['databaseSettings'];
 ```
