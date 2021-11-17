@@ -47,7 +47,7 @@ $container['telemetryLogger'] = function ($container) {
 $container['telemetryView'] = function ($container) {
     $telemetry_view = new Twig(
         TEMPLATE_PATH,
-        $container['telemetry_settings']['telemetryView']['twig_attributes'],
+        $container['telemetrySettings']['telemetryView']['twig_attributes'],
         array(
             'debug' => true
         )
