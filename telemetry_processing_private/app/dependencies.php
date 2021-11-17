@@ -18,6 +18,7 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
+use Twig\Extension\DebugExtension;
 
 /**
  * <Monolog> Functionality.
@@ -54,7 +55,7 @@ $container['telemetryView'] = function ($container) {
     $router = $container['router'];
     $telemetry_view->addExtension(new TwigExtension($router, $base_uri));
 
-    $telemetry_view->addExtension(new \Twig\Extension\DebugExtension());
+    $telemetry_view->addExtension(new DebugExtension());
 
     return $telemetry_view;
 };
