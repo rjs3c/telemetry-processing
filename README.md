@@ -21,7 +21,7 @@ $ composer update
 In telemetry-processing_private/app/settings.php:
 ```php
 return array(
-    'telemetry_settings' => array(
+    'telemetrySettings' => array(
         'displayErrorDetails' => true,
         'addContentLengthHeader' => false,
         'mode' => 'development',
