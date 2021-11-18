@@ -14,7 +14,7 @@ CREATE TABLE telemetry_data (
  `switch_two` BIT COLLATE utf8_unicode_ci NOT NULL,
  `switch_three` BIT COLLATE utf8_unicode_ci NOT NULL,
  `switch_four` BIT COLLATE utf8_unicode_ci NOT NULL,
- `fan` BIT COLLATE utf8_unicode_ci NOT NULL,
+ `fan` ENUM('forward', 'reverse', 'off') DEFAULT 'off' COLLATE utf8_unicode_ci NOT NULL,
  `temperature` DECIMAL(10,2) COLLATE utf8_unicode_ci NOT NULL,
  `keypad` INT(1) COLLATE utf8_unicode_ci NOT NULL,
  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON
