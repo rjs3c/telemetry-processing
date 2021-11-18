@@ -23,7 +23,7 @@ use Twig\Extension\DebugExtension;
 /**
  * <Monolog> Functionality.
  */
-$container['telemetryLogger'] = function ($container) {
+$container['telemetryLogger'] = function () {
     $telemetry_logger = new Logger('telemetryLogger');
 
     /* Logs of level NOTICE */
@@ -63,6 +63,6 @@ $container['telemetryView'] = function ($container) {
 /**
  * <SOAP> Functionality.
  */
-$container['soapWrapper'] = function ($container) {
+$container['soapWrapper'] = function () {
     return new \TelemProc\SoapWrapper();
 };
