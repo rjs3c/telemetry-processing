@@ -13,7 +13,7 @@
             <Switch4>1</Switch4>
         </Switches>
         <Fan>forward</Fan>
-        <Heater>34</Heater>
+        <Temperature>34.0</Temperature>
         <Keypad>5</Keypad>
     </MessageContent>
 </Message>
