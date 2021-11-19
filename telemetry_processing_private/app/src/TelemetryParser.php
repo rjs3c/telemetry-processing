@@ -19,7 +19,7 @@ class TelemetryParser
     /** @var string $string_to_parse The string to parse. */
     private $string_to_parse;
 
-    /** @var \SimpleXMLElement $parse_results Parsed result. */
+    /** @var array $parse_results Parsed result. */
     private $parse_results;
 
     public function __construct()
@@ -43,9 +43,9 @@ class TelemetryParser
     /**
      * Returns parsed XML result.
      *
-     * @return \SimpleXMLElement|null
+     * @return array|null
      */
-    public function getXMLParseResults()
+    public function getXMLParseResults(): ?array
     {
         return $this->parse_results;
     }
