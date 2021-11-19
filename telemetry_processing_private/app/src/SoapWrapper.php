@@ -67,17 +67,13 @@ class SoapWrapper
      * @param array|null $function_params
      * @return mixed
      */
-    public function callSoapFunction(string $function_name, ?array $function_params = null) : string
+    public function callSoapFunction(string $function_name, ?array $function_params = null)
     {
         $soap_result = null;
 
         try {
             if ($this->soap_client) {
-                if ($function_params !== null) {
-                    $soap_result = $this->soap_client->__soapCall($function_name, $function_params);
-                } else {
-                    $soap_result = $this->soap_client->__soapCall($function_name);
-                }
+                $soap_result = $this->soap_client->__soapCall($function_name, $function_params);
             } else {
                 throw new \SoapFault('Soap handle is not set');
             }
