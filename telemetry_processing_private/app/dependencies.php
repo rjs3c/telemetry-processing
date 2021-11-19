@@ -66,3 +66,15 @@ $container['telemetryView'] = function ($container) {
 $container['soapWrapper'] = function () {
     return new \TelemProc\SoapWrapper();
 };
+
+$container['telemetryModel'] = function () {
+    return new \TelemProc\TelemetryModel();
+};
+
+$container['sqlQueries'] = function () {
+    return new \TelemProc\SQLQueries();
+};
+
+$container['databaseWrapper'] = function () {
+    return new \TelemProc\DatabaseWrapper();
+};
