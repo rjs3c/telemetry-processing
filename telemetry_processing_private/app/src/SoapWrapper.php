@@ -28,7 +28,10 @@ class SoapWrapper
         $this->soap_settings = array();
     }
 
-    public function __destruct() {}
+    public function __destruct() 
+    {
+        $this->soap_client = null;
+    }
 
     /**
      * Sets SOAP settings needed to create handle.
