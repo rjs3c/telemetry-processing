@@ -45,7 +45,7 @@ class TelemetryParser
      *
      * @return array|null
      */
-    public function getXMLParseResults(): ?array
+    public function getXMLParseResults() : array
     {
         return $this->parse_results;
     }
@@ -53,12 +53,52 @@ class TelemetryParser
     /** Parses XML string into a type array, or <False> if this fails. */
     public function parseXML() : void
     {
-        $xml = simplexml_load_string($this->string_to_parse);
+        try {
+            $xml_parse_result = false;
 
-        if ($xml !== false) {
-            $this->parse_results = json_decode(json_encode($xml),true);
-        } else {
-            $this->parse_results = false;
+            libxml_use_internal_errors(true);
+
+            $xml = simplexml_load_string(
+                $this->string_to_parse,
+                'SimpleXMLElement'
+            );
+
+            $xml_extracted = $this->extrapolateGroupXML(json_decode(json_encode($xml),true));
+
+            $xml_parse_result = $xml_extracted;
+        } catch (\Exception $e) {
+        } finally {
+            $this->parse_results = $xml_parse_result;
+        }
+    }
+
+    /**
+     * Extracts group-specific XML-based message from XML string.
+     *
+     * @param $xml
+     * @return false|mixed
+     */
+    private function extrapolateGroupXML($xml)
+    {
+        try {
+            $group_xml_extracted = false;
+
+            if (isset($xml['message'])) {
+
+                $xml_message_section = simplexml_load_string(
+                    $xml['message'],
+                    'SimpleXMLElement'
+                );
+
+                if ($xml_message_section) {
+                    $xml_message = json_decode(json_encode($xml['message']), true);
+
+                    $group_xml_extracted = $xml_message = $xml_message['MessageMetadata']['Group'] === 'Fellowship' ? $xml_message : false;
+                }
+            }
+        } catch (\Exception $e) {
+        } finally {
+            return $group_xml_extracted;
         }
     }
 }
