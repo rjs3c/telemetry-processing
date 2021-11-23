@@ -75,10 +75,10 @@ class TelemetryParser
     /**
      * Extracts group-specific XML-based message from XML string.
      *
-     * @param $xml
+     * @param array|null $xml
      * @return false|mixed
      */
-    private function extrapolateGroupXML($xml)
+    private function extrapolateGroupXML(?array $xml) : ?array
     {
         try {
             $group_xml_extracted = false;
