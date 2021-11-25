@@ -82,7 +82,7 @@ $container['sqlQueries'] = function () {
 };
 
 /**
- * <SimpleSML> Functionality.
+ * <XML Parser> Functionality.
  */
 $container['telemetryParser'] = function () {
     return new \TelemProc\TelemetryParser();
