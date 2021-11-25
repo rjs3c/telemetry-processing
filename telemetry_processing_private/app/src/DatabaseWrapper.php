@@ -143,6 +143,8 @@ class DatabaseWrapper
      */
     public function getQueryRowCount() : int
     {
-        return $this->prepared_statement->rowCount();
+        $query_row = this->prepared_statement->rowCount();
+        $this->prepared_statement->closeCursor();
+        return $query_row;
     }
 }
