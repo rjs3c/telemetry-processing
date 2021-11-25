@@ -121,7 +121,9 @@ class DatabaseWrapper
      */
     public function getQueryRow() : array
     {
-        return $this->prepared_statement->fetch(\PDO::FETCH_NUM);
+        $query_row = $this->prepared_statement->fetch(\PDO::FETCH_NUM);
+        $this->prepared_statement->closeCursor();
+        return $query_row;
     }
 
     /**
@@ -143,8 +145,6 @@ class DatabaseWrapper
      */
     public function getQueryRowCount() : int
     {
-        $query_row = this->prepared_statement->rowCount();
-        $this->prepared_statement->closeCursor();
-        return $query_row;
+        return this->prepared_statement->rowCount();
     }
 }
