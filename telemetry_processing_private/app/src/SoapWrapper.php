@@ -22,16 +22,17 @@ class SoapWrapper
     /** @var array $soap_settings Contains settings for <SoapClient>.*/
     private $soap_settings;
 
+    /** @var resource $soap_logger Contains handle to <telemetryLogger>. */
+    private $soap_logger;
+
     public function __construct()
     {
         $this->soap_client = null;
         $this->soap_settings = array();
+        $this->soap_logger = null;
     }
 
-    public function __destruct() 
-    {
-        $this->soap_client = null;
-    }
+    public function __destruct() {}
 
     /**
      * Sets SOAP settings needed to create handle.
@@ -46,6 +47,32 @@ class SoapWrapper
     }
 
     /**
+     * Sets handle for <telemetryLogger>.
+     *
+     * @param $soap_logger
+     */
+    public function setSOAPLogger($soap_logger) : void
+    {
+        $this->soap_logger = $soap_logger;
+    }
+
+    /**
+     * Using the Logger handle, produce a log of level ERROR
+     * Optional parameters in $additional if more information is needed
+     *
+     * @param string $log_message
+     * @param array|null $additional
+     */
+    private function logSOAPError(string $log_message, ?array $additional = null) : void
+    {
+        if ($additional !== null) {
+            $this->soap_logger->error($log_message, $additional);
+        } else {
+            $this->soap_logger->error($log_message);
+        }
+    }
+
+    /**
      * Creates SOAP Client and Handle using <SoapClient>.
      */
     public function createSoapHandle() : string
@@ -57,7 +84,9 @@ class SoapWrapper
             $soap_handle = new \SoapClient($soap_settings['wsdl'], $soap_settings['soap_attributes']);
             $this->soap_client = $soap_handle;
         } catch (\SoapFault $exception) {
-           $soap_error = $exception->getMessage(); // Log for sysadmin attention.
+            if ($this->soap_logger !== null) {
+                $this->logSOAPError('SOAP Error', array($exception->getMessage()));
+            }
         }
 
         return $soap_error;
