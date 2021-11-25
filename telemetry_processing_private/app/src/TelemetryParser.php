@@ -16,15 +16,15 @@ namespace TelemProc;
 
 class TelemetryParser
 {
-    /** @var string $string_to_parse The string to parse. */
-    private $string_to_parse;
+    /** @var array $messages_to_parse The string to parse. */
+    private $messages_to_parse;
 
     /** @var array $parse_results Parsed result. */
     private $parse_results;
 
     public function __construct()
     {
-        $this->string_to_parse = '';
+        $this->messages_to_parse = '';
         $this->parse_results = null;
     }
 
@@ -33,11 +33,11 @@ class TelemetryParser
     /**
      * Sets the string to be parsed.
      *
-     * @param string $string_to_parse
+     * @param array|null $messages_to_parse
      */
-    public function setXMLString(string $string_to_parse) : void
+    public function setXMLMessages(?array $messages_to_parse) : void
     {
-        $this->string_to_parse = $string_to_parse;
+        $this->messages_to_parse = $messages_to_parse;
     }
 
     /**
@@ -54,18 +54,23 @@ class TelemetryParser
     public function parseXML() : void
     {
         try {
-            $xml_parse_result = false;
+            $xml_parse_result = array();
 
             libxml_use_internal_errors(true);
 
-            $xml = simplexml_load_string(
-                $this->string_to_parse,
-                'SimpleXMLElement'
-            );
+            foreach($this->messages_to_parse as $xml_message) {
 
-            $xml_extracted = $this->extrapolateGroupXML(json_decode(json_encode($xml),true));
+                $xml = simplexml_load_string(
+                    $xml_message,
+                    'SimpleXMLElement'
+                );
 
-            $xml_parse_result = $xml_extracted;
+                $xml_extracted = $this->extrapolateGroupXML(json_decode(json_encode($xml),true));
+
+                if (isset($xml_extracted)) {
+                    array_push($xml_parse_result, $xml_extracted);
+                }
+            }
         } catch (\Exception $e) {
         } finally {
             $this->parse_results = $xml_parse_result;
@@ -80,25 +85,15 @@ class TelemetryParser
      */
     private function extrapolateGroupXML(?array $xml) : ?array
     {
-        try {
-            $group_xml_extracted = false;
+        $group_xml_extracted = array();
 
-            if (isset($xml['message'])) {
-
-                $xml_message_section = simplexml_load_string(
-                    $xml['message'],
-                    'SimpleXMLElement'
-                );
-
-                if ($xml_message_section) {
-                    $xml_message = json_decode(json_encode($xml['message']), true);
-
-                    $group_xml_extracted = $xml_message = $xml_message['MessageMetadata']['Group'] === 'Fellowship' ? $xml_message : false;
-                }
-            }
-        } catch (\Exception $e) {
-        } finally {
-            return $group_xml_extracted;
+        if (isset($xml['message'])) {
+            $xml_message_section = $xml['message'];
+            $group_xml_extracted = isset($xml_message_section['Metadata'])
+            && $xml_message_section['Metadata']['GID'] === 'AF'
+                ? $xml_message_section : null;
         }
+
+        return $group_xml_extracted;
     }
 }
