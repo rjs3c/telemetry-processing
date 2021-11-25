@@ -119,7 +119,7 @@ class DatabaseWrapper
      *
      * @return array
      */
-    public function safeFetchQueryRow() : array
+    public function getQueryRow() : array
     {
         return $this->prepared_statement->fetch(\PDO::FETCH_NUM);
     }
@@ -129,11 +129,11 @@ class DatabaseWrapper
      *
      * @return array
      */
-    public function safeFetchQueryArray() : array
+    public function getQueryArray() : array
     {
-        $row = $this->prepared_statement->fetch(\PDO::FETCH_ASSOC);
+        $query_row = $this->prepared_statement->fetch(\PDO::FETCH_ASSOC);
         $this->prepared_statement->closeCursor();
-        return $row;
+        return $query_row;
     }
 
     /**
@@ -141,7 +141,7 @@ class DatabaseWrapper
      *
      * @return int
      */
-    public function countQueryRows() : int
+    public function getQueryRowCount() : int
     {
         return $this->prepared_statement->rowCount();
     }
