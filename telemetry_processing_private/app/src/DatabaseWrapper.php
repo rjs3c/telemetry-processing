@@ -74,6 +74,9 @@ class DatabaseWrapper
         }
     }
 
+    /**
+     * Creates Database Connection and sets Handle.
+     */
     public function createDatabaseHandle() : void
     {
         $database_settings = $this->database_settings;
