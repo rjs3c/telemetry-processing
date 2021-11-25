@@ -45,7 +45,7 @@ class TelemetryParser
      *
      * @return array|null
      */
-    public function getXMLParseResults() : array
+    public function getXMLParseResults() : ?array
     {
         return $this->parse_results;
     }
