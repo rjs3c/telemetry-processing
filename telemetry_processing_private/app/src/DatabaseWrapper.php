@@ -91,7 +91,9 @@ class DatabaseWrapper
             $pdo_handle = new \PDO($rdbms_information, $db_user_name, $db_user_password, $pdo_attributes);
             $this->db_handle = $pdo_handle;
         } catch (\PDOException $e) {
-            $this->logDBError('PDO Error', array($e->getMessage()));
+            if ($this->db_logger !== null) {
+                $this->logDBError('PDO Error', array($e->getMessage()));
+            }
         }
     }
 
@@ -101,14 +103,14 @@ class DatabaseWrapper
      */
     private function safeQuery($query_string, $query_params = null) : void
     {
-        try
-        {
+        try {
             $this->prepared_statement = $this->db_handle->prepare($query_string);
             $this->prepared_statement->execute($query_params);
         }
-        catch (\PDOException $e)
-        {
-            $this->logDBError('PDO Error', array($e->getMessage()));
+        catch (\PDOException $e) {
+            if ($this->db_logger !== null) {
+                $this->logDBError('PDO Error', array($e->getMessage()));
+            }
         }
     }
 
