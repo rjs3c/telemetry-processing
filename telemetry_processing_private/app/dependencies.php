@@ -66,3 +66,24 @@ $container['telemetryView'] = function ($container) {
 $container['soapWrapper'] = function () {
     return new \TelemProc\SoapWrapper();
 };
+
+/**
+ * <PDO> Functionality.
+ */
+$container['databaseWrapper'] = function () {
+    return new \TelemProc\DatabaseWrapper();
+};
+
+/**
+ * SQLQueries.
+ */
+$container['sqlQueries'] = function () {
+    return new \TelemProc\SQLQueries();
+};
+
+/**
+ * <SimpleSML> Functionality.
+ */
+$container['telemetryParser'] = function () {
+    return new \TelemProc\TelemetryParser();
+};
