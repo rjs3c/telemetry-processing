@@ -24,7 +24,7 @@ class TelemetryParser
 
     public function __construct()
     {
-        $this->messages_to_parse = '';
+        $this->messages_to_parse = array();
         $this->parse_results = null;
     }
 
