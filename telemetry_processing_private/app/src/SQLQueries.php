@@ -1,8 +1,8 @@
 <?php
 /**
- * DatabaseWrapper.php
+ * SQLQueries.php
  *
- * Provides a wrapper for DBMS operations.
+ * Provides a wrapper for SQL Queries.
  *
  * @package telemetry_processing
  * @\TelemProc
