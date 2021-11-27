@@ -16,7 +16,7 @@ namespace TelemProc;
 
 class SoapWrapper
 {
-    /** @var null $soap_client Contains the handle to <SoapClient>. */
+    /** @var resource $soap_client Contains the handle to <SoapClient>. */
     private $soap_client;
 
     /** @var array $soap_settings Contains settings for <SoapClient>.*/
@@ -51,7 +51,7 @@ class SoapWrapper
      *
      * @param $soap_logger
      */
-    public function setSOAPLogger($soap_logger) : void
+    public function setSoapLogger($soap_logger) : void
     {
         $this->soap_logger = $soap_logger;
     }
@@ -63,7 +63,7 @@ class SoapWrapper
      * @param string $log_message
      * @param array|null $additional
      */
-    private function logSOAPError(string $log_message, ?array $additional = null) : void
+    private function logSoapError(string $log_message, ?array $additional = null) : void
     {
         if ($additional !== null) {
             $this->soap_logger->error($log_message, $additional);
@@ -75,21 +75,20 @@ class SoapWrapper
     /**
      * Creates SOAP Client and Handle using <SoapClient>.
      */
-    public function createSoapHandle() : string
+    public function createSoapHandle() : void
     {
-        $soap_settings = $this->soap_settings;
-        $soap_error = '';
-
         try {
+            $soap_handle = false;
+            $soap_settings = $this->soap_settings;
+
             $soap_handle = new \SoapClient($soap_settings['wsdl'], $soap_settings['soap_attributes']);
-            $this->soap_client = $soap_handle;
         } catch (\SoapFault $exception) {
             if ($this->soap_logger !== null) {
-                $this->logSOAPError('SOAP Error', array($exception->getMessage()));
+                $this->logSoapError('SOAP Error', array($exception->getMessage()));
             }
+        } finally {
+            $this->soap_client = $soap_handle;
         }
-
-        return $soap_error;
     }
 
     /**
@@ -101,18 +100,21 @@ class SoapWrapper
      */
     public function callSoapFunction(string $function_name, ?array $function_params = null)
     {
-        $soap_result = null;
-
         try {
+            $soap_result = null;
+
             if ($this->soap_client) {
                 $soap_result = $this->soap_client->__soapCall($function_name, $function_params);
             } else {
                 throw new \SoapFault('Soap handle is not set');
             }
         } catch (\SoapFault $exception) {
-            $soap_result = $exception->getMessage(); // Log for sysadmin attention.
+            if ($this->soap_logger !== null) {
+                $this->logSoapError('SOAP Error', array($exception->getMessage()));
+            }
+        } finally {
+            return $soap_result;
         }
 
-        return $soap_result;
     }
 }
