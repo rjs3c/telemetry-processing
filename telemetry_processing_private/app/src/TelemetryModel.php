@@ -176,6 +176,7 @@ class TelemetryModel
     /**
      * Stores parsed telemetry data using <Doctrine>.
      *
+     * @TODO Add <Doctrine> functionality.
      */
     private function storeTelemetryData()
     {
