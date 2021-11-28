@@ -75,7 +75,7 @@ class SoapWrapper
     /**
      * Creates SOAP Client and Handle using <SoapClient>.
      */
-    public function createSoapHandle() : void
+    public function createSoapHandle()
     {
         try {
             $soap_handle = false;
@@ -89,6 +89,8 @@ class SoapWrapper
         } finally {
             $this->soap_client = $soap_handle;
         }
+
+        return $soap_handle;
     }
 
     /**
@@ -101,7 +103,7 @@ class SoapWrapper
     public function callSoapFunction(string $function_name, ?array $function_params = null)
     {
         try {
-            $soap_result = null;
+            $soap_result = false;
 
             if ($this->soap_client) {
                 $soap_result = $this->soap_client->__soapCall($function_name, $function_params);
