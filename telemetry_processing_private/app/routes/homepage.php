@@ -14,7 +14,8 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-$app->get('/', function(Request $request, Response $response) use ($app) {
+$app->get('/', function(Request $request, Response $response) use ($app)
+{
     $html_output = $this->view->render($response,
         'homepage.html.twig',
         array(
@@ -25,6 +26,13 @@ $app->get('/', function(Request $request, Response $response) use ($app) {
     return gzipCompress($app, $html_output);
 })->setName('homepage');
 
+/**
+ * Compresses html output using GZIP.
+ *
+ * @param $app
+ * @param $html_output
+ * @return mixed
+ */
 function gzipCompress($app, $html_output)
 {
     $gzip_wrapper = $app->getContainer()->get('gzipWrapper');
