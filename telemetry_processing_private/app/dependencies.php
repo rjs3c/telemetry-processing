@@ -81,3 +81,9 @@ $container['soapWrapper'] = function () {
     return new \TelemProc\SoapWrapper();
 };
 
+/**
+ * <GZIP> Functionality.
+ */
+$container['gzipWrapper'] = function () {
+    return new \TelemProc\GzipWrapper();
+};
