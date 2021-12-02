@@ -18,10 +18,10 @@ $app->get('/', function(Request $request, Response $response) use ($app)
 {
     $result_message = '';
     $fetch_result = fetchTelemetryData($app);
-    $store_result = storeTelemetryData($fetch_result);
+    $store_result = storeTelemetryData($app, $fetch_result);
 
-    if (!empty($fetch_result)
-        && !empty($store_result) {
+    if ($fetch_result !== null
+        && $store_result !== null) {
         $result_message = 'Telemetry data successfully retrieved and stored.';
     } else {
         $result_message = 'Oops, something went wrong. Please try again later.';
@@ -43,9 +43,9 @@ $app->get('/', function(Request $request, Response $response) use ($app)
  * Retrieves telemetry data from EE M2M's SOAP service, parses the result and returns it.
  *
  * @param $app
- * @return array
+ * @return bool
  */
-function fetchTelemetryData($app) : array
+function fetchTelemetryData($app) : bool
 {
     $telemetry_model = $app->getContainer()->get('telemetryModel');
     $soap_handle = $app->getContainer()->get('soapWrapper');
@@ -61,7 +61,7 @@ function fetchTelemetryData($app) : array
 
     $telemetry_model->fetchTelemetryData();
 
-    return $telemetry_model->getResult();
+    return !empty($telemetry_model->getResult());
 }
 
 /**
@@ -69,7 +69,7 @@ function fetchTelemetryData($app) : array
  *
  * @param $app
  */
-function storeTelemetryData($app) {}
+function storeTelemetryData($app, $fetch_result) : bool {}
 
 /**
  * Compresses html output using GZIP.
