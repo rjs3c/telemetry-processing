@@ -20,8 +20,8 @@ $app->get('/', function(Request $request, Response $response) use ($app)
     $fetch_result = fetchTelemetryData($app);
     $store_result = storeTelemetryData($fetch_result);
 
-    if ($fetch_result !== false
-        && $store_result !== false) {
+    if (!empty($fetch_result)
+        && !empty($store_result) {
         $result_message = 'Telemetry data successfully retrieved and stored.';
     } else {
         $result_message = 'Oops, something went wrong. Please try again later.';
