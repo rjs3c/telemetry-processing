@@ -31,31 +31,31 @@ class TelemetryValidator
     {
         $sanitised_telemetry_data = array();
 
-        foreach($tainted_telemetry_data as $telemetry_data) {
+        foreach($tainted_telemetry_data as $telemetry_message) {
             $filtered_telemetry_data = array();
 
-            foreach($telemetry_data as $array => $value) {
+            foreach($telemetry_message as $element => $element_data) {
 
-                foreach($value as $key => $element) {
+                foreach($element_data as $element_key => $element_value) {
 
-                    switch($key) {
+                    switch($element_key) {
                         case 'GID':
-                            $filtered_telemetry_data[$key] = $this->validateString($element);
+                            $filtered_telemetry_data[$element_key] = $this->validateString($element_value);
                             break;
                         case 'MSDN':
-                            $filtered_telemetry_data[$key] = $this->validateSenderMSISDN($element);
+                            $filtered_telemetry_data[$element_key] = $this->validateSenderMSISDN($element_value);
                             break;
                         case 'SW':
-                            $filtered_telemetry_data[$key] = $this->validateSwitches($element);
+                            $filtered_telemetry_data[$element_key] = $this->validateSwitches($element_value);
                             break;
                         case 'FN':
-                            $filtered_telemetry_data[$key] = $this->validateFanState($element);
+                            $filtered_telemetry_data[$element_key] = $this->validateFanState($element_value);
                             break;
                         case 'TMP':
-                            $filtered_telemetry_data[$key] = $this->validateTemperature($element);
+                            $filtered_telemetry_data[$element_key] = $this->validateTemperature($element_value);
                             break;
                         case 'KP':
-                            $filtered_telemetry_data[$key] = $this->validateKeypadNumber($element);
+                            $filtered_telemetry_data[$element_key] = $this->validateKeypadNumber($element_value);
                             break;
                         default:
                             break;
