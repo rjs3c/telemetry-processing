@@ -35,7 +35,7 @@ class TelemetryParser
      *
      * @param array|null $messages_to_parse
      */
-    public function setXMLMessages(?array $messages_to_parse) : void
+    public function setTelemetryMessages(?array $messages_to_parse) : void
     {
         $this->messages_to_parse = $messages_to_parse;
     }
@@ -45,13 +45,13 @@ class TelemetryParser
      *
      * @return array|null
      */
-    public function getXMLParseResults() : ?array
+    public function getTelemetryParseResults() : array
     {
         return $this->parse_results;
     }
 
     /** Parses XML string into a type array, or <False> if this fails. */
-    public function parseXML() : void
+    public function parseTelemetry() : void
     {
         try {
             $xml_parse_result = array();
@@ -65,7 +65,7 @@ class TelemetryParser
                     'SimpleXMLElement'
                 );
 
-                $xml_extracted = $this->extrapolateGroupXML(json_decode(json_encode($xml),true));
+                $xml_extracted = $this->extrapolateGroupTelemetry(json_decode(json_encode($xml),true));
 
                 if (isset($xml_extracted)) {
                     array_push($xml_parse_result, $xml_extracted);
@@ -83,14 +83,14 @@ class TelemetryParser
      * @param array|null $xml
      * @return false|mixed
      */
-    private function extrapolateGroupXML(?array $xml) : ?array
+    private function extrapolateGroupTelemetry(?array $xml) : ?array
     {
         $group_xml_extracted = array();
 
         if (isset($xml['message'])) {
             $xml_message_section = $xml['message'];
-            $group_xml_extracted = isset($xml_message_section['Metadata'])
-            && $xml_message_section['Metadata']['GID'] === 'AF'
+            $group_xml_extracted = isset($xml_message_section['Content']['GID'])
+            && $xml_message_section['Content']['GID'] === 'AF'
                 ? $xml_message_section : null;
         }
 
