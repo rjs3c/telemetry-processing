@@ -142,7 +142,7 @@ class TelemetryValidator
             )
         );
 
-        if (!empty($tainted_switches) && !empty(array_diff_key($tainted_switches, $switches_filter_args))) {
+        if (!empty($tainted_switches) || !empty(array_diff_key($tainted_switches, $switches_filter_args))) {
             $cleaned_switches = filter_var_array($tainted_switches, $switches_filter_args);
         }
 
