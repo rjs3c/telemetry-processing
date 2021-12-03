@@ -14,5 +14,5 @@
 /* Homepage */
 //require 'routes/homepage.php';
 
-///* Retrieval of Telemetry Data */
+/* Retrieval of Telemetry Data */
 require 'routes/fetchtelemetrydata.php';
