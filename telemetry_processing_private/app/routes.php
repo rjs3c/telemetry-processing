@@ -14,8 +14,5 @@
 /* Homepage */
 //require 'routes/homepage.php';
 
-/* Testing Retrieval Route */
-require 'routes/testfetchtelemetrydata.php';
-
 ///* Retrieval of Telemetry Data */
-//require 'routes/fetchtelemetrydata.php';
+require 'routes/fetchtelemetrydata.php';
