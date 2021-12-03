@@ -75,6 +75,13 @@ $container['telemetryParser'] = function () {
 };
 
 /**
+ * TelemetryValidator.
+ */
+$container['telemetryValidator'] = function () {
+    return new \TelemProc\TelemetryValidator();
+};
+
+/**
  * <SOAP> Functionality.
  */
 $container['soapWrapper'] = function () {
