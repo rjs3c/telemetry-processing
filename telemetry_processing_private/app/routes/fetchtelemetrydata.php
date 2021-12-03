@@ -17,10 +17,12 @@ use \Psr\Http\Message\ResponseInterface as Response;
 $app->get('/', function(Request $request, Response $response) use ($app)
 {
     $result_message = '';
-    $fetch_result = fetchTelemetryData($app);
-    $store_result = storeTelemetryData($app, $fetch_result);
+    $tainted_telemetry_data = fetchTelemetryData($app);
+    $cleaned_telemetry_data = validateTelemetryData($app, $tainted_telemetry_data);
 
-    if ($store_result !== null) {
+    $store_result = storeTelemetryData($app, $cleaned_telemetry_data);
+
+    if ($store_result !== false) {
         $result_message = 'Telemetry data successfully retrieved and stored.';
     } else {
         $result_message = 'Oops, something went wrong. Please try again later.';
@@ -70,6 +72,19 @@ function fetchTelemetryData($app) : array
  * @param $fetch_result
  */
 function storeTelemetryData($app, $fetch_result) : bool {}
+
+/**
+ * Validates and properly formats telemetry retrieved from EE M2M's SOAP service.
+ *
+ * @param $app
+ * @param array $tainted_telemetry_data
+ * @return array
+ */
+function validateTelemetryData($app, array $tainted_telemetry_data) : array
+{
+    $telemetry_validator = $app->getContainer()->get('telemetryValidator');
+    return $telemetry_validator->validateTelemetryData($tainted_telemetry_data);
+}
 
 /**
  * Compresses html output using GZIP.
