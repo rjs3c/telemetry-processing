@@ -20,8 +20,7 @@ $app->get('/', function(Request $request, Response $response) use ($app)
     $fetch_result = fetchTelemetryData($app);
     $store_result = storeTelemetryData($app, $fetch_result);
 
-    if ($fetch_result !== null
-        && $store_result !== null) {
+    if ($store_result !== null) {
         $result_message = 'Telemetry data successfully retrieved and stored.';
     } else {
         $result_message = 'Oops, something went wrong. Please try again later.';
@@ -43,9 +42,9 @@ $app->get('/', function(Request $request, Response $response) use ($app)
  * Retrieves telemetry data from EE M2M's SOAP service, parses the result and returns it.
  *
  * @param $app
- * @return bool
+ * @return array
  */
-function fetchTelemetryData($app) : bool
+function fetchTelemetryData($app) : array
 {
     $telemetry_model = $app->getContainer()->get('telemetryModel');
     $soap_handle = $app->getContainer()->get('soapWrapper');
@@ -61,13 +60,14 @@ function fetchTelemetryData($app) : bool
 
     $telemetry_model->fetchTelemetryData();
 
-    return !empty($telemetry_model->getResult());
+    return $telemetry_model->getResult();
 }
 
 /**
  * @TODO Doctrine functionality (from Model).
  *
  * @param $app
+ * @param $fetch_result
  */
 function storeTelemetryData($app, $fetch_result) : bool {}
 
