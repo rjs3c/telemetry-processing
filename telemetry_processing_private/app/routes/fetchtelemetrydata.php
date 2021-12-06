@@ -14,7 +14,7 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-$app->get('/', function(Request $request, Response $response) use ($app)
+$app->get('/fetchtelemetrydata', function(Request $request, Response $response) use ($app)
 {
     $result_message = '';
     $tainted_telemetry_data = fetchTelemetryData($app);
