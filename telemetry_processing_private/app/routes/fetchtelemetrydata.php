@@ -70,9 +70,9 @@ function fetchTelemetryData($app) : array
  * @TODO Doctrine functionality (from Model).
  *
  * @param $app
- * @param $fetch_result
+ * @param $cleaned_telemetry_data
  */
-function storeTelemetryData($app, $fetch_result) {}
+function storeTelemetryData($app, $cleaned_telemetry_data) {}
 
 /**
  * Validates and properly formats telemetry retrieved from EE M2M's SOAP service.
