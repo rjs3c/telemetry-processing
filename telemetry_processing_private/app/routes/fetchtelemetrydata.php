@@ -29,10 +29,11 @@ $app->get('/fetchtelemetrydata', function(Request $request, Response $response) 
     }
 
     $html_output = $this->view->render($response,
-        'homepage.html.twig',
+        'fetchtelemetryresult.html.twig',
         array(
             'page_title' => APP_TITLE,
-            'result_message' => $result_message
+            'result_message' => $result_message,
+            'present_telemetry_route' => 'presenttelemetrydata'
         )
     );
 
@@ -71,7 +72,7 @@ function fetchTelemetryData($app) : array
  * @param $app
  * @param $fetch_result
  */
-function storeTelemetryData($app, $fetch_result) : bool {}
+function storeTelemetryData($app, $fetch_result) {}
 
 /**
  * Validates and properly formats telemetry retrieved from EE M2M's SOAP service.

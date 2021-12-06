@@ -19,7 +19,8 @@ $app->get('/', function(Request $request, Response $response) use ($app)
     $html_output = $this->view->render($response,
         'homepage.html.twig',
         array(
-            'page_title' => APP_TITLE
+            'page_title' => APP_TITLE,
+            'fetch_telemetry_route' => 'fetchtelemetrydata'
         )
     );
 
