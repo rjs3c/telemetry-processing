@@ -1,84 +1,185 @@
 <?php
+/**
+ * TelemetryModel.php
+ *
+ *
+ * @package telemetry_processing
+ * @\TelemProc
+ *
+ * @author James Brass
+ * @author Mo Aziz
+ * @author Ryan Instrell
+ */
 
 namespace TelemProc;
 
 class TelemetryModel
 {
-    private $telemetry_data;
+    /** @var resource $doctrine_handle Contains handle to <Doctrine>. */
+    private $doctrine_handle;
+
+    /** @var array $doctrine_settings Contains settings for <Doctrine>. */
+    private array $doctrine_settings;
+
+    /** @var resource $parser_handle Contains handle to <TelemetryParser>. */
+    private $parser_handle;
+
+    /** @var resource $soap_handle Contains handle to <SoapWrapper>. */
+    private $soap_handle;
+
+    /** @var array $soap_result Stores result of parsed, SOAP operation. */
+    private array $soap_result;
+
+    /** @var array $soap_settings Stores settings for <SoapWrapper>.*/
+    private array $soap_settings;
+
+    /** @var bool|array $storage_result Stores result of DB-based operations. */
     private $storage_result;
-    private $database_wrapper;
-    private $database_connection_settings;
-    private $logger;
-    private $sql_queries;
+
+    /** @var resource $logger_handle Contains handle for <TelemetryLogger> */
+    private $logger_handle;
 
     public function __construct()
     {
-        $this->telemetry_data = null;
-        $this->storage_result = null;
-        $this->database_wrapper = null;
-        $this->database_connection_settings = null;
-        $this->sql_queries = null;
-        $this->logger = null;
+        $this->doctrine_handle = null;
+        $this->doctrine_settings = array();
+        $this->parser_handle = null;
+        $this->soap_handle = null;
+        $this->soap_result = array();
+        $this->soap_settings = array();
+        $this->storage_result = false;
+        $this->logger_handle = null;
     }
 
     public function __destruct() { }
 
-    public function setTelemetryData($telemetry_data)
+    /**
+     * Sets handle to <Doctrine>.
+     *
+     * @param $doctrine_handle
+     */
+    public function setDatabaseHandle($doctrine_handle) : void
     {
-        $this->telemetry_data = $telemetry_data;
+        $this->doctrine_handle = $doctrine_handle;
     }
 
-    public function setDatabaseWrapper($database_wrapper)
+    /**
+     * Sets database connection settings.
+     *
+     * @param array $doctrine_settings
+     */
+    public function setDatabaseSettings(array $doctrine_settings) : void
     {
-        $this->database_wrapper = $database_wrapper;
+        $this->doctrine_settings = $doctrine_settings;
     }
 
-    public function setLogger($logger)
+    /**
+     * Sets handle to <TelemetryParser>.
+     *
+     * @param $parser_handle
+     */
+    public function setParserHandle($parser_handle) : void
     {
-        $this->logger = $logger;
+        $this->parser_handle = $parser_handle;
     }
 
-    public function setDatabaseConnectionSettings($database_connection_settings)
+    /**
+     * Sets handle to <SoapWrapper>.
+     *
+     * @param $soap_handle
+     */
+    public function setSoapHandle($soap_handle) : void
     {
-        $this->database_connection_settings = $database_connection_settings;
+        $this->soap_handle = $soap_handle;
     }
 
-    public function setSqlQueries($sql_queries)
+    /**
+     * Sets settings required for <SoapWrapper>.
+     *
+     * @param array $soap_settings
+     */
+    public function setSoapSettings(array $soap_settings) : void
     {
-        $this->sql_queries = $sql_queries;
+        $this->soap_settings = $soap_settings;
     }
 
-    public function getStorageResult()
+    /**
+     * Sets handle to <Monolog> logger.
+     *
+     * @param $telemetry_logger
+     */
+    public function setLoggerHandle($telemetry_logger) : void
     {
-        return $this->storage_result;
+        $this->logger_handle = $telemetry_logger;
     }
 
-    public function storeTelemetryDataInDatabase()
+    /**
+     * Returns result from retrieval and storage operations.
+     *
+     * @return array|bool
+     */
+    public function getResult() : array
     {
-        $store_result = false;
+        return $this->soap_result;
+    }
 
-        $this->database_wrapper->setSqlQueries($this->sql_queries);
-        $this->database_wrapper->setDatabaseConnectionSettings($this->database_connection_settings);
-        $this->database_wrapper->SetLogger($this->logger);
-        $this->database_wrapper->makeDatabaseConnection();
+    /**
+     * Retrieves telemetry data from EE's M2M SOAP service.
+     */
+    public function fetchTelemetryData() : void
+    {
+        $soap_result = array();
 
-        $store_result = $this->database_wrapper->storeTelemetryData($this->telemetry_data);
+        $this->soap_handle->setSoapSettings($this->soap_settings);
 
-        if ($store_result !== false)
-        {
-            $store_result = true;
+        if ($this->logger_handle !== null) {
+            $this->soap_handle->setSoapLogger($this->logger_handle);
         }
-        return $store_result;
+
+        if ($this->soap_handle->createSoapHandle() !== false) {
+            $peek_messages_args = array(
+                $this->soap_settings['ee_m2m_username'],
+                $this->soap_settings['ee_m2m_password'],
+                100,
+                $this->soap_settings['ee_m2m_phone_number'],
+                '44'
+            );
+
+            $soap_data = $this->soap_handle->callSoapFunction('peekMessages', $peek_messages_args);
+
+            $soap_result = $this->parseTelemetryData($soap_data);
+
+        }
+
+        $this->soap_result = $soap_result;
     }
 
-    private function retrieveTelemetryDataFromDatabase()
+    /**
+     * Parses the telemetry data - extracts group-specific messages.
+     *
+     * @param array $soap_data
+     * @return array
+     */
+    private function parseTelemetryData(array $soap_data) : array
     {
-        $retrieved_values = [];
-        $this->database_wrapper->setSqlQueries($this->sql_queries);
-        $this->database_wrapper->setDatabaseConnectionSettings($this->database_connection_settings);
-        $this->database_wrapper->SetLogger($this->logger);
-        $this->database_wrapper->makeDatabaseConnection();
+        $telemetry_data = array();
 
-        return $retrieved_values;
+        if ($this->parser_handle !== null) {
+            $this->parser_handle->setTelemetryMessages($soap_data);
+            $this->parser_handle->parseTelemetry();
+            $telemetry_data = $this->parser_handle->getTelemetryParseResults();
+        }
+
+        return $telemetry_data;
+    }
+
+    /**
+     * Stores parsed telemetry data using <Doctrine>.
+     *
+     * @TODO Add <Doctrine> functionality.
+     */
+    private function storeTelemetryData()
+    {
+
     }
 }

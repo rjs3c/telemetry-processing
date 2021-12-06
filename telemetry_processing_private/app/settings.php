@@ -21,6 +21,7 @@ ini_set('xdebug.trace_format', '1');
 
 /** Paths needed for <CSS>, <Twig> and <Monolog>. **/
 $app_path = '/app/';
+$app_title = 'Telemetry Processing';
 $css_file_name = ''; // CSS file name needed here.
 $css_path = dirname($_SERVER['SCRIPT_NAME'] . '/css/' . $css_file_name);
 $template_path = __DIR__ . '/templates/';
@@ -28,6 +29,7 @@ $log_path = '/p3t/phpappfolder/logs/';
 
 /** Constants for <CSS>, <Twig> and <Monolog> paths. **/
 define('APP_PATH', $app_path);
+define('APP_TITLE', $app_title);
 define('CSS_PATH', $css_path);
 define('TEMPLATE_PATH', $template_path);
 define('LOG_PATH', $log_path);

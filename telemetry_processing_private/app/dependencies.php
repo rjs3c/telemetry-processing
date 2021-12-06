@@ -61,20 +61,36 @@ $container['telemetryView'] = function ($container) {
 };
 
 /**
+ * TelemetryModel.
+ */
+$container['telemetryModel'] = function () {
+    return new \TelemProc\TelemetryModel();
+};
+
+/**
+ * <SimpleXML> Functionality.
+ */
+$container['telemetryParser'] = function () {
+    return new \TelemProc\TelemetryParser();
+};
+
+/**
+ * TelemetryValidator.
+ */
+$container['telemetryValidator'] = function () {
+    return new \TelemProc\TelemetryValidator();
+};
+
+/**
  * <SOAP> Functionality.
  */
 $container['soapWrapper'] = function () {
     return new \TelemProc\SoapWrapper();
 };
 
-$container['telemetryModel'] = function () {
-    return new \TelemProc\TelemetryModel();
-};
-
-$container['sqlQueries'] = function () {
-    return new \TelemProc\SQLQueries();
-};
-
-$container['databaseWrapper'] = function () {
-    return new \TelemProc\DatabaseWrapper();
+/**
+ * <GZIP> Functionality.
+ */
+$container['gzipWrapper'] = function () {
+    return new \TelemProc\GzipWrapper();
 };
