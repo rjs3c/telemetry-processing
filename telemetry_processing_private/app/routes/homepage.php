@@ -29,6 +29,7 @@ $app->get('/', function(Request $request, Response $response) use ($app)
     );
 
     return gzipCompress($app, $html_output);
+
 })->setName('homepage');
 
 /**
