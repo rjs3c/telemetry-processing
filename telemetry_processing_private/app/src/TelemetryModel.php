@@ -174,6 +174,42 @@ class TelemetryModel
     }
 
     /**
+     * Sends a receipt for telemetry messages.
+     *
+     * @param array $cleaned_telemetry_data
+     * @return void
+     */
+    public function sendTelemetryReceipt(array $cleaned_telemetry_data) : void
+    {
+        $this->soap_handle->setSoapSettings($this->soap_settings);
+
+        if ($this->logger_handle !== null) {
+            $this->soap_handle->setSoapLogger($this->logger_handle);
+        }
+
+        if ($this->soap_handle->createSoapHandle() !== false) {
+
+            $send_messages_args = array(
+                $this->soap_settings['ee_m2m_username'],
+                $this->soap_settings['ee_m2m_password'],
+                '',
+                'Telemetry Message Successfully Sent.',
+                false,
+                'SMS'
+            );
+
+            foreach($cleaned_telemetry_data as $telemetry_message) {
+                foreach($telemetry_message as $element_name => $element_value) {
+                    if (strcmp($element_name, 'MSDN') === 0) {
+                        $send_messages_args[2] = $element_value;
+                        $this->soap_handle->callSoapFunction('sendMessage', $send_messages_args);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Stores parsed telemetry data using <Doctrine>.
      *
      * @TODO Add <Doctrine> functionality.
