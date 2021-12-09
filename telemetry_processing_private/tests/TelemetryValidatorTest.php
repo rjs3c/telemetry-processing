@@ -4,7 +4,8 @@
  *
  * Tests functionality for TelemetryValidator.
  * Tests:
- * -
+ * - Legal and Illegal Inputs (Entire Messages)
+ * - Legal and Illegal Inputs (Individual Fields)
  *
  * @package telemetry_processing
  * @\TelemProc
