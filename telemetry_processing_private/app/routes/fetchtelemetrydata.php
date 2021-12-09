@@ -20,6 +20,7 @@ $app->get('/fetchtelemetrydata', function(Request $request, Response $response) 
     $tainted_telemetry_data = fetchTelemetryData($app);
     $cleaned_telemetry_data = validateTelemetryData($app, $tainted_telemetry_data);
 
+    sendTelemetryMessageReceipt($app, $cleaned_telemetry_data);
     $store_result = storeTelemetryData($app, $cleaned_telemetry_data);
 
     if ($store_result !== false) {
@@ -73,6 +74,29 @@ function fetchTelemetryData($app) : array
  * @param $cleaned_telemetry_data
  */
 function storeTelemetryData($app, $cleaned_telemetry_data) {}
+
+/**
+ * Sends a message in receipt to sent telemetry messages.
+ *
+ * @param $app
+ * @param array $cleaned_telemetry_data
+ */
+function sendTelemetryMessageReceipt($app, array $cleaned_telemetry_data) : void
+{
+    $telemetry_model = $app->getContainer()->get('telemetryModel');
+    $soap_handle = $app->getContainer()->get('soapWrapper');
+    $parser_handle = $app->getContainer()->get('telemetryParser');
+    $logger_handle = $app->getContainer()->get('telemetryLogger');
+
+    $soap_settings = $app->getContainer()->get('telemetrySettings')['soapSettings'];
+
+    $telemetry_model->setSoapHandle($soap_handle);
+    $telemetry_model->setSoapSettings($soap_settings);
+    $telemetry_model->setLoggerHandle($logger_handle);
+    $telemetry_model->setParserHandle($parser_handle);
+
+    $telemetry_model->sendTelemetryReceipt($cleaned_telemetry_data);
+}
 
 /**
  * Validates and properly formats telemetry retrieved from EE M2M's SOAP service.
