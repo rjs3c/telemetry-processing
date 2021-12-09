@@ -68,6 +68,9 @@ final class TelemetryValidatorTest extends TestCase
         );
     }
 
+    /**
+     * Test case to identify validation of a correctly-formatted MSISDN value.
+     */
     public function testMSISDNValidationIsCorrect()
     {
         $telemetry_validator = new TelemetryValidator();
@@ -90,6 +93,9 @@ final class TelemetryValidatorTest extends TestCase
 
     }
 
+    /**
+     * Test case to identify validation of an incorrectly-formatted MSISDN value.
+     */
     public function testMSISDNValidationFailsCorrectly()
     {
         $telemetry_validator = new TelemetryValidator();
@@ -108,6 +114,9 @@ final class TelemetryValidatorTest extends TestCase
         );
     }
 
+    /**
+     * Test case to identify validation of correctly-formatted switches.
+     */
     public function testSwitchesValidationIsCorrect()
     {
         $telemetry_validator = new TelemetryValidator();
@@ -139,6 +148,9 @@ final class TelemetryValidatorTest extends TestCase
         );
     }
 
+    /**
+     * Test case to identify validation of incorrectly-formatted switches.
+     */
     public function testSwitchesValidationFailsCorrectly()
     {
         $telemetry_validator = new TelemetryValidator();
@@ -170,6 +182,9 @@ final class TelemetryValidatorTest extends TestCase
         );
     }
 
+    /**
+     * Test case to identify validation of a correctly-formatted fan state value.
+     */
     public function testFanStateValidationIsCorrect()
     {
         $telemetry_validator = new TelemetryValidator();
@@ -194,6 +209,9 @@ final class TelemetryValidatorTest extends TestCase
 
     }
 
+    /**
+     * Test case to identify validation of an incorrectly-formatted fan state value.
+     */
     public function testFanStateValidationFailsCorrectly()
     {
         $telemetry_validator = new TelemetryValidator();
@@ -216,6 +234,9 @@ final class TelemetryValidatorTest extends TestCase
 
     }
 
+    /**
+     * Test case to identify validation of correctly-formatted temperature value.
+     */
     public function testTemperatureValidationIsCorrect()
     {
         $telemetry_validator = new TelemetryValidator();
@@ -237,6 +258,9 @@ final class TelemetryValidatorTest extends TestCase
         );
     }
 
+    /**
+     * Test case to identify validation of an incorrectly-formatted temperature value.
+     */
     public function testTemperatureValidationFailsCorrectly()
     {
         $telemetry_validator = new TelemetryValidator();
@@ -258,6 +282,9 @@ final class TelemetryValidatorTest extends TestCase
         );
     }
 
+    /**
+     * Test case to identify validation of a correctly-formatted keypad value.
+     */
     public function testKeyPadValidationIsCorrect()
     {
         $telemetry_validator = new TelemetryValidator();
@@ -280,6 +307,9 @@ final class TelemetryValidatorTest extends TestCase
 
     }
 
+    /**
+     * Test case to identify validation of an incorrectly-formatted keypad value.
+     */
     public function testKeyPadValidationFailsCorrectly()
     {
         $telemetry_validator = new TelemetryValidator();
