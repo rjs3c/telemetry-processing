@@ -16,7 +16,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->get('/', function(Request $request, Response $response) use ($app)
 {
-    $html_output = $this->telemetryView->render($response,
+    return $this->telemetryView->render($response,
         'homepage.html.twig',
         array(
             'page_title' => APP_TITLE,
@@ -27,8 +27,7 @@ $app->get('/', function(Request $request, Response $response) use ($app)
             'sub_heading' => ''
         )
     );
-
-    return gzipCompress($app, $html_output);
+    //    return gzipCompress($app, $html_output);
 
 })->setName('homepage');
 
@@ -44,5 +43,6 @@ function gzipCompress($app, string $html_output) : string
     $gzip_wrapper = $app->getContainer()->get('gzipWrapper');
     $gzip_wrapper->setHtmlOutput($html_output);
     $gzip_wrapper->gzipCompress();
+
     return $gzip_wrapper->getCompressionOutput();
 }
