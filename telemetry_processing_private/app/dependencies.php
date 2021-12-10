@@ -69,6 +69,13 @@ $container['fetchTelemetryModel'] = function () {
 };
 
 /**
+ * PresentTelemetryModel.
+ */
+$container['presentTelemetryModel'] = function () {
+    return new \TelemProc\PresentTelemetryModel();
+};
+
+/**
  * <SimpleXML> Functionality.
  */
 $container['telemetryParser'] = function () {
