@@ -19,7 +19,7 @@ $app->get('/presenttelemetrydata', function(Request $request, Response $response
     $tainted_telemetry_data = retrieveStoredTelemetryData($app);
     $cleaned_telemetry_data = validateStoredTelemetryData($app, $tainted_telemetry_data);
 
-    $html_output = $this->telemetryView->render($response,
+    $html_output = $this->view->render($response,
         'presenttelemetrydata.html.twig',
         array(
             'page_title' => APP_TITLE,
@@ -31,12 +31,27 @@ $app->get('/presenttelemetrydata', function(Request $request, Response $response
 
 })->setName('presenttelemetrydata');
 
-function retrieveStoredTelemetryData($app)
+/**
+ * @param $app
+ * @return array
+ */
+function retrieveStoredTelemetryData($app) : array
 {
+    $telemetry_model = $app->getContainer()->get('presentTelemetryModel');
+    $logger_handle = $app->getContainer()->get('telemetryLogger');
 
+    $telemetry_model->setLoggerHandle($logger_handle);
 }
 
-function validateStoredTelemetryData($app, $tainted_telemetry_data)
+/**
+ * Validates telemetry data stored within the database for additional security.
+ *
+ * @param $app
+ * @param array $tainted_telemetry_data
+ * @return array
+ */
+function validateStoredTelemetryData($app, array $tainted_telemetry_data) : array
 {
-
+    $telemetry_validator = $app->getContainer()->get('telemetryValidator');
+    return $telemetry_validator->validateTelemetryData($tainted_telemetry_data);
 }
