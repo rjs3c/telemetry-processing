@@ -16,7 +16,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->get('/', function(Request $request, Response $response) use ($app)
 {
-    $html_output = $this->view->render($response,
+    $html_output = $this->telemetryView->render($response,
         'homepage.html.twig',
         array(
             'page_title' => APP_TITLE,
