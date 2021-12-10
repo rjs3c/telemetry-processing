@@ -17,6 +17,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 $app->get('/fetchtelemetrydata', function(Request $request, Response $response) use ($app)
 {
     $result_message = '';
+
     $tainted_telemetry_data = fetchTelemetryData($app);
     $cleaned_telemetry_data = validateTelemetryData($app, $tainted_telemetry_data);
 
@@ -24,9 +25,9 @@ $app->get('/fetchtelemetrydata', function(Request $request, Response $response) 
     $store_result = storeTelemetryData($app, $cleaned_telemetry_data);
 
     if ($store_result !== false) {
-        $result_message = 'Telemetry data successfully retrieved and stored.';
+        $result_message = '[+] Telemetry Data Retrieved and Stored Successfully.';
     } else {
-        $result_message = 'Oops, something went wrong. Please try again later.';
+        $result_message = '[!] Oops, something went wrong. Please try again later.';
     }
 
     return $this->telemetryView->render($response,
@@ -34,7 +35,8 @@ $app->get('/fetchtelemetrydata', function(Request $request, Response $response) 
         array(
             'page_title' => APP_TITLE,
             'heading_1' => 'Telemetry Fetch Result',
-            'result_message' => $result_message
+            'result_message' => $result_message,
+            'present_telem_action' => 'presenttelemetrydata',
         )
     );
 })->setName('fetchtelemetrydata');
@@ -70,7 +72,9 @@ function fetchTelemetryData($app) : array
  * @param $app
  * @param $cleaned_telemetry_data
  */
-function storeTelemetryData($app, $cleaned_telemetry_data) : bool {}
+function storeTelemetryData($app, $cleaned_telemetry_data) : bool {
+    return true;
+}
 
 /**
  * Sends a message in receipt to sent telemetry messages.
