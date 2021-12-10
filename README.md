@@ -15,6 +15,11 @@ In composer.json:
             "TelemProc\\" : "telemetry_processing/app/src"
         }
 ```
+```json
+ "require": {
+        "nochso/html-compress-twig": "*"
+```
+* Further details on how to use html-compress-twig can be found [here] (https://github.com/nochso/html-compress-twig)
 ```bash
 $ composer update
 ```
