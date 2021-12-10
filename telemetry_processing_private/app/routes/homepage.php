@@ -36,10 +36,10 @@ $app->get('/', function(Request $request, Response $response) use ($app)
  * Compresses html output using GZIP.
  *
  * @param $app
- * @param $html_output
+ * @param string $html_output
  * @return mixed
  */
-function gzipCompress($app, $html_output)
+function gzipCompress($app, string $html_output) : string
 {
     $gzip_wrapper = $app->getContainer()->get('gzipWrapper');
     $gzip_wrapper->setHtmlOutput($html_output);

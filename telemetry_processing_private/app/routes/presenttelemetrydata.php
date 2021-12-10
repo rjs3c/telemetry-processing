@@ -16,20 +16,27 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->get('/presenttelemetrydata', function(Request $request, Response $response) use ($app)
 {
+    $tainted_telemetry_data = retrieveStoredTelemetryData($app);
+    $cleaned_telemetry_data = validateStoredTelemetryData($app, $tainted_telemetry_data);
+
+    $html_output = $this->view->render($response,
+        'presenttelemetrydata.html.twig',
+        array(
+            'page_title' => APP_TITLE,
+            'telemetry_data' => $cleaned_telemetry_data,
+        )
+    );
+
+    return gzipCompress($app, $html_output);
 
 })->setName('presenttelemetrydata');
 
-function retrieveStoredTelemetryData()
+function retrieveStoredTelemetryData($app)
 {
 
 }
 
-function validateStoredTelemetryData()
-{
-
-}
-
-function gzipCompress()
+function validateStoredTelemetryData($app, $tainted_telemetry_data)
 {
 
 }

@@ -110,18 +110,3 @@ function validateTelemetryData($app, array $tainted_telemetry_data) : array
     $telemetry_validator = $app->getContainer()->get('telemetryValidator');
     return $telemetry_validator->validateTelemetryData($tainted_telemetry_data);
 }
-
-/**
- * Compresses html output using GZIP.
- *
- * @param $app
- * @param string $html_output
- * @return mixed
- */
-function gzipCompress($app, string $html_output) : string
-{
-    $gzip_wrapper = $app->getContainer()->get('gzipWrapper');
-    $gzip_wrapper->setHtmlOutput($html_output);
-    $gzip_wrapper->gzipCompress();
-    return $gzip_wrapper->getCompressionOutput();
-}
