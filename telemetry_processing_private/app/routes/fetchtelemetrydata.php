@@ -29,7 +29,7 @@ $app->get('/fetchtelemetrydata', function(Request $request, Response $response) 
         $result_message = 'Oops, something went wrong. Please try again later.';
     }
 
-    $html_output = $this->view->render($response,
+    $html_output = $this->telemetryView->render($response,
         'fetchtelemetryresult.html.twig',
         array(
             'page_title' => APP_TITLE,
