@@ -19,15 +19,13 @@ $app->get('/presenttelemetrydata', function(Request $request, Response $response
     $tainted_telemetry_data = retrieveStoredTelemetryData($app);
     $cleaned_telemetry_data = validateStoredTelemetryData($app, $tainted_telemetry_data);
 
-    return $this->view->render($response,
+    return $this->telemetryView->render($response,
         'presenttelemetrydata.html.twig',
         array(
             'page_title' => APP_TITLE,
             'telemetry_data' => $cleaned_telemetry_data,
         )
     );
-//    return gzipCompress($app, $html_output);
-
 })->setName('presenttelemetrydata');
 
 /**

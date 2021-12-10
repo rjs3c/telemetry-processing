@@ -29,16 +29,14 @@ $app->get('/fetchtelemetrydata', function(Request $request, Response $response) 
         $result_message = 'Oops, something went wrong. Please try again later.';
     }
 
-    return $this->view->render($response,
+    return $this->telemetryView->render($response,
         'fetchtelemetryresult.html.twig',
         array(
             'page_title' => APP_TITLE,
-            'result_message' => $result_message,
-            'present_telemetry_route' => 'presenttelemetrydata'
+            'heading_1' => 'Telemetry Fetch Result',
+            'result_message' => $result_message
         )
     );
-//    return gzipCompress($app, $html_output);
-
 })->setName('fetchtelemetrydata');
 
 /**

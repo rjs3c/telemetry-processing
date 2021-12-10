@@ -22,13 +22,11 @@ $app->get('/', function(Request $request, Response $response) use ($app)
             'page_title' => APP_TITLE,
             'css_file' => CSS_PATH,
             'landing_page' => __FILE__,
-            'fetch_telemetry_route' => 'fetchtelemetrydata',
             'heading_1' => APP_TITLE,
-            'sub_heading' => ''
+            'fetch_telem_action' => 'fetchtelemetrydata',
+            'present_telem_action' => 'presenttelemetrydata',
         )
     );
-    //    return gzipCompress($app, $html_output);
-
 })->setName('homepage');
 
 /**
