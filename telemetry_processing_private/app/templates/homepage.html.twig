@@ -2,5 +2,15 @@
 {% htmlcompress %}
     {% block content %}
         <h3>{{ heading_1 }}</h3>
+        <p>Group 21-3110-AF</p>
+
+        <form action="{{ fetch_telem_action }}" method="get">
+            <fieldset>
+                <legend>Telemetry Data</legend>
+                <input type="submit" value="Fetch and Store Telemetry Data">
+            </fieldset>
+        </form>
+
+        <p><a href="{{ landing_page }}">Home</a></p>
     {% endblock %}
 {% endhtmlcompress %}
