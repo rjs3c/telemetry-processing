@@ -214,7 +214,7 @@ class FetchTelemetryModel
      *
      * @TODO Add <Doctrine> functionality.
      */
-    private function storeTelemetryData()
+    public function storeTelemetryData()
     {
 
     }
