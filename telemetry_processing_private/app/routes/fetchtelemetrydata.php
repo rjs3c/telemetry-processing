@@ -50,7 +50,7 @@ $app->get('/fetchtelemetrydata', function(Request $request, Response $response) 
  */
 function fetchTelemetryData($app) : array
 {
-    $telemetry_model = $app->getContainer()->get('telemetryModel');
+    $telemetry_model = $app->getContainer()->get('fetchTelemetryModel');
     $soap_handle = $app->getContainer()->get('soapWrapper');
     $parser_handle = $app->getContainer()->get('telemetryParser');
     $logger_handle = $app->getContainer()->get('telemetryLogger');
@@ -83,7 +83,7 @@ function storeTelemetryData($app, $cleaned_telemetry_data) {}
  */
 function sendTelemetryMessageReceipt($app, array $cleaned_telemetry_data) : void
 {
-    $telemetry_model = $app->getContainer()->get('telemetryModel');
+    $telemetry_model = $app->getContainer()->get('fetchTelemetryModel');
     $soap_handle = $app->getContainer()->get('soapWrapper');
     $parser_handle = $app->getContainer()->get('telemetryParser');
     $logger_handle = $app->getContainer()->get('telemetryLogger');
