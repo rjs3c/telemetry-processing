@@ -73,7 +73,7 @@ function fetchTelemetryData($app) : array
  * @param $app
  * @param $cleaned_telemetry_data
  */
-function storeTelemetryData($app, $cleaned_telemetry_data) {}
+function storeTelemetryData($app, $cleaned_telemetry_data) : bool {}
 
 /**
  * Sends a message in receipt to sent telemetry messages.
