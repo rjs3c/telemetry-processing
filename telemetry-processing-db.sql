@@ -7,10 +7,7 @@ DROP TABLE IF EXISTS `telemetry_data`;
 
 CREATE TABLE telemetry_data (
  `telemetry_id` INT COLLATE utf8_unicode_ci NOT NULL AUTO_INCREMENT PRIMARY KEY, 
- `sender_name` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
  `sender_number` INT COLLATE utf8_unicode_ci NOT NULL,
- `sender_email` varchar(320) COLLATE utf8_unicode_ci NOT NULL,
- `sender_group` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
  `switch_one` BIT COLLATE utf8_unicode_ci NOT NULL,
  `switch_two` BIT COLLATE utf8_unicode_ci NOT NULL,
  `switch_three` BIT COLLATE utf8_unicode_ci NOT NULL,
