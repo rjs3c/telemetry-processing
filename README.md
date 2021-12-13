@@ -38,19 +38,15 @@ return array(
                 'auto_reload' => true,
             )
         ),
-        /* PDO Settings. */
-        'databaseSettings' => array( # Change these to your own PDO/DB settings!
-            'rdbms' => '',
-            'db_host' => '',
-            'db_port' => '',
-            'db_name' => '',
-            'db_user_name' => '',
-            'db_user_password' => '',
-            'db_encoding' => 'utf8',
-            'db_collation' => 'utf8_unicode_ci',
-            'pdo_attributes' => array(
-                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            )
+        /* Doctrine Settings. */
+        'doctrine_settings' => array( # Change these to your own DB settings!
+            'driver' => '',
+            'host' => '',
+            'dbname' => '',
+            'port' => '',
+            'user' => '',
+            'password' => '',
+            'charset' => 'utf8'
         ),
         /* SOAP Settings. */
         'soapSettings' => array(
