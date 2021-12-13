@@ -13,6 +13,8 @@
 
 namespace TelemProc;
 
+use Doctrine\DBAL\DriverManager;
+
 class PresentTelemetryModel
 {
     /** @var resource $doctrine_handle Contains handle to <Doctrine>. */
@@ -24,11 +26,15 @@ class PresentTelemetryModel
     /** @var resource $logger_handle Contains handle for <TelemetryLogger> */
     private $logger_handle;
 
+    /** @var array $retrieve_result Contains result from query to retrieve telemetry data/ */
+    private array $retrieve_result;
+
     public function __construct()
     {
         $this->doctrine_handle = null;
         $this->doctrine_settings = array();
         $this->logger_handle = null;
+        $this->retrieve_result = array();
     }
 
     public function __destruct() {}
@@ -44,7 +50,7 @@ class PresentTelemetryModel
     }
 
     /**
-     * Sets database connection settings.
+     * Sets database connection settings for <Doctrine>.
      *
      * @param array $doctrine_settings
      */
@@ -56,28 +62,47 @@ class PresentTelemetryModel
     /**
      * Sets handle to <Monolog> logger.
      *
-     * @param $telemetry_logger
+     * @param $logger_handle
      */
-    public function setLoggerHandle($telemetry_logger) : void
+    public function setLoggerHandle($logger_handle) : void
     {
-        $this->logger_handle = $telemetry_logger;
+        $this->logger_handle = $logger_handle;
+    }
+
+    /**
+     * Returns result from <Doctrine> query to fetch telemetry data.
+     *
+     * @return array
+     */
+    public function getRetrievalResult()
+    {
+        return $this->retrieve_result;
     }
 
     /**
      * Retrieves stored telemetry data using <Doctrine>.
      *
      * @return array
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function retrieveStoredTelemetryData($app) : array
+    public function retrieveStoredTelemetryData() : array
     {
-        $database_connection_settings = $app->getContainer()->get('doctrine_settings');
-        $doctrine_queries = $app->getContainer()->get('doctrineWrapper');
-        $database_connection = DriverManager::getConnection($database_connection_settings);
+        $retrieve_result = array();
 
-        $queryBuilder = $database_connection->createQueryBuilder();
+        $dbal_connection = DriverManager::getConnection($this->doctrine_settings);
+        $query_builder = $dbal_connection->createQueryBuilder();
 
-        $fetch_result = $doctrine_queries::fetchTelemetryData($queryBuilder);
+        if ($this->logger_handle !== null) {
+            $this->doctrine_handle->setDoctrineLogger($this->logger_handle);
+        }
 
-        return $fetch_result;
+        $this->doctrine_handle->setQueryBuilder($query_builder);
+
+        $this->doctrine_handle->fetchTelemetryData();
+
+        $retrieve_result = $this->doctrine_handle->getQueryResult();
+
+
+        $this->retrieve_result = $retrieve_result;
     }
 }
