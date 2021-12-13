@@ -13,6 +13,8 @@
 
 namespace TelemProc;
 
+use Doctrine\DBAL\DriverManager;
+
 class FetchTelemetryModel
 {
     /** @var resource $doctrine_handle Contains handle to <Doctrine>. */
@@ -114,13 +116,23 @@ class FetchTelemetryModel
     }
 
     /**
-     * Returns result from retrieval and storage operations.
+     * Returns result from retrieval operations.
      *
      * @return array|bool
      */
-    public function getResult() : array
+    public function getSoapResult() : array
     {
         return $this->soap_result;
+    }
+
+    /**
+     * Returns result from storage operation.
+     *
+     * @return array|bool
+     */
+    public function getStorageResult()
+    {
+        return $this->storage_result;
     }
 
     /**
@@ -212,19 +224,27 @@ class FetchTelemetryModel
     /**
      * Stores parsed telemetry data using <Doctrine>.
      *
-     * @return array
+     * @param array $cleaned_telemetry_data
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function storeTelemetryData($app, $cleaned_telemetry_data) :  array
+    public function storeTelemetryData(array $cleaned_telemetry_data) : void
     {
+        $storage_result = array();
 
-        $database_connection_settings = $app->getContainer()->get('doctrine_settings');
-        $doctrine_queries = $app->getContainer()->get('doctrineWrapper');
-        $database_connection = DriverManager::getConnection($database_connection_settings);
+        $dbal_connection = DriverManager::getConnection($this->doctrine_settings);
+        $query_builder = $dbal_connection->createQueryBuilder();
 
-        $queryBuilder = $database_connection->createQueryBuilder();
+        $this->doctrine_handle->setQueryBuilder($query_builder);
 
-        $storage_result = $doctrine_queries::storeTelemetryData($queryBuilder, $cleaned_telemetry_data);
+        if ($this->logger_handle !== null) {
+            $this->doctrine_handle->setDoctrineLogger($this->logger_handle);
+        }
 
-        return $storage_result;
+        foreach($cleaned_telemetry_data as $cleaned_message) {
+            $this->doctrine_handle->storeTelemetryData($cleaned_message);
+            array_push($storage_result, $this->doctrine_handle->getQueryResult());
+        }
+
+        $this->storage_result = $storage_result;
     }
 }
