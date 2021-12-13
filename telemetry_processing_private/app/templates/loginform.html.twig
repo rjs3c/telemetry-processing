@@ -1,0 +1,33 @@
+{% extends 'boilerplate.html.twig' %}
+{% htmlcompress %}
+    {% block content %}
+        <h3>{{ heading_1 }}</h3>
+        <form action="{{ login_action }}" method="post">
+            <fieldset>
+                <legend>Enter your details here</legend>
+                <br>
+                <label for="username">Username:</label>
+                <input id="username" name="username" type="text" placeholder="Username" size="33" maxlength="32" tabindex="1" required>
+                <br><br>
+                <label for="password">Password:</label>
+                <input id="password" name="password" type="password" size="30"  size="33" maxlength="32" tabindex="2" required>
+                <input type="checkbox" onclick="maskPassword()" value="Show Password">
+                <br><br>
+                <input type="submit" value="Login">
+                <script type="text/javascript">
+                    function maskPassword() {
+                        let password = document.querySelector('#password');
+
+                        if (password.type === "password") {
+                            password.type = "text";
+                        } else {
+                            password.type = "password";
+                        }
+                    }
+                </script>
+            </fieldset>
+        </form>
+
+        <p><a href="{{ landing_page }}">Home</a></p>
+    {% endblock %}
+{% endhtmlcompress %}
