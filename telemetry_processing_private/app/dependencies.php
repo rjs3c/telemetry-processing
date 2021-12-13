@@ -111,3 +111,8 @@ $container['gzipWrapper'] = function ()
 {
     return new \TelemProc\GzipWrapper();
 };
+
+$container['doctrineWrapper'] = function ()
+{
+    return new \TelemProc\DoctrineWrapper();
+};

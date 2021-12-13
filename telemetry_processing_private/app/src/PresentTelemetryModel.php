@@ -66,12 +66,18 @@ class PresentTelemetryModel
     /**
      * Retrieves stored telemetry data using <Doctrine>.
      *
-     * @TODO Add <Doctrine> functionality.
-     *
      * @return array
      */
-    public function retrieveStoredTelemetryData() : array
+    public function retrieveStoredTelemetryData($app) : array
     {
+        $database_connection_settings = $app->getContainer()->get('doctrine_settings');
+        $doctrine_queries = $app->getContainer()->get('doctrineWrapper');
+        $database_connection = DriverManager::getConnection($database_connection_settings);
 
+        $queryBuilder = $database_connection->createQueryBuilder();
+
+        $fetch_result = $doctrine_queries::fetchTelemetryData($queryBuilder);
+
+        return $fetch_result;
     }
 }

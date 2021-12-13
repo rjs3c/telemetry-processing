@@ -212,10 +212,19 @@ class FetchTelemetryModel
     /**
      * Stores parsed telemetry data using <Doctrine>.
      *
-     * @TODO Add <Doctrine> functionality.
+     * @return array
      */
-    public function storeTelemetryData()
+    public function storeTelemetryData($app, $cleaned_telemetry_data) :  array
     {
 
+        $database_connection_settings = $app->getContainer()->get('doctrine_settings');
+        $doctrine_queries = $app->getContainer()->get('doctrineWrapper');
+        $database_connection = DriverManager::getConnection($database_connection_settings);
+
+        $queryBuilder = $database_connection->createQueryBuilder();
+
+        $storage_result = $doctrine_queries::storeTelemetryData($queryBuilder, $cleaned_telemetry_data);
+
+        return $storage_result;
     }
 }
