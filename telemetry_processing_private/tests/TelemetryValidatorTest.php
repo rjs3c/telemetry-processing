@@ -17,6 +17,8 @@
 use PHPUnit\Framework\TestCase;
 use TelemProc\TelemetryValidator;
 
+require __DIR__ . "/../app/src/TelemetryValidator.php";
+
 final class TelemetryValidatorTest extends TestCase
 {
     /**

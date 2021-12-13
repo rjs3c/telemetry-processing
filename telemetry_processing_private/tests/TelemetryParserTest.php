@@ -18,6 +18,8 @@
 use PHPUnit\Framework\TestCase;
 use TelemProc\TelemetryParser;
 
+require __DIR__ . "/../app/src/TelemetryParser.php";
+
 final class TelemetryParserTest extends TestCase
 {
     /**

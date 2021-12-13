@@ -13,6 +13,8 @@
 
 namespace TelemProc;
 
+use Doctrine\DBAL\DriverManager;
+
 class TelemetryModel
 {
     /** @var resource $doctrine_handle Contains handle to <Doctrine>. */
@@ -126,32 +128,14 @@ class TelemetryModel
     /**
      * Retrieves telemetry data from EE's M2M SOAP service.
      */
-    public function fetchTelemetryData() : void
+    public function fetchTelemetryData($app) : array
     {
-        $soap_result = array();
+        $database_connection_settings = $app->getContainer()->get('doctrine_settings');
+        $doctrine_wrapper = $app->getContainer()->get('databaseWrapper');
+        $database_connection = DriverManager::getConnection($database_connection_settings);
 
-        $this->soap_handle->setSoapSettings($this->soap_settings);
-
-        if ($this->logger_handle !== null) {
-            $this->soap_handle->setSoapLogger($this->logger_handle);
-        }
-
-        if ($this->soap_handle->createSoapHandle() !== false) {
-            $peek_messages_args = array(
-                $this->soap_settings['ee_m2m_username'],
-                $this->soap_settings['ee_m2m_password'],
-                100,
-                $this->soap_settings['ee_m2m_phone_number'],
-                '44'
-            );
-
-            $soap_data = $this->soap_handle->callSoapFunction('peekMessages', $peek_messages_args);
-
-            $soap_result = $this->parseTelemetryData($soap_data);
-
-        }
-
-        $this->soap_result = $soap_result;
+        $queryBuilder = $database_connection->createQueryBuilder();
+        return $store_result = $doctrine_wrapper->fetchTelemetryData($queryBuilder);
     }
 
     /**
@@ -178,8 +162,15 @@ class TelemetryModel
      *
      * @TODO Add <Doctrine> functionality.
      */
-    private function storeTelemetryData()
+    private function storeTelemetryData($app, $cleaned_telemetry_data) :array
     {
+
+        $database_connection_settings = $app->getContainer()->get('doctrine_settings');
+        $doctrine_wrapper = $app->getContainer()->get('databaseWrapper');
+        $database_connection = DriverManager::getConnection($database_connection_settings);
+
+        $queryBuilder = $database_connection->createQueryBuilder();
+        return $store_result = $doctrine_wrapper->storeTelemetryData($queryBuilder, $cleaned_telemetry_data);
 
     }
 }

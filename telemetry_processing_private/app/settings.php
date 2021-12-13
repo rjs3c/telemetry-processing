@@ -47,19 +47,6 @@ return array(
                 'auto_reload' => true,
             )
         ),
-        'databaseSettings' => array(
-            'rdbms' => 'mysql',
-            'db_host' => 'localhost',
-            'db_port' => '3306',
-            'db_name' => 'telemetry_db',
-            'db_user_name' => 'telemetry_user',
-            'db_user_password' => 'telemetry_user_pass',
-            'db_encoding' => 'utf8',
-            'db_collation' => 'utf8_unicode_ci',
-            'pdo_attributes' => array(
-                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            )
-        ),
         'soapSettings' => array(
             'ee_m2m_username' => '', # Enter your own details!
             'ee_m2m_password' => '', # Enter your own details!
@@ -69,6 +56,15 @@ return array(
                 'trace' => true,
                 'exceptions' => true
             )
-        )
+        ),
+        'doctrine_settings' => [
+            'driver' => 'pdo_mysql',
+            'host' => 'localhost',
+            'dbname' => 'telemetry_db',
+            'port' => '3306',
+            'user' => 'telemetry_user',
+            'password' => 'telemetry_user_pass',
+            'charset' => 'utf8'
+        ],
     )
 );

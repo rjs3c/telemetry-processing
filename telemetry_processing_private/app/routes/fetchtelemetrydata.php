@@ -72,7 +72,12 @@ function fetchTelemetryData($app) : array
  * @param $app
  * @param $cleaned_telemetry_data
  */
-function storeTelemetryData($app, $cleaned_telemetry_data) {}
+function storeTelemetryData($app, $cleaned_telemetry_data) : array{
+
+    $telemetry_model = $app->getContainer()->get('telemetryValidator');
+    return $store_result = $telemetry_model->storeTelemetryData($app, $cleaned_telemetry_data);
+
+}
 
 /**
  * Validates and properly formats telemetry retrieved from EE M2M's SOAP service.
