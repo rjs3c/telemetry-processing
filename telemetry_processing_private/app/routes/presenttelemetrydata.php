@@ -35,9 +35,18 @@ $app->get('/presenttelemetrydata', function(Request $request, Response $response
 function retrieveStoredTelemetryData($app) : array
 {
     $telemetry_model = $app->getContainer()->get('presentTelemetryModel');
+    $doctrine_handle = $app->getContainer()->get('doctrineWrapper');
     $logger_handle = $app->getContainer()->get('telemetryLogger');
 
+    $database_connection_settings = $app->getContainer()->get('telemetrySettings')['doctrineSettings'];
+
+    $telemetry_model->setDatabaseHandle($doctrine_handle);
+    $telemetry_model->setDatabaseSettings($database_connection_settings);
     $telemetry_model->setLoggerHandle($logger_handle);
+
+    $telemetry_model->retrieveStoredTelemetryData();
+
+    return $telemetry_model->getRetrievalResult();
 }
 
 /**
