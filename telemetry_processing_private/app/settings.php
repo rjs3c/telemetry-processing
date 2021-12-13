@@ -59,7 +59,7 @@ return array(
                 'exceptions' => true
             )
         ),
-        'doctrine_settings' => [
+        'doctrineSettings' => [
             'driver' => 'pdo_mysql',
             'host' => 'localhost',
             'dbname' => 'telemetry_db',
