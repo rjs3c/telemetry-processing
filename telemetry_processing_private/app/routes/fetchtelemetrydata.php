@@ -17,28 +17,28 @@ use \Psr\Http\Message\ResponseInterface as Response;
 $app->get('/fetchtelemetrydata', function(Request $request, Response $response) use ($app)
 {
     $result_message = '';
+
     $tainted_telemetry_data = fetchTelemetryData($app);
     $cleaned_telemetry_data = validateTelemetryData($app, $tainted_telemetry_data);
 
+    sendTelemetryMessageReceipt($app, $cleaned_telemetry_data);
     $store_result = storeTelemetryData($app, $cleaned_telemetry_data);
 
     if ($store_result !== false) {
-        $result_message = 'Telemetry data successfully retrieved and stored.';
+        $result_message = '[+] Telemetry Data Retrieved and Stored Successfully.';
     } else {
-        $result_message = 'Oops, something went wrong. Please try again later.';
+        $result_message = '[!] Oops, something went wrong. Please try again later.';
     }
 
-    $html_output = $this->view->render($response,
+    return $this->telemetryView->render($response,
         'fetchtelemetryresult.html.twig',
         array(
             'page_title' => APP_TITLE,
+            'heading_1' => 'Telemetry Fetch Result',
             'result_message' => $result_message,
-            'present_telemetry_route' => 'presenttelemetrydata'
+            'present_telem_action' => 'presenttelemetrydata',
         )
     );
-
-    return gzipCompress($app, $html_output);
-
 })->setName('fetchtelemetrydata');
 
 /**
@@ -49,7 +49,7 @@ $app->get('/fetchtelemetrydata', function(Request $request, Response $response) 
  */
 function fetchTelemetryData($app) : array
 {
-    $telemetry_model = $app->getContainer()->get('telemetryModel');
+    $telemetry_model = $app->getContainer()->get('fetchTelemetryModel');
     $soap_handle = $app->getContainer()->get('soapWrapper');
     $parser_handle = $app->getContainer()->get('telemetryParser');
     $logger_handle = $app->getContainer()->get('telemetryLogger');
@@ -72,11 +72,31 @@ function fetchTelemetryData($app) : array
  * @param $app
  * @param $cleaned_telemetry_data
  */
-function storeTelemetryData($app, $cleaned_telemetry_data) : array{
+function storeTelemetryData($app, $cleaned_telemetry_data) : bool {
+    return true;
+}
 
-    $telemetry_model = $app->getContainer()->get('telemetryValidator');
-    return $store_result = $telemetry_model->storeTelemetryData($app, $cleaned_telemetry_data);
+/**
+ * Sends a message in receipt to sent telemetry messages.
+ *
+ * @param $app
+ * @param array $cleaned_telemetry_data
+ */
+function sendTelemetryMessageReceipt($app, array $cleaned_telemetry_data) : void
+{
+    $telemetry_model = $app->getContainer()->get('fetchTelemetryModel');
+    $soap_handle = $app->getContainer()->get('soapWrapper');
+    $parser_handle = $app->getContainer()->get('telemetryParser');
+    $logger_handle = $app->getContainer()->get('telemetryLogger');
 
+    $soap_settings = $app->getContainer()->get('telemetrySettings')['soapSettings'];
+
+    $telemetry_model->setSoapHandle($soap_handle);
+    $telemetry_model->setSoapSettings($soap_settings);
+    $telemetry_model->setLoggerHandle($logger_handle);
+    $telemetry_model->setParserHandle($parser_handle);
+
+    $telemetry_model->sendTelemetryReceipt($cleaned_telemetry_data);
 }
 
 /**
@@ -90,19 +110,4 @@ function validateTelemetryData($app, array $tainted_telemetry_data) : array
 {
     $telemetry_validator = $app->getContainer()->get('telemetryValidator');
     return $telemetry_validator->validateTelemetryData($tainted_telemetry_data);
-}
-
-/**
- * Compresses html output using GZIP.
- *
- * @param $app
- * @param string $html_output
- * @return mixed
- */
-function gzipCompress($app, string $html_output) : string
-{
-    $gzip_wrapper = $app->getContainer()->get('gzipWrapper');
-    $gzip_wrapper->setHtmlOutput($html_output);
-    $gzip_wrapper->gzipCompress();
-    return $gzip_wrapper->getCompressionOutput();
 }

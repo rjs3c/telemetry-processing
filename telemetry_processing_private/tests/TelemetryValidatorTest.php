@@ -4,7 +4,8 @@
  *
  * Tests functionality for TelemetryValidator.
  * Tests:
- * -
+ * - Legal and Illegal Inputs (Entire Messages)
+ * - Legal and Illegal Inputs (Individual Fields)
  *
  * @package telemetry_processing
  * @\TelemProc
@@ -70,34 +71,267 @@ final class TelemetryValidatorTest extends TestCase
         );
     }
 
+    /**
+     * Test case to identify validation of a correctly-formatted MSISDN value.
+     */
     public function testMSISDNValidationIsCorrect()
     {
         $telemetry_validator = new TelemetryValidator();
 
+        /* Message containing the value to test. */
+        $test_message = array(
+            0 => array (
+                'Content' => array(
+                    'MSDN' => '+440000000000', /* Expected: +44[0-9]{10} */
+                )
+            )
+        );
+
+        $expected_value = '+440000000000';
+
+        $this->assertEquals(
+            $expected_value,
+            $telemetry_validator->validateTelemetryData($test_message)[0]['MSDN']
+        );
 
     }
 
+    /**
+     * Test case to identify validation of an incorrectly-formatted MSISDN value.
+     */
+    public function testMSISDNValidationFailsCorrectly()
+    {
+        $telemetry_validator = new TelemetryValidator();
+
+        /* Message containing the value to test. */
+        $test_message = array(
+            0 => array (
+                'Content' => array(
+                    'MSDN' => '+4400000000', /* Truncated. Expected: +44[0-9]{10} */
+                )
+            )
+        );
+
+        $this->assertEmpty(
+            $telemetry_validator->validateTelemetryData($test_message)[0]['MSDN']
+        );
+    }
+
+    /**
+     * Test case to identify validation of correctly-formatted switches.
+     */
     public function testSwitchesValidationIsCorrect()
     {
         $telemetry_validator = new TelemetryValidator();
 
+        /* Message containing the value to test. */
+        $test_message = array(
+            0 => array (
+                'Content' => array(
+                    'SW' => array( /* Using an alternative order. */
+                        'SW2' => '0',
+                        'SW1' => '1',
+                        'SW4' => '1',
+                        'SW3' => '1' /* Expected: 1 or 0 */
+                    )
+                )
+            )
+        );
+
+        $expected_values = array(
+            'SW1' => 1,
+            'SW2' => 0,
+            'SW3' => 1,
+            'SW4' => 1
+        );
+
+        $this->assertEquals(
+            $expected_values,
+            $telemetry_validator->validateTelemetryData($test_message)[0]['SW']
+        );
     }
 
+    /**
+     * Test case to identify validation of incorrectly-formatted switches.
+     */
+    public function testSwitchesValidationFailsCorrectly()
+    {
+        $telemetry_validator = new TelemetryValidator();
+
+        /* Message containing the value to test. */
+        $test_message = array(
+            0 => array (
+                'Content' => array(
+                    'SW' => array( /* Using invalid keypad values. */
+                        'SW2' => '5',
+                        'SW1' => '6',
+                        'SW4' => '21',
+                        'SW3' => '-1' /* Expected: 1 or 0 */
+                    )
+                )
+            )
+        );
+
+        $expected_values = array(
+            'SW1' => 0,
+            'SW2' => 0,
+            'SW3' => 0,
+            'SW4' => 0
+        );
+
+        $this->assertEquals(
+            $expected_values,
+            $telemetry_validator->validateTelemetryData($test_message)[0]['SW']
+        );
+    }
+
+    /**
+     * Test case to identify validation of a correctly-formatted fan state value.
+     */
     public function testFanStateValidationIsCorrect()
     {
         $telemetry_validator = new TelemetryValidator();
 
+        /* Message containing the value to test. */
+        $test_message = array(
+            0 => array (
+                'Content' => array(
+                    'FN' => 'forward',
+                    'TMP' => '34.0',
+                    'KP' => '10'
+                )
+            )
+        );
+
+        $expected_value = 'forward';
+
+        $this->assertEquals(
+            $expected_value,
+            $telemetry_validator->validateTelemetryData($test_message)[0]['FN']
+        );
+
     }
 
+    /**
+     * Test case to identify validation of an incorrectly-formatted fan state value.
+     */
+    public function testFanStateValidationFailsCorrectly()
+    {
+        $telemetry_validator = new TelemetryValidator();
+
+        /* Message containing the value to test. */
+        $test_message = array(
+            0 => array (
+                'Content' => array(
+                    'FN' => 'backwards and forwards', /* Using invalid state 'backwards and forwards' */
+                )
+            )
+        );
+
+        $expected_value = 'off';
+
+        $this->assertEquals(
+            $expected_value,
+            $telemetry_validator->validateTelemetryData($test_message)[0]['FN']
+        );
+
+    }
+
+    /**
+     * Test case to identify validation of correctly-formatted temperature value.
+     */
     public function testTemperatureValidationIsCorrect()
     {
         $telemetry_validator = new TelemetryValidator();
 
+        /* Message containing the value to test. */
+        $test_message = array(
+            0 => array (
+                'Content' => array(
+                    'TMP' => '34',
+                )
+            )
+        );
+
+        $expected_value = 34.0;
+
+        $this->assertEquals(
+            $expected_value,
+            $telemetry_validator->validateTelemetryData($test_message)[0]['TMP']
+        );
     }
 
+    /**
+     * Test case to identify validation of an incorrectly-formatted temperature value.
+     */
+    public function testTemperatureValidationFailsCorrectly()
+    {
+        $telemetry_validator = new TelemetryValidator();
+
+        /* Message containing the value to test. */
+        $test_message = array(
+            0 => array (
+                'Content' => array(
+                    'TMP' => 'INVALID', /* Provides a string as opposed to value of float-type. */
+                )
+            )
+        );
+
+        $expected_value = 0.00;
+
+        $this->assertEquals(
+            $expected_value,
+            $telemetry_validator->validateTelemetryData($test_message)[0]['TMP']
+        );
+    }
+
+    /**
+     * Test case to identify validation of a correctly-formatted keypad value.
+     */
     public function testKeyPadValidationIsCorrect()
     {
         $telemetry_validator = new TelemetryValidator();
+
+        /* Message containing the value to test. */
+        $test_message = array(
+            0 => array (
+                'Content' => array(
+                    'KP' => '5'
+                )
+            )
+        );
+
+        $expected_value = 5;
+
+        $this->assertEquals(
+            $expected_value,
+            $telemetry_validator->validateTelemetryData($test_message)[0]['KP']
+        );
+
+    }
+
+    /**
+     * Test case to identify validation of an incorrectly-formatted keypad value.
+     */
+    public function testKeyPadValidationFailsCorrectly()
+    {
+        $telemetry_validator = new TelemetryValidator();
+
+        /* Message containing the value to test. */
+        $test_message = array(
+            0 => array (
+                'Content' => array(
+                    'KP' => '-1' /* Providing a value not within 1-9 range */
+                )
+            )
+        );
+
+        $expected_value = 0;
+
+        $this->assertEquals(
+            $expected_value,
+            $telemetry_validator->validateTelemetryData($test_message)[0]['KP']
+        );
 
     }
 }

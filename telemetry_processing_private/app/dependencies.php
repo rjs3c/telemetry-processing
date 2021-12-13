@@ -19,6 +19,7 @@ use Monolog\Handler\StreamHandler;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
 use Twig\Extension\DebugExtension;
+use nochso\HtmlCompressTwig\Extension;
 
 /**
  * <Monolog> Functionality.
@@ -54,17 +55,24 @@ $container['telemetryView'] = function ($container) {
     $base_uri = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBasePath()), '/'); // Seek a replacement
     $router = $container['router'];
     $telemetry_view->addExtension(new TwigExtension($router, $base_uri));
-
+    $telemetry_view->addExtension(new Extension(false));
     $telemetry_view->addExtension(new DebugExtension());
 
     return $telemetry_view;
 };
 
 /**
- * TelemetryModel.
+ * FetchTelemetryModel.
  */
-$container['telemetryModel'] = function () {
-    return new \TelemProc\TelemetryModel();
+$container['fetchTelemetryModel'] = function () {
+    return new \TelemProc\FetchTelemetryModel();
+};
+
+/**
+ * PresentTelemetryModel.
+ */
+$container['presentTelemetryModel'] = function () {
+    return new \TelemProc\PresentTelemetryModel();
 };
 
 /**

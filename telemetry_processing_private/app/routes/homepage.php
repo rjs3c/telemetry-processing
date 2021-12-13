@@ -16,33 +16,31 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->get('/', function(Request $request, Response $response) use ($app)
 {
-    $html_output = $this->view->render($response,
+    return $this->telemetryView->render($response,
         'homepage.html.twig',
         array(
             'page_title' => APP_TITLE,
             'css_file' => CSS_PATH,
             'landing_page' => __FILE__,
-            'fetch_telemetry_route' => 'fetchtelemetrydata',
             'heading_1' => APP_TITLE,
-            'sub_heading' => ''
+            'fetch_telem_action' => 'fetchtelemetrydata',
+            'present_telem_action' => 'presenttelemetrydata',
         )
     );
-
-    return gzipCompress($app, $html_output);
-
 })->setName('homepage');
 
 /**
  * Compresses html output using GZIP.
  *
  * @param $app
- * @param $html_output
+ * @param string $html_output
  * @return mixed
  */
-function gzipCompress($app, $html_output)
+function gzipCompress($app, string $html_output) : string
 {
     $gzip_wrapper = $app->getContainer()->get('gzipWrapper');
     $gzip_wrapper->setHtmlOutput($html_output);
     $gzip_wrapper->gzipCompress();
+
     return $gzip_wrapper->getCompressionOutput();
 }

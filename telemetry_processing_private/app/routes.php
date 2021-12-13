@@ -12,7 +12,10 @@
  */
 
 /* Homepage */
-//require 'routes/homepage.php';
+require 'routes/homepage.php';
 
 /* Retrieval of Telemetry Data */
 require 'routes/fetchtelemetrydata.php';
+
+/* Presenting of Stored Telemetry Data */
+require 'routes/presenttelemetrydata.php';

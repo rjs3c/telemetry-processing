@@ -15,6 +15,11 @@ In composer.json:
             "TelemProc\\" : "telemetry_processing/app/src"
         }
 ```
+```json
+ "require": {
+        "nochso/html-compress-twig": "*"
+```
+* Further details on how to use html-compress-twig can be found [here](https://github.com/nochso/html-compress-twig)
 ```bash
 $ composer update
 ```
@@ -61,7 +66,7 @@ return array(
     )
 );
 ```
-To access these settings:
+To access these settings in SLIM:
 ```php
 $app->getContainer()->get('telemetrySettings')['telemetryView'];
 $app->getContainer()->get('telemetrySettings')['soapSettings'];

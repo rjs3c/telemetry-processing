@@ -16,20 +16,39 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->get('/presenttelemetrydata', function(Request $request, Response $response) use ($app)
 {
+    $tainted_telemetry_data = retrieveStoredTelemetryData($app);
+    $cleaned_telemetry_data = validateStoredTelemetryData($app, $tainted_telemetry_data);
 
+    return $this->telemetryView->render($response,
+        'presenttelemetrydata.html.twig',
+        array(
+            'page_title' => APP_TITLE,
+            'telemetry_data' => $cleaned_telemetry_data,
+        )
+    );
 })->setName('presenttelemetrydata');
 
-function retrieveStoredTelemetryData()
+/**
+ * @param $app
+ * @return array
+ */
+function retrieveStoredTelemetryData($app) : array
 {
+    $telemetry_model = $app->getContainer()->get('presentTelemetryModel');
+    $logger_handle = $app->getContainer()->get('telemetryLogger');
 
+    $telemetry_model->setLoggerHandle($logger_handle);
 }
 
-function validateStoredTelemetryData()
+/**
+ * Validates telemetry data stored within the database for additional security.
+ *
+ * @param $app
+ * @param array $tainted_telemetry_data
+ * @return array
+ */
+function validateStoredTelemetryData($app, array $tainted_telemetry_data) : array
 {
-
-}
-
-function gzipCompress()
-{
-
+    $telemetry_validator = $app->getContainer()->get('telemetryValidator');
+    return $telemetry_validator->validateTelemetryData($tainted_telemetry_data);
 }
