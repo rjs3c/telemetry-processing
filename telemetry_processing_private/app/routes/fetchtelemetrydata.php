@@ -21,8 +21,8 @@ $app->get('/fetchtelemetrydata', function(Request $request, Response $response) 
     $tainted_telemetry_data = fetchTelemetryData($app);
     $cleaned_telemetry_data = validateTelemetryData($app, $tainted_telemetry_data);
 
-    sendTelemetryMessageReceipt($app, $cleaned_telemetry_data);
-    $store_result = storeTelemetryData($app, $cleaned_telemetry_data);
+    $store_result = sendTelemetryMessageReceipt($app, $cleaned_telemetry_data);
+    storeTelemetryData($app, $cleaned_telemetry_data);
 
     if ($store_result !== false) {
         $result_message = '[+] Telemetry Data Retrieved and Stored Successfully.';
@@ -34,6 +34,8 @@ $app->get('/fetchtelemetrydata', function(Request $request, Response $response) 
         'fetchtelemetryresult.html.twig',
         array(
             'page_title' => APP_TITLE,
+            'css_file' => CSS_PATH,
+            'landing_page' => 'index.php',
             'heading_1' => 'Telemetry Fetch Result',
             'result_message' => $result_message,
             'present_telem_action' => 'presenttelemetrydata',
@@ -63,7 +65,7 @@ function fetchTelemetryData($app) : array
 
     $telemetry_model->fetchTelemetryData();
 
-    return $telemetry_model->getResult();
+    return $telemetry_model->getSoapResult();
 }
 
 /**
@@ -71,9 +73,22 @@ function fetchTelemetryData($app) : array
  *
  * @param $app
  * @param $cleaned_telemetry_data
+ * @return bool
  */
 function storeTelemetryData($app, $cleaned_telemetry_data) : bool {
-    return true;
+    $telemetry_model = $app->getContainer()->get('fetchTelemetryModel');
+    $doctrine_handle = $app->getContainer()->get('doctrineWrapper');
+    $logger_handle = $app->getContainer()->get('telemetryLogger');
+
+    $database_connection_settings = $app->getContainer()->get('telemetrySettings')['doctrineSettings'];
+
+    $telemetry_model->setDatabaseHandle($doctrine_handle);
+    $telemetry_model->setDatabaseSettings($database_connection_settings);
+    $telemetry_model->setLoggerHandle($logger_handle);
+
+    $telemetry_model->storeTelemetryData($cleaned_telemetry_data);
+
+    return in_array(1, array_unique(array_keys($telemetry_model->getStorageResult())));
 }
 
 /**
