@@ -24,7 +24,8 @@ use nochso\HtmlCompressTwig\Extension;
 /**
  * <Monolog> Functionality.
  */
-$container['telemetryLogger'] = function () {
+$container['telemetryLogger'] = function ()
+{
     $telemetry_logger = new Logger('telemetryLogger');
 
     /* Logs of level NOTICE */
@@ -46,7 +47,8 @@ $container['telemetryLogger'] = function () {
 /**
  * <Twig> Functionality.
  */
-$container['telemetryView'] = function ($container) {
+$container['telemetryView'] = function ($container)
+{
     $telemetry_view = new Twig(
         TEMPLATE_PATH,
         $container['telemetrySettings']['telemetryView']['twig_attributes']
@@ -54,6 +56,7 @@ $container['telemetryView'] = function ($container) {
 
     $base_uri = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBasePath()), '/'); // Seek a replacement
     $router = $container['router'];
+
     $telemetry_view->addExtension(new TwigExtension($router, $base_uri));
     $telemetry_view->addExtension(new Extension(false));
     $telemetry_view->addExtension(new DebugExtension());
@@ -64,41 +67,47 @@ $container['telemetryView'] = function ($container) {
 /**
  * FetchTelemetryModel.
  */
-$container['fetchTelemetryModel'] = function () {
+$container['fetchTelemetryModel'] = function ()
+{
     return new \TelemProc\FetchTelemetryModel();
 };
 
 /**
  * PresentTelemetryModel.
  */
-$container['presentTelemetryModel'] = function () {
+$container['presentTelemetryModel'] = function ()
+{
     return new \TelemProc\PresentTelemetryModel();
 };
 
 /**
  * <SimpleXML> Functionality.
  */
-$container['telemetryParser'] = function () {
+$container['telemetryParser'] = function ()
+{
     return new \TelemProc\TelemetryParser();
 };
 
 /**
  * TelemetryValidator.
  */
-$container['telemetryValidator'] = function () {
+$container['telemetryValidator'] = function ()
+{
     return new \TelemProc\TelemetryValidator();
 };
 
 /**
  * <SOAP> Functionality.
  */
-$container['soapWrapper'] = function () {
+$container['soapWrapper'] = function ()
+{
     return new \TelemProc\SoapWrapper();
 };
 
 /**
  * <GZIP> Functionality.
  */
-$container['gzipWrapper'] = function () {
+$container['gzipWrapper'] = function ()
+{
     return new \TelemProc\GzipWrapper();
 };
