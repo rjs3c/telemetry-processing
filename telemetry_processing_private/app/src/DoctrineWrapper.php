@@ -80,6 +80,11 @@ class DoctrineWrapper
         }
     }
 
+    /**
+     * Utilises <Doctrine> to store all fetched, parsed and validated telemetry data within the telemetry_data table.
+     *
+     * @param array $cleaned_message
+     */
     public function storeTelemetryData(array $cleaned_message) : void
     {
         $store_result = array();
@@ -96,7 +101,8 @@ class DoctrineWrapper
         $switch_four = $switches['SW4'];
 
         try {
-            $query_builder = $this->query_builder->insert('telemetry_data')
+            $query_builder = $this->query_builder
+                ->insert('telemetry_data')
                 ->values(array(
                     'sender_number' => ':sender_number',
                     'switch_one' => ':switch_one',
@@ -124,35 +130,33 @@ class DoctrineWrapper
             if ($this->doctrine_logger !== null) {
                 $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
             }
+        } finally {
+            $this->query_result = $store_result;
         }
-
-        $this->query_result = $store_result;
     }
 
-    public function fetchTelemetryData($queryBuilder) : void
+    /**
+     * Uses <Doctrine> to retrieve all stored telemetry data from the telemetry_data table.
+     */
+    public function fetchTelemetryData() : void
     {
         $retrieve_result = array();
 
         try {
-            $queryBuilder
+            $query_builder = $this->query_builder
                 ->select('d.*')
                 ->from('telemetry_data', 'd')
-                ->orderBy('d.timestamp', 'DESC')
-                ->setMaxResults(2);
+                ->orderBy('d.timestamp', 'DESC');
 
-            //select * from tbl_name order by id desc limit N;
-
-            $query = $queryBuilder->execute();
+            $query = $query_builder->execute();
             $retrieve_result = $query->fetchAll();
-            //$result['outcome'] = $query;
 
         } catch (\Exception $exception) {
             if ($this->doctrine_logger !== null) {
                 $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
             }
+        } finally {
+            $this->query_result = $retrieve_result;
         }
-
-        $this->query_result = $retrieve_result;
     }
-
 }
