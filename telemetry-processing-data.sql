@@ -10,7 +10,5 @@ CREATE TABLE telemetry_data (
  `fan` ENUM('forward', 'reverse', 'off') DEFAULT 'off' COLLATE utf8_unicode_ci NOT NULL,
  `temperature` DECIMAL(10,2) COLLATE utf8_unicode_ci NOT NULL,
  `keypad` INT(1) COLLATE utf8_unicode_ci NOT NULL,
- `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON
-UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
-COMMENT='CURRENT_TIMESTAMP';
+ `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='CURRENT_TIMESTAMP';
