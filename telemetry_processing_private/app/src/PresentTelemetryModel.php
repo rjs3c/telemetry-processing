@@ -102,7 +102,6 @@ class PresentTelemetryModel
 
         $retrieve_result = $this->doctrine_handle->getQueryResult();
 
-
         $this->retrieve_result = $retrieve_result;
     }
 }
