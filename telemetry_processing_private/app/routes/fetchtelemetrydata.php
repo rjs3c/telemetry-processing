@@ -21,8 +21,8 @@ $app->get('/fetchtelemetrydata', function(Request $request, Response $response) 
     $tainted_telemetry_data = fetchTelemetryData($app);
     $cleaned_telemetry_data = validateTelemetryData($app, $tainted_telemetry_data);
 
-    $store_result = sendTelemetryMessageReceipt($app, $cleaned_telemetry_data);
-    storeTelemetryData($app, $cleaned_telemetry_data);
+    sendTelemetryMessageReceipt($app, $cleaned_telemetry_data);
+    $store_result = storeTelemetryData($app, $cleaned_telemetry_data);
 
     if ($store_result !== false) {
         $result_message = '[+] Telemetry Data Retrieved and Stored Successfully.';
@@ -88,7 +88,7 @@ function storeTelemetryData($app, $cleaned_telemetry_data) : bool {
 
     $telemetry_model->storeTelemetryData($cleaned_telemetry_data);
 
-    return in_array(1, array_unique(array_keys($telemetry_model->getStorageResult())));
+    return in_array(1, $telemetry_model->getStorageResult());
 }
 
 /**
