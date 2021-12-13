@@ -94,6 +94,25 @@ final class TelemetryValidatorTest extends TestCase
             $telemetry_validator->validateTelemetryData($test_message)[0]['MSDN']
         );
 
+    /**
+     * Test case to identify validation of an incorrectly-formatted MSISDN value.
+     */
+    public function testMSISDNValidationFailsCorrectly()
+    {
+        $telemetry_validator = new TelemetryValidator();
+
+        /* Message containing the value to test. */
+        $test_message = array(
+            0 => array (
+                'Content' => array(
+                    'MSDN' => '+4400000000', /* Truncated. Expected: +44[0-9]{10} */
+                )
+            )
+        );
+
+        $this->assertEmpty(
+            $telemetry_validator->validateTelemetryData($test_message)[0]['MSDN']
+        );
     }
 
     /**

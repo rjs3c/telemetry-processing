@@ -19,3 +19,6 @@ require 'routes/fetchtelemetrydata.php';
 
 /* Presenting of Stored Telemetry Data */
 require 'routes/presenttelemetrydata.php';
+
+/* Presenting of Stored Telemetry Data */
+require 'routes/presenttelemetrydata.php';

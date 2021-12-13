@@ -68,7 +68,4 @@ return array(
 ```
 To access these settings in SLIM:
 ```php
-$app->getContainer()->get('telemetrySettings')['telemetryView'];
-$app->getContainer()->get('telemetrySettings')['soapSettings'];
-$app->getContainer()->get('telemetrySettings')['databaseSettings'];
-```
+$app->ge
