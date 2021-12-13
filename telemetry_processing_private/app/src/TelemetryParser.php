@@ -45,7 +45,7 @@ class TelemetryParser
      *
      * @return array|null
      */
-    public function getTelemetryParseResults() : array
+    public function getTelemetryParseResults(): ?array
     {
         return $this->parse_results;
     }
@@ -65,10 +65,12 @@ class TelemetryParser
                     'SimpleXMLElement'
                 );
 
-                $xml_extracted = $this->extrapolateGroupTelemetry(json_decode(json_encode($xml),true));
+                if ($xml !== false) {
+                    $xml_extracted = $this->extrapolateGroupTelemetry(json_decode(json_encode($xml),true));
 
-                if (isset($xml_extracted)) {
-                    array_push($xml_parse_result, $xml_extracted);
+                    if (isset($xml_extracted)) {
+                        array_push($xml_parse_result, $xml_extracted);
+                    }
                 }
             }
         } catch (\Exception $e) {
@@ -95,5 +97,6 @@ class TelemetryParser
         }
 
         return $group_xml_extracted;
+
     }
 }
