@@ -65,6 +65,14 @@ $container['telemetryView'] = function ($container)
 };
 
 /**
+ * <Doctrine> Functionality.
+ */
+$container['doctrineWrapper'] = function ()
+{
+    return new \TelemProc\DoctrineWrapper();
+};
+
+/**
  * FetchTelemetryModel.
  */
 $container['fetchTelemetryModel'] = function ()
@@ -102,17 +110,4 @@ $container['telemetryValidator'] = function ()
 $container['soapWrapper'] = function ()
 {
     return new \TelemProc\SoapWrapper();
-};
-
-/**
- * <GZIP> Functionality.
- */
-$container['gzipWrapper'] = function ()
-{
-    return new \TelemProc\GzipWrapper();
-};
-
-$container['doctrineWrapper'] = function ()
-{
-    return new \TelemProc\DoctrineWrapper();
 };
