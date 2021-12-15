@@ -23,7 +23,7 @@ $app->get('/presenttelemetrydata', function(Request $request, Response $response
         'presenttelemetrydata.html.twig',
         array(
             'page_title' => APP_TITLE,
-            'telemetry_data' => $cleaned_telemetry_data,
+            'heading_1' => 'Present Telemetry Data',
         )
     );
 })->setName('presenttelemetrydata');
@@ -59,5 +59,5 @@ function retrieveStoredTelemetryData($app) : array
 function validateStoredTelemetryData($app, array $tainted_telemetry_data) : array
 {
     $telemetry_validator = $app->getContainer()->get('telemetryValidator');
-    return $telemetry_validator->validateTelemetryData($tainted_telemetry_data);
+    return $telemetry_validator->validateStoredTelemetryData($tainted_telemetry_data);
 }
