@@ -59,7 +59,7 @@ return array(
                 'exceptions' => true
             )
         ),
-        'doctrineSettings' => [
+        'doctrineSettings' => array(
             'driver' => 'pdo_mysql',
             'host' => 'localhost',
             'dbname' => 'telemetry_db',
@@ -67,6 +67,6 @@ return array(
             'user' => 'telemetry_user',
             'password' => 'telemetry_user_pass',
             'charset' => 'utf8'
-        ],
+        ))
     )
 );
