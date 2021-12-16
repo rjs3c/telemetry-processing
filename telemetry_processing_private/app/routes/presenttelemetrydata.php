@@ -19,8 +19,6 @@ $app->get('/presenttelemetrydata', function(Request $request, Response $response
     $tainted_telemetry_data = retrieveStoredTelemetryData($app);
     $cleaned_telemetry_data = validateStoredTelemetryData($app, $tainted_telemetry_data);
 
-    var_dump($cleaned_telemetry_data);
-
     return $this->telemetryView->render($response,
         'presenttelemetrydata.html.twig',
         array(
