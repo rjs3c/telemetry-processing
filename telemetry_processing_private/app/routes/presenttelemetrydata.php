@@ -17,7 +17,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 $app->get('/presenttelemetrydata', function(Request $request, Response $response) use ($app) : Response
 {
     $tainted_telemetry_data = retrieveStoredTelemetryData($app);
-    $cleaned_telemetry_data = validateStoredTelemetryData($app, $tainted_telemetry_data);
+    $cleaned_telemetry_data = validateTelemetryData($app, $tainted_telemetry_data);
 
     return $this->telemetryView->render($response,
         'presenttelemetrydata.html.twig',
@@ -56,7 +56,7 @@ function retrieveStoredTelemetryData($app) : array
  * @param array $tainted_telemetry_data
  * @return array
  */
-function validateStoredTelemetryData($app, array $tainted_telemetry_data) : array
+function validateTelemetryData($app, array $tainted_telemetry_data) : array
 {
     $telemetry_validator = $app->getContainer()->get('telemetryValidator');
     return $telemetry_validator->validateStoredTelemetryData($tainted_telemetry_data);
