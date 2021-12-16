@@ -101,18 +101,74 @@ class DoctrineWrapper
         $switch_four = $switches['SW4'];
 
         try {
+            if ($this->checkDuplicateData($cleaned_message) !== true) {
+                $query_builder = $this->query_builder
+                    ->insert('telemetry_data')
+                    ->values(array(
+                        'sender_number' => ':sender_number',
+                        'switch_one' => ':switch_one',
+                        'switch_two' => ':switch_two',
+                        'switch_three' => ':switch_three',
+                        'switch_four' => ':switch_four',
+                        'fan' => ':fan',
+                        'temperature' => ':temperature',
+                        'keypad' => ':keypad',
+                    ))
+                    ->setParameters(array(
+                        'sender_number' => $sender_number,
+                        'switch_one' => $switch_one,
+                        'switch_two' => $switch_two,
+                        'switch_three' => $switch_three,
+                        'switch_four' => $switch_four,
+                        'fan' => $fan,
+                        'temperature' => $temperature,
+                        'keypad' => $keypad,
+                    ));
+
+                $store_result = $query_builder->execute();
+            }
+        } catch (\Exception $exception) {
+            if ($this->doctrine_logger !== null) {
+                $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
+            }
+        } finally {
+            $this->query_result = $store_result;
+        }
+    }
+
+    /**
+     * Checks the telemetry_data table for any duplicate records.
+     *
+     * @param array $cleaned_message
+     * @return bool
+     */
+    private function checkDuplicateData(array $cleaned_message) : bool
+    {
+        $duplication_result = false;
+
+        $sender_number = $cleaned_message['MSDN'];
+        $switches = $cleaned_message['SW'];
+        $fan = $cleaned_message['FN'];
+        $temperature = $cleaned_message['TMP'];
+        $keypad = $cleaned_message['KP'];
+
+        $switch_one = $switches['SW1'];
+        $switch_two = $switches['SW2'];
+        $switch_three = $switches['SW3'];
+        $switch_four = $switches['SW4'];
+
+        try {
             $query_builder = $this->query_builder
-                ->insert('telemetry_data')
-                ->values(array(
-                    'sender_number' => ':sender_number',
-                    'switch_one' => ':switch_one',
-                    'switch_two' => ':switch_two',
-                    'switch_three' => ':switch_three',
-                    'switch_four' => ':switch_four',
-                    'fan' => ':fan',
-                    'temperature' => ':temperature',
-                    'keypad' => ':keypad',
-                ))
+                ->select('d.*')
+                ->from('telemetry_data', 'd')
+                ->where('d.sender_number = :sender_number')
+                ->andWhere('d.switch_one = :switch_one')
+                ->andWhere('d.switch_two = :switch_two')
+                ->andWhere('d.switch_three = :switch_three')
+                ->andWhere('d.switch_four = :switch_four')
+                ->andWhere('d.fan = :fan')
+                ->andWhere('d.temperature = :temperature')
+                ->andWhere('d.keypad = :keypad')
                 ->setParameters(array(
                     'sender_number' => $sender_number,
                     'switch_one' => $switch_one,
@@ -121,17 +177,18 @@ class DoctrineWrapper
                     'switch_four' => $switch_four,
                     'fan' => $fan,
                     'temperature' => $temperature,
-                    'keypad' => $keypad,
+                    'keypad' => $keypad
                 ));
 
-            $store_result = $query_builder->execute();
+            $duplicate_retrieval = $query_builder->execute();
 
-        } catch (\Exception $exception) {
+            $duplication_result = !empty((bool)$duplicate_retrieval->fetchAll());
+        } catch(\Exception $exception) {
             if ($this->doctrine_logger !== null) {
                 $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
             }
         } finally {
-            $this->query_result = $store_result;
+            return $duplication_result;
         }
     }
 
