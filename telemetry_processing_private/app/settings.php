@@ -45,7 +45,7 @@ return array(
         'debug' => true,
         'telemetryView' => array(
             'twig_attributes' => array(
-                'cache' => CACHE_PATH,
+                'cache' => CACHE_PATH . 'twig/',
                 'auto_reload' => true,
             )
         ),
