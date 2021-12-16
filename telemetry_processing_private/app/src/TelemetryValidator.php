@@ -317,5 +317,4 @@ class TelemetryValidator
 
         return $cleaned_keypad_number;
     }
-
 }
