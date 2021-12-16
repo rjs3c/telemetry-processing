@@ -14,15 +14,15 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-$app->get('/fetchtelemetrydata', function(Request $request, Response $response) use ($app)
+$app->get('/fetchtelemetrydata', function(Request $request, Response $response) use ($app) : Response
 {
     $result_message = '';
 
-    $tainted_telemetry_data = fetchTelemetryData($app);
-    $cleaned_telemetry_data = validateTelemetryData($app, $tainted_telemetry_data);
+    $tainted_telemetry_data = retrieveTelemetryData($app);
+    $cleaned_telemetry_data = validateRetrievedTelemetryData($app, $tainted_telemetry_data);
 
     sendTelemetryMessageReceipt($app, $cleaned_telemetry_data);
-    $store_result = storeTelemetryData($app, $cleaned_telemetry_data);
+    $store_result = storeRetrievedTelemetryData($app, $cleaned_telemetry_data);
 
     if ($store_result !== false) {
         $result_message = '[+] Telemetry Data Retrieved and Stored Successfully.';
@@ -49,7 +49,7 @@ $app->get('/fetchtelemetrydata', function(Request $request, Response $response) 
  * @param $app
  * @return array
  */
-function fetchTelemetryData($app) : array
+function retrieveTelemetryData($app) : array
 {
     $telemetry_model = $app->getContainer()->get('fetchTelemetryModel');
     $soap_handle = $app->getContainer()->get('soapWrapper');
@@ -75,7 +75,7 @@ function fetchTelemetryData($app) : array
  * @param $cleaned_telemetry_data
  * @return bool
  */
-function storeTelemetryData($app, $cleaned_telemetry_data) : bool {
+function storeRetrievedTelemetryData($app, $cleaned_telemetry_data) : bool {
     $telemetry_model = $app->getContainer()->get('fetchTelemetryModel');
     $doctrine_handle = $app->getContainer()->get('doctrineWrapper');
     $logger_handle = $app->getContainer()->get('telemetryLogger');
@@ -121,7 +121,7 @@ function sendTelemetryMessageReceipt($app, array $cleaned_telemetry_data) : void
  * @param array $tainted_telemetry_data
  * @return array
  */
-function validateTelemetryData($app, array $tainted_telemetry_data) : array
+function validateRetrievedTelemetryData($app, array $tainted_telemetry_data) : array
 {
     $telemetry_validator = $app->getContainer()->get('telemetryValidator');
     return $telemetry_validator->validateTelemetryData($tainted_telemetry_data);

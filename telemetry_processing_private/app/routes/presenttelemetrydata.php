@@ -14,16 +14,18 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-$app->get('/presenttelemetrydata', function(Request $request, Response $response) use ($app)
+$app->get('/presenttelemetrydata', function(Request $request, Response $response) use ($app) : Response
 {
     $tainted_telemetry_data = retrieveStoredTelemetryData($app);
     $cleaned_telemetry_data = validateStoredTelemetryData($app, $tainted_telemetry_data);
+
+    var_dump($cleaned_telemetry_data);
 
     return $this->telemetryView->render($response,
         'presenttelemetrydata.html.twig',
         array(
             'page_title' => APP_TITLE,
-            'heading_1' => 'Present Telemetry Data',
+            'heading_1' => 'Present Telemetry Data'
         )
     );
 })->setName('presenttelemetrydata');
@@ -44,7 +46,7 @@ function retrieveStoredTelemetryData($app) : array
     $telemetry_model->setDatabaseSettings($database_connection_settings);
     $telemetry_model->setLoggerHandle($logger_handle);
 
-    $telemetry_model->retrieveStoredTelemetryData();
+    $telemetry_model->retrieveTelemetryData();
 
     return $telemetry_model->getRetrievalResult();
 }
