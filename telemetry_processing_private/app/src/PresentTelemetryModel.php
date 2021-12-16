@@ -85,7 +85,7 @@ class PresentTelemetryModel
      * @return void
      * @throws \Doctrine\DBAL\Exception
      */
-    public function retrieveStoredTelemetryData() : void
+    public function retrieveTelemetryData() : void
     {
         $retrieve_result = array();
 
