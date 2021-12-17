@@ -20,5 +20,11 @@ require 'routes/fetchtelemetrydata.php';
 /* Presenting of Stored Telemetry Data */
 require 'routes/presenttelemetrydata.php';
 
-/* Presenting of Stored Telemetry Data */
-require 'routes/presenttelemetrydata.php';
+/* Interface to send telemetry data back to circuit board */
+require 'routes/sendtelemetrydataform.php';
+
+/* Presenting the form for users to login */
+require 'routes/loginform.php';
+
+/* Presenting the form for users to register for an account */
+require 'routes/registerform.php'; 
