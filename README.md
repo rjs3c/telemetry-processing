@@ -11,12 +11,12 @@ Telemetry Data Processing using PHP and EE's M2M SOAP Service.
 Telemetry Processing Directory Structure:
 ```markdown
 ├── includes
-│   ├── telemetry_processing (originally telemetry_processing_private)
+│   ├── telemetry_processing (NB. originally telemetry_processing_private)
 │   │   ├── app
 │   │   ├── tests
 │   │   ├── bootstrap.php
 ├── php_public
-│   ├── telemetry_processing (originally telemetry_processing_public)
+│   ├── telemetry_processing (NB. originally telemetry_processing_public)
 │   │   ├── css
 │   │   ├── media
 │   │   ├── .htaccess
@@ -33,6 +33,7 @@ In composer.json:
  "require": {
         "nochso/html-compress-twig": "*"
 ```
+* NB. html-compress-twig is *required*, otherwise SLIM will not work.
 * Further details on how to use html-compress-twig can be found [here](https://github.com/nochso/html-compress-twig)
 ```bash
 $ composer update
