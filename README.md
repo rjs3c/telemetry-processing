@@ -23,6 +23,7 @@ Telemetry Data Processing using PHP and EE's M2M SOAP Service.
 │   │   ├── index.php
 ```
 ### composer.json
+This must be configured as follows:
 ```json
 "autoload": {
         "psr-4": {
