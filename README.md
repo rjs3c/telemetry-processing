@@ -33,7 +33,7 @@ In composer.json:
  "require": {
         "nochso/html-compress-twig": "*"
 ```
-* NB. html-compress-twig is *required*, otherwise SLIM will not work.
+* NB. html-compress-twig is **required**, otherwise SLIM routes will not work.
 * Further details on how to use html-compress-twig can be found [here](https://github.com/nochso/html-compress-twig)
 ```bash
 $ composer update
