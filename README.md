@@ -89,6 +89,7 @@ Application Constants:
 * **CSS_PATH** : CSS directory and file
 *remember to change the following setting*:
 ```php
+/* in settings.php */
 $css_file_name = ''; // CSS file name needed here.
 ```
 * **TEMPLATE_PATH** : '/templates' directory
