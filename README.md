@@ -11,12 +11,12 @@ Telemetry Data Processing using PHP and EE's M2M SOAP Service.
 Telemetry Processing Directory Structure:
 ```markdown
 ├── includes
-│   ├── **telemetry_processing** (originally telemetry_processing_private)
+│   ├── telemetry_processing (originally telemetry_processing_private)
 │   │   ├── app
 │   │   ├── tests
 │   │   ├── bootstrap.php
 ├── php_public
-│   ├── **telemetry_processing** (originally telemetry_processing_public)
+│   ├── telemetry_processing (originally telemetry_processing_public)
 │   │   ├── css
 │   │   ├── media
 │   │   ├── .htaccess
