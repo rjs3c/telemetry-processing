@@ -68,3 +68,14 @@ $app->getContainer()->get('telemetrySettings')['telemetryView']
 $app->getContainer()->get('telemetrySettings')['doctrineSettings']
 $app->getContainer()->get('telemetrySettings')['soapSettings']
 ```
+Application Constants:
+* **APP_PATH** : '/app' directory
+* **APP_TITLE** : 'Telemetry Processing'
+* **CACHE_PATH** : '/cache' directory
+* **CSS_PATH** : CSS directory and file
+*remember to change the following setting*:
+```php
+$css_file_name = ''; // CSS file name needed here.
+```
+* **TEMPLATE_PATH** : '/templates' directory
+* **LOG_PATH** : '/logs' directory 
