@@ -7,7 +7,7 @@ Telemetry Data Processing using PHP and EE's M2M SOAP Service.
 * @MoAziz123
 * @JamesB38
 * @rjs3c
-## Important Configuration
+## Important Configuration (Must Read!)
 Telemetry Processing Directory Structure:
 ```markdown
 ├── includes
