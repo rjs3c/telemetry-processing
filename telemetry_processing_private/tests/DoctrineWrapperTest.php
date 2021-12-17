@@ -47,7 +47,7 @@ final class DoctrineWrapperTest extends TestCase
 
         $telemetryData = array(
             'GID' => 'AF',
-            'MSDN' => '123456789',
+            'MSDN' => '+440000000000',
             'SW' => array(
                 'SW1' => 0,
                 'SW2' => 0,
