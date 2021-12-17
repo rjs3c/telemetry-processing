@@ -79,9 +79,9 @@ return array(
 ```
 To access these settings in SLIM:
 ```php
-$app->getContainer()->get('telemetrySettings')['telemetryView']
-$app->getContainer()->get('telemetrySettings')['doctrineSettings']
-$app->getContainer()->get('telemetrySettings')['soapSettings']
+$app->getContainer()->get('telemetrySettings')['telemetryView'];
+$app->getContainer()->get('telemetrySettings')['doctrineSettings'];
+$app->getContainer()->get('telemetrySettings')['soapSettings'];
 ```
 Application Constants:
 * **APP_PATH** : `/app` directory
