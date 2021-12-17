@@ -40,7 +40,7 @@ This must be configured as follows:
 $ composer update
 ```
 ### settings.php
-In `telemetry-processing_private/app/settings.php`:
+In `includes/telemetry-processing/app/settings.php`:
 ```php
 return array(
     'telemetrySettings' => array(
@@ -93,7 +93,7 @@ Application Constants:
 * **CSS_PATH** : CSS directory and file
 *remember to change the following setting*:
 ```php
-/* in settings.php */
+/* in includes/telemetry_processing/app/settings.php */
 $css_file_name = ''; // CSS file name needed here.
 ```
 * **TEMPLATE_PATH** : `/templates` directory
