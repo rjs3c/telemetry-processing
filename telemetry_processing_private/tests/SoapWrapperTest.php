@@ -30,7 +30,7 @@ final class SoapWrapperTest extends TestCase
     }
 
     /**
-     * Test to identify if creating a SOAP handle works successfully using the EE M2M WSDL file.
+     * @test To identify if creating a SOAP handle works successfully using the EE M2M WSDL file.
      */
     public function testSoapConnectsCorrectly()
     {
@@ -44,7 +44,7 @@ final class SoapWrapperTest extends TestCase
     }
 
     /**
-     * Test to identify if a function can be successfully called when a SOAP handle is set.
+     * @test To identify if a function can be successfully called when a SOAP handle is set.
      * The function used here is 'peekMessages', as this is the primary function of interest.
      */
     public function testEEPeekMessagesFunction()

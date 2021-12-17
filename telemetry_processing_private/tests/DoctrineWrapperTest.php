@@ -31,7 +31,7 @@ final class DoctrineWrapperTest extends TestCase
     }
 
     /**
-     * Test to ascertain if telemetry data can be successfully stored using Doctrine.
+     * @test To ascertain if telemetry data can be successfully stored using Doctrine.
      *
      * @throws \Doctrine\DBAL\Exception
      */
@@ -70,7 +70,7 @@ final class DoctrineWrapperTest extends TestCase
     }
 
     /**
-     * Test to ascertain if telemetry data can be successfully retrieved using Doctrine.
+     * @test To ascertain if telemetry data can be successfully retrieved using Doctrine.
      *
      * @throws \Doctrine\DBAL\Exception
      */

@@ -18,12 +18,10 @@
 use PHPUnit\Framework\TestCase;
 use TelemProc\TelemetryValidator;
 
-require __DIR__ . "/../app/src/TelemetryValidator.php";
-
 final class TelemetryValidatorTest extends TestCase
 {
     /**
-     * Test case to ensure that when providing a message that contains illegal input, this is handled appropriately and safely.
+     * @test To ensure that when providing a message that contains illegal input, this is handled appropriately and safely.
      */
     public function testProvideIllegalMessage()
     {
@@ -72,7 +70,7 @@ final class TelemetryValidatorTest extends TestCase
     }
 
     /**
-     * Test case to identify validation of a correctly-formatted MSISDN value.
+     * @test To identify validation of a correctly-formatted MSISDN value.
      */
     public function testMSISDNValidationIsCorrect()
     {
@@ -94,8 +92,10 @@ final class TelemetryValidatorTest extends TestCase
             $telemetry_validator->validateTelemetryData($test_message)[0]['MSDN']
         );
 
+    }
+
     /**
-     * Test case to identify validation of an incorrectly-formatted MSISDN value.
+     * @test To identify validation of an incorrectly-formatted MSISDN value.
      */
     public function testMSISDNValidationFailsCorrectly()
     {
@@ -116,28 +116,7 @@ final class TelemetryValidatorTest extends TestCase
     }
 
     /**
-     * Test case to identify validation of an incorrectly-formatted MSISDN value.
-     */
-    public function testMSISDNValidationFailsCorrectly()
-    {
-        $telemetry_validator = new TelemetryValidator();
-
-        /* Message containing the value to test. */
-        $test_message = array(
-            0 => array (
-                'Content' => array(
-                    'MSDN' => '+4400000000', /* Truncated. Expected: +44[0-9]{10} */
-                )
-            )
-        );
-
-        $this->assertEmpty(
-            $telemetry_validator->validateTelemetryData($test_message)[0]['MSDN']
-        );
-    }
-
-    /**
-     * Test case to identify validation of correctly-formatted switches.
+     * @test To identify validation of correctly-formatted switches.
      */
     public function testSwitchesValidationIsCorrect()
     {
@@ -171,7 +150,7 @@ final class TelemetryValidatorTest extends TestCase
     }
 
     /**
-     * Test case to identify validation of incorrectly-formatted switches.
+     * @test To identify validation of incorrectly-formatted switches.
      */
     public function testSwitchesValidationFailsCorrectly()
     {
@@ -205,7 +184,7 @@ final class TelemetryValidatorTest extends TestCase
     }
 
     /**
-     * Test case to identify validation of a correctly-formatted fan state value.
+     * @test To identify validation of a correctly-formatted fan state value.
      */
     public function testFanStateValidationIsCorrect()
     {
@@ -232,7 +211,7 @@ final class TelemetryValidatorTest extends TestCase
     }
 
     /**
-     * Test case to identify validation of an incorrectly-formatted fan state value.
+     * @test To identify validation of an incorrectly-formatted fan state value.
      */
     public function testFanStateValidationFailsCorrectly()
     {
@@ -257,7 +236,7 @@ final class TelemetryValidatorTest extends TestCase
     }
 
     /**
-     * Test case to identify validation of correctly-formatted temperature value.
+     * @test To identify validation of correctly-formatted temperature value.
      */
     public function testTemperatureValidationIsCorrect()
     {
@@ -281,7 +260,7 @@ final class TelemetryValidatorTest extends TestCase
     }
 
     /**
-     * Test case to identify validation of an incorrectly-formatted temperature value.
+     * @test To identify validation of an incorrectly-formatted temperature value.
      */
     public function testTemperatureValidationFailsCorrectly()
     {
@@ -305,7 +284,7 @@ final class TelemetryValidatorTest extends TestCase
     }
 
     /**
-     * Test case to identify validation of a correctly-formatted keypad value.
+     * @test To identify validation of a correctly-formatted keypad value.
      */
     public function testKeyPadValidationIsCorrect()
     {
@@ -330,7 +309,7 @@ final class TelemetryValidatorTest extends TestCase
     }
 
     /**
-     * Test case to identify validation of an incorrectly-formatted keypad value.
+     * @test To identify validation of an incorrectly-formatted keypad value.
      */
     public function testKeyPadValidationFailsCorrectly()
     {
@@ -351,6 +330,5 @@ final class TelemetryValidatorTest extends TestCase
             $expected_value,
             $telemetry_validator->validateTelemetryData($test_message)[0]['KP']
         );
-
     }
 }

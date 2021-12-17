@@ -18,12 +18,10 @@
 use PHPUnit\Framework\TestCase;
 use TelemProc\TelemetryParser;
 
-require __DIR__ . "/../app/src/TelemetryParser.php";
-
 final class TelemetryParserTest extends TestCase
 {
     /**
-     * Test case to ensure that in a collection of non-group specific messages, that a group-specific message can be extracted correctly.
+     * @test To ensure that in a collection of non-group specific messages, that a group-specific message can be extracted correctly.
      */
     public function testReturnsGroupXML() {
         $telemetry_parser = new TelemetryParser();
@@ -65,7 +63,7 @@ final class TelemetryParserTest extends TestCase
     }
 
     /**
-     * Test case to identify if no provided XML messages meet the criteria to be classified as a group-specific message, nothing is returned (that is, empty result).
+     * @test To identify if no provided XML messages meet the criteria to be classified as a group-specific message, nothing is returned (that is, empty result).
      */
     public function testReturnsNoGroupXML()
     {
