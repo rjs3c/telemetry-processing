@@ -91,7 +91,6 @@ Application Constants:
 * **APP_TITLE** : `Telemetry Processing`
 * **CACHE_PATH** : `/cache` directory
 * **CSS_PATH** : CSS directory and file
-*remember to change the following setting*:
 ```php
 /* in includes/telemetry_processing/app/settings.php */
 $css_file_name = ''; // CSS file name needed here.
