@@ -7,7 +7,7 @@ Telemetry Data Processing using PHP and EE's M2M SOAP Service.
 * @MoAziz123
 * @JamesB38
 * @rjs3c
-## Important Configuration#
+## Important Configuration
 Telemetry Processing Directory Structure:
 ```markdown
 ├── includes
@@ -16,10 +16,11 @@ Telemetry Processing Directory Structure:
 │   │   ├── tests
 │   │   ├── bootstrap.php
 ├── php_public
-│   ├── css
-│   ├── media
-│   ├── .htaccess
-│   ├── index.php
+│   ├── telemetry_processing (originally telemetry_processing_public)
+│   │   ├── css
+│   │   ├── media
+│   │   ├── .htaccess
+│   │   ├── index.php
 ```
 In composer.json:
 ```json
