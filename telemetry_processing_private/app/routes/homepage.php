@@ -30,19 +30,3 @@ $app->get('/', function(Request $request, Response $response) use ($app)
         )
     );
 })->setName('homepage');
-
-/**
- * Compresses html output using GZIP.
- *
- * @param $app
- * @param string $html_output
- * @return mixed
- */
-function gzipCompress($app, string $html_output) : string
-{
-    $gzip_wrapper = $app->getContainer()->get('gzipWrapper');
-    $gzip_wrapper->setHtmlOutput($html_output);
-    $gzip_wrapper->gzipCompress();
-
-    return $gzip_wrapper->getCompressionOutput();
-}
