@@ -34,19 +34,19 @@ return array(
         /* TWIG Settings. */
         'telemetryView' => array(
             'twig_attributes' => array(
-                'cache' => false,
+                'cache' => CACHE_PATH . 'twig/',
                 'auto_reload' => true,
             )
         ),
         /* Doctrine Settings. */
-        'doctrine_settings' => array( # Change these to your own DB settings!
+        'doctrineSettings' => array( # Enter your own DB details!
             'driver' => '',
             'host' => '',
             'dbname' => '',
             'port' => '',
             'user' => '',
             'password' => '',
-            'charset' => 'utf8'
+            'charset' => ''
         ),
         /* SOAP Settings. */
         'soapSettings' => array(
@@ -64,4 +64,7 @@ return array(
 ```
 To access these settings in SLIM:
 ```php
-$app->ge
+$app->getContainer()->get('telemetrySettings')['telemetryView']
+$app->getContainer()->get('telemetrySettings')['doctrineSettings']
+$app->getContainer()->get('telemetrySettings')['soapSettings']
+```
