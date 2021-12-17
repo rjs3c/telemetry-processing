@@ -34,11 +34,11 @@ This must be configured as follows:
  "require": {
         "nochso/html-compress-twig": "*"
 ```
-* NB. html-compress-twig is **required**, otherwise SLIM routes will not work.
-* Further details on how to use html-compress-twig can be found [here](https://github.com/nochso/html-compress-twig)
 ```bash
 $ composer update
 ```
+* NB. html-compress-twig is **required**, otherwise SLIM routes will not work.
+* Further details on how to use html-compress-twig can be found [here](https://github.com/nochso/html-compress-twig)
 ### settings.php
 In `includes/telemetry-processing/app/settings.php`:
 ```php
