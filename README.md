@@ -8,7 +8,7 @@ Telemetry Data Processing using PHP and EE's M2M SOAP Service.
 * @JamesB38
 * @rjs3c
 ## Important Configuration (Must Read!)
-Directory structure:
+### Directory structure
 ```markdown
 ├── includes
 │   ├── telemetry_processing (NB. originally telemetry_processing_private)
@@ -22,7 +22,7 @@ Directory structure:
 │   │   ├── .htaccess
 │   │   ├── index.php
 ```
-In composer.json:
+### composer.json
 ```json
 "autoload": {
         "psr-4": {
@@ -38,6 +38,7 @@ In composer.json:
 ```bash
 $ composer update
 ```
+### settings.php
 In telemetry-processing_private/app/settings.php:
 ```php
 return array(
@@ -83,6 +84,7 @@ $app->getContainer()->get('telemetrySettings')['telemetryView'];
 $app->getContainer()->get('telemetrySettings')['doctrineSettings'];
 $app->getContainer()->get('telemetrySettings')['soapSettings'];
 ```
+### Misc. 
 Application Constants:
 * **APP_PATH** : `/app` directory
 * **APP_TITLE** : `Telemetry Processing`
