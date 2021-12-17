@@ -39,7 +39,7 @@ Telemetry Data Processing using PHP and EE's M2M SOAP Service.
 $ composer update
 ```
 ### settings.php
-In telemetry-processing_private/app/settings.php:
+In `telemetry-processing_private/app/settings.php`:
 ```php
 return array(
     'telemetrySettings' => array(
@@ -78,7 +78,7 @@ return array(
     )
 );
 ```
-To access these settings in SLIM:
+To access these settings using SLIM's DIC:
 ```php
 $app->getContainer()->get('telemetrySettings')['telemetryView'];
 $app->getContainer()->get('telemetrySettings')['doctrineSettings'];
