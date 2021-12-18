@@ -32,6 +32,15 @@ This must be configured as follows:
 ```
 ```json
  "require": {
+        "slim/slim": "^3.12",
+        "slim/psr7": "^1.1",
+        "slim/twig-view": "^2.4",
+        "monolog/monolog": "^2",
+        "doctrine/orm": "^2.6",
+        "ext-sodium": "*",
+        "ext-json": "*",
+        "ext-simplexml": "*",
+        "ext-libxml": "*",
         "nochso/html-compress-twig": "*"
 ```
 ```bash
