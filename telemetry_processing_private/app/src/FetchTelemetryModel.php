@@ -148,7 +148,7 @@ class FetchTelemetryModel
             $this->soap_handle->setSoapLogger($this->logger_handle);
         }
 
-        if ($this->soap_handle->createSoapHandle() !== false) {
+        if ($this->soap_handle->createSoapHandle() !== null) {
             $peek_messages_args = array(
                 $this->soap_settings['ee_m2m_username'],
                 $this->soap_settings['ee_m2m_password'],

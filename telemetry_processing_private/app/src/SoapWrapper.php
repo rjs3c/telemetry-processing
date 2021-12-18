@@ -78,7 +78,7 @@ class SoapWrapper
     public function createSoapHandle()
     {
         try {
-            $soap_handle = false;
+            $soap_handle = null;
             $soap_settings = $this->soap_settings;
 
             $soap_handle = new \SoapClient($soap_settings['wsdl'], $soap_settings['soap_attributes']);
@@ -103,7 +103,7 @@ class SoapWrapper
     public function callSoapFunction(string $function_name, ?array $function_params = null)
     {
         try {
-            $soap_result = false;
+            $soap_result = null;
 
             if ($this->soap_client) {
                 $soap_result = $this->soap_client->__soapCall($function_name, $function_params);
@@ -117,6 +117,5 @@ class SoapWrapper
         } finally {
             return $soap_result;
         }
-
     }
 }
