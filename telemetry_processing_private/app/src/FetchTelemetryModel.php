@@ -159,8 +159,9 @@ class FetchTelemetryModel
 
             $soap_data = $this->soap_handle->callSoapFunction('peekMessages', $peek_messages_args);
 
-            $soap_result = $this->parseTelemetryData($soap_data);
-
+            if ($soap_data !== null) {
+                $soap_result = $this->parseTelemetryData($soap_data);
+            }
         }
 
         $this->soap_result = $soap_result;
