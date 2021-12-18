@@ -67,6 +67,6 @@ return array(
             'user' => 'telemetry_user',
             'password' => 'telemetry_user_pass',
             'charset' => 'utf8'
-        ))
+        )
     )
 );
