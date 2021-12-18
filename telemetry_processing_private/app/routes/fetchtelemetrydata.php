@@ -21,10 +21,10 @@ $app->get('/fetchtelemetrydata', function(Request $request, Response $response) 
     $tainted_telemetry_data = retrieveTelemetryData($app);
     $cleaned_telemetry_data = validateRetrievedTelemetryData($app, $tainted_telemetry_data);
 
-    sendTelemetryMessageReceipt($app, $cleaned_telemetry_data);
     $store_result = storeRetrievedTelemetryData($app, $cleaned_telemetry_data);
 
     if ($store_result !== false) {
+        sendTelemetryMessageReceipt($app, $cleaned_telemetry_data);
         $result_message = '[+] Telemetry Data Retrieved and Stored Successfully.';
     } else {
         $result_message = '[!] Oops, something went wrong. Please try again later.';
