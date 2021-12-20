@@ -31,14 +31,12 @@ class TelemetryValidator
     {
         $sanitised_telemetry_data = array();
 
-        foreach($tainted_telemetry_data as $telemetry_message) {
+        foreach ($tainted_telemetry_data as $telemetry_message) {
             $filtered_telemetry_data = array();
 
-            foreach($telemetry_message as $element => $element_data) {
-
-                foreach($element_data as $element_key => $element_value) {
-
-                    switch($element_key) {
+            if (isset($telemetry_message['Content'])) {
+                foreach ($telemetry_message['Content'] as $element_key => $element_value) {
+                    switch ($element_key) {
                         case 'GID':
                             $filtered_telemetry_data[$element_key] = $this->validateString($element_value);
                             break;
@@ -61,8 +59,8 @@ class TelemetryValidator
                             break;
                     }
                 }
+                array_push($sanitised_telemetry_data, $filtered_telemetry_data);
             }
-            array_push($sanitised_telemetry_data, $filtered_telemetry_data);
         }
 
         return $sanitised_telemetry_data;
@@ -79,12 +77,12 @@ class TelemetryValidator
     {
         $sanitised_telemetry_data = array();
 
-        foreach($tainted_telemetry_data as $telemetry_message) {
+        foreach ($tainted_telemetry_data as $telemetry_message) {
             $filtered_telemetry_data = array();
 
-            foreach($telemetry_message as $element_key => $element_value) {
+            foreach ($telemetry_message as $element_key => $element_value) {
 
-                switch($element_key) {
+                switch ($element_key) {
                     case 'sender_number':
                         $filtered_telemetry_data[$element_key] = $this->validateSenderMSISDN($element_value);
                         break;
@@ -112,7 +110,6 @@ class TelemetryValidator
             }
             array_push($sanitised_telemetry_data, $filtered_telemetry_data);
         }
-
         return $sanitised_telemetry_data;
     }
 
@@ -167,7 +164,11 @@ class TelemetryValidator
         );
 
         if (!empty($tainted_msisdn)) {
-            $cleaned_msisdn = filter_var($tainted_msisdn, FILTER_VALIDATE_REGEXP, $msisdn_validation_options);
+            $cleaned_msisdn = filter_var(
+                $tainted_msisdn,
+                FILTER_VALIDATE_REGEXP,
+                $msisdn_validation_options
+            );
         }
 
         return $cleaned_msisdn;
@@ -207,7 +208,8 @@ class TelemetryValidator
             )
         );
 
-        if (!empty($tainted_switches) && empty(array_diff_key($tainted_switches, $switches_filter_args))) {
+        if (!empty($tainted_switches)
+            && empty(array_diff_key($tainted_switches, $switches_filter_args))) {
             $cleaned_switches = filter_var_array($tainted_switches, $switches_filter_args);
         }
 
