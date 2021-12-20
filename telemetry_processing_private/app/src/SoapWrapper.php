@@ -105,7 +105,7 @@ class SoapWrapper
         try {
             $soap_result = null;
 
-            if ($this->soap_client) {
+            if ($this->soap_client !== null) {
                 $soap_result = $this->soap_client->__soapCall($function_name, $function_params);
             } else {
                 throw new \SoapFault('Soap handle is not set');
