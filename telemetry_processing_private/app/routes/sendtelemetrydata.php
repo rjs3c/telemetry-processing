@@ -21,7 +21,7 @@ $app->get('/sendtelemetrydata', function(Request $request, Response $response) u
     $tainted_telemetry_data = retrieveStoredTelemetryData($app);
     $cleaned_telemetry_data = validateTelemetryData($app, $tainted_telemetry_data);
 
-    $circuit_board_status = sendDataToCircuitBoard($cleaned_telemetry_data[0]);
+    $circuit_board_status = sendDataToCircuitBoard($cleaned_telemetry_data);
 
     return $this->telemetryView->render($response,
         'sendtelemetrydataresult.html.twig',
@@ -43,20 +43,22 @@ $app->get('/sendtelemetrydata', function(Request $request, Response $response) u
  */
 function sendDataToCircuitBoard(array $cleaned_telemetry_data) : string
 {
-    $switches = array(
-        'switch_one' => $cleaned_telemetry_data['switch_one'],
-        'switch_two' => $cleaned_telemetry_data['switch_two'],
-        'switch_three' => $cleaned_telemetry_data['switch_three'],
-        'switch_four' => $cleaned_telemetry_data['switch_four']
-    );
-    $fan = $cleaned_telemetry_data['fan'];
-    $temperature = $cleaned_telemetry_data['temperature'];
-    $keypad = $cleaned_telemetry_data['keypad'];
+    if (!empty($cleaned_telemetry_data)) {
+        $switches = array(
+            'switch_one' => $cleaned_telemetry_data[0]['switch_one'],
+            'switch_two' => $cleaned_telemetry_data[0]['switch_two'],
+            'switch_three' => $cleaned_telemetry_data[0]['switch_three'],
+            'switch_four' => $cleaned_telemetry_data[0]['switch_four']
+        );
+        $fan = $cleaned_telemetry_data[0]['fan'];
+        $temperature = $cleaned_telemetry_data[0]['temperature'];
+        $keypad = $cleaned_telemetry_data[0]['keypad'];
 
-    CircuitBoard::setSwitches($switches);
-    CircuitBoard::setFanState($fan);
-    CircuitBoard::setTemperature($temperature);
-    CircuitBoard::setKeypadNumber($keypad);
+        CircuitBoard::setSwitches($switches);
+        CircuitBoard::setFanState($fan);
+        CircuitBoard::setTemperature($temperature);
+        CircuitBoard::setKeypadNumber($keypad);
+    }
 
     return CircuitBoard::getStatusMessage();
 }
