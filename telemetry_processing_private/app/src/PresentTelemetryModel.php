@@ -15,7 +15,7 @@ namespace TelemProc;
 
 use Doctrine\DBAL\DriverManager;
 
-class PresentTelemetryModel
+class PresentTelemetryModel implements \TelemProc\TelemetryModelInterface
 {
     /** @var resource $doctrine_handle Contains handle to <Doctrine>. */
     private $doctrine_handle;

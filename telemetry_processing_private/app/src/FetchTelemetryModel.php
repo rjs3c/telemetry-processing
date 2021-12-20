@@ -15,7 +15,7 @@ namespace TelemProc;
 
 use Doctrine\DBAL\DriverManager;
 
-class FetchTelemetryModel
+class FetchTelemetryModel implements \TelemProc\TelemetryModelInterface
 {
     /** @var resource $doctrine_handle Contains handle to <Doctrine>. */
     private $doctrine_handle;
@@ -76,6 +76,16 @@ class FetchTelemetryModel
     }
 
     /**
+     * Sets handle to <Monolog> logger.
+     *
+     * @param $telemetry_logger
+     */
+    public function setLoggerHandle($telemetry_logger) : void
+    {
+        $this->logger_handle = $telemetry_logger;
+    }
+
+    /**
      * Sets handle to <TelemetryParser>.
      *
      * @param $parser_handle
@@ -103,16 +113,6 @@ class FetchTelemetryModel
     public function setSoapSettings(array $soap_settings) : void
     {
         $this->soap_settings = $soap_settings;
-    }
-
-    /**
-     * Sets handle to <Monolog> logger.
-     *
-     * @param $telemetry_logger
-     */
-    public function setLoggerHandle($telemetry_logger) : void
-    {
-        $this->logger_handle = $telemetry_logger;
     }
 
     /**
