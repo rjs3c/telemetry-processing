@@ -25,6 +25,7 @@ $app->get('/', function(Request $request, Response $response) use ($app)
             'heading_1' => APP_TITLE,
             'fetch_telem_action' => 'fetchtelemetrydata',
             'present_telem_action' => 'presenttelemetrydata',
+            'send_telem_action' => 'sendtelemetrydata',
             'login_action' => 'loginform',
             'register_action' => 'register'
         )
