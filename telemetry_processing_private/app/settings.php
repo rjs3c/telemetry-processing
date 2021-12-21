@@ -23,7 +23,7 @@ ini_set('xdebug.trace_format', '1');
 $app_path = '/app/';
 $app_title = 'Telemetry Processing';
 $cache_path = __DIR__ . '/cache/';
-$css_file_name = ''; // CSS file name needed here.
+$css_file_name = 'styles.css';
 $css_path = dirname($_SERVER['SCRIPT_NAME']) . '/css/' . $css_file_name;
 $template_path = __DIR__ . '/templates/';
 $log_path = '/p3t/phpappfolder/logs/';
