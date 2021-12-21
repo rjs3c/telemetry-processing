@@ -1,15 +1,17 @@
 {% extends 'boilerplate.html.twig' %}
-{% htmlcompress %}
+{#{% htmlcompress %}#}
     {% block content %}
-        <h3>{{ heading_1 }}</h3>
-        <p>Group 21-3110-AF</p>
+        <div class="homepage content">
+            <h1 class="heading">{{ heading_1 }}</h1>
+            <p>Group 21-3110-AF</p>
+            <div class="content-wrapper homepage-wrapper">
+                <div class="homepage-links">
+                    <div class="homepage-link"><a href="{{ links.fetch_telemetry }}">Fetch and Store Telemetry Data</a></div>
+                    <div class="homepage-link"><a href="{{ links.present_telemetry }}">Show Stored Telemetry Data</a> </div>
+                </div>
+            </div>
 
-        <p><a href="{{ fetch_telem_action }}">Fetch and Store Telemetry Data</a></p>
-        <p><a href="{{ present_telem_action }}">Show Stored Telemetry Data</a></p>
-        <p><a href="{{ send_telem_action }}">See Status of Circuit Board</a></p>
+        </div>
 
-        <p><a href="{{ landing_page }}">Home</a></p>
-        <p><a href="{{ login_action }}">Login</a></p>
-        <p><a href="{{ register_action }}">Register</a></p>
     {% endblock %}
-{% endhtmlcompress %}
+{#{% endhtmlcompress %}#}
