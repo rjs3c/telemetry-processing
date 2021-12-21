@@ -102,7 +102,7 @@ Application Constants:
 * **CSS_PATH** : CSS directory and file
 ```php
 /* in includes/telemetry_processing/app/settings.php */
-$css_file_name = ''; // CSS file name needed here.
+$css_file_name = 'styles.css';
 ```
 * **TEMPLATE_PATH** : `telemetry_processing/app/templates` directory
 * **LOG_PATH** : `includes/logs` directory 
