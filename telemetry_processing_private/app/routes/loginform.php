@@ -23,7 +23,14 @@ $app->get('/loginform', function (Request $request, Response $response) use ($ap
             'css_file' => CSS_PATH,
             'landing_page' => 'index.php',
             'heading_1' => 'User Login',
-            'login_action' => 'login'
+            'login_action' => '/loginforn',
+            'links'=> array(
+                'register' => 'registerform',
+                'login' => 'loginform',
+                'homepage' => 'index.php',
+                'present_telemetry'=> 'presenttelemetrydata',
+                'fetch_telemetry'=> 'fetchtelemetrydata'
+            )
         )
     );
 })->setName('loginform');

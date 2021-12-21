@@ -23,7 +23,14 @@ $app->get('/registerform', function (Request $request, Response $response) use (
             'css_file' => CSS_PATH,
             'landing_page' => 'index.php',
             'heading_1' => 'User Register',
-            'login_action' => 'register'
+            'register_action' => 'registerform',
+            'links'=> array(
+                'register' => 'registerform',
+                'login' => 'loginform',
+                'homepage' => 'index.php',
+                'present_telemetry'=> 'presenttelemetrydata',
+                'fetch_telemetry'=> 'fetchtelemetrydata'
+            )
         )
     );
 })->setName('registerform');

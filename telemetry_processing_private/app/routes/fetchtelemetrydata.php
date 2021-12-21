@@ -39,6 +39,13 @@ $app->get('/fetchtelemetrydata', function(Request $request, Response $response) 
             'heading_1' => 'Telemetry Fetch Result',
             'result_message' => $result_message,
             'present_telem_action' => 'presenttelemetrydata',
+            'links'=> array(
+                'register' => 'registerform',
+                'login' => 'loginform',
+                'homepage' => 'index.php',
+                'present_telemetry'=> 'presenttelemetrydata',
+                'fetch_telemetry'=> 'fetchtelemetrydata'
+            )
         )
     );
 })->setName('fetchtelemetrydata');

@@ -23,11 +23,13 @@ $app->get('/', function(Request $request, Response $response) use ($app)
             'css_file' => CSS_PATH,
             'landing_page' => __FILE__,
             'heading_1' => APP_TITLE,
-            'fetch_telem_action' => 'fetchtelemetrydata',
-            'present_telem_action' => 'presenttelemetrydata',
-            'send_telem_action' => 'sendtelemetrydata',
-            'login_action' => 'loginform',
-            'register_action' => 'register'
+            'links'=> array(
+                'register' => 'registerform',
+                'login' => 'loginform',
+                'homepage' => '#',
+                'present_telemetry'=> 'presenttelemetrydata',
+                'fetch_telemetry'=> 'fetchtelemetrydata'
+            )
         )
     );
 })->setName('homepage');

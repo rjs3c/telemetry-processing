@@ -23,7 +23,15 @@ $app->get('/presenttelemetrydata', function(Request $request, Response $response
         'presenttelemetrydata.html.twig',
         array(
             'page_title' => APP_TITLE,
-            'heading_1' => 'Present Telemetry Data'
+            'css_file' => CSS_PATH,
+            'heading_1' => 'Present Telemetry Data',
+            'links'=> array(
+                'register' => 'registerform',
+                'login' => 'loginform',
+                'homepage' => 'index.php',
+                'present_telemetry'=> 'presenttelemetrydata',
+                'fetch_telemetry'=> 'fetchtelemetrydata'
+            )
         )
     );
 })->setName('presenttelemetrydata');
