@@ -216,4 +216,110 @@ class DoctrineWrapper
             $this->query_result = $retrieve_result;
         }
     }
+
+    /**
+     * Uses <Doctrine> to fetch the password of the given username
+     *
+     * @param $username
+     */
+    public function fetchUserPassword($username) : void
+    {
+        $password = null;
+
+        try {
+
+            $query_builder = $this->query_builder
+                ->select('u.password')
+                ->from('telemetry_users', 'u')
+                ->where('u.username = :username')
+                ->setParameters(array(
+                    'username' => $username,
+                ));
+
+            $query = $query_builder->execute();
+            $password = $query->fetchAll();
+
+        }catch (\Exception $exception) {
+            if ($this->doctrine_logger !== null) {
+                $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
+            }
+        }finally{
+            $this->query_result = $password;
+        }
+
+    }
+
+    /**
+     * Uses <Doctrine> to store new user details
+     *
+     * @param $username
+     * @param $password
+     */
+    public function storeUserDetails($username, $password) : void
+    {
+
+        $store_result = false;
+
+        try{
+            $query_builder = $this->query_builder
+                ->insert('telemetry_users')
+                ->values(array(
+                    'username' => ':username',
+                    'password' => ':password'
+                ))
+                ->setParameters(array(
+                    'username' => $username,
+                    'password' => $password
+                ));
+
+            $store_result = $query_builder->execute();
+
+            if($store_result == 1)
+            {
+                $store_result = true;
+            }else
+            {
+                $store_result = false;
+            }
+        }catch(\Exception $exception) {
+            if ($this->doctrine_logger !== null) {
+                $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
+            }
+        } finally {
+            $this->query_result = $store_result;
+        }
+    }
+
+    /**
+     * Uses <Doctrine> to check if a given username is available when registering.
+     *
+     * @param $username
+     */
+    public function checkIfUsernameAvailable($username) : void
+    {
+        $isAvailable = false;
+
+        try {
+            $query_builder = $this->query_builder
+                ->select('u.*')
+                ->from('telemetry_users', 'u')
+                ->where('u.username = :username')
+                ->setParameters(array(
+                    'username' => $username,
+                ));
+
+            $query = $query_builder->execute();
+            $result = $query->fetchAll();
+
+            if (empty($result)) {//if empty then username is available
+                $isAvailable = true;
+            }
+        }catch(\Exception $exception) {
+            if ($this->doctrine_logger !== null) {
+                $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
+            }
+        } finally {
+            $this->query_result = $isAvailable;
+        }
+    }
 }
