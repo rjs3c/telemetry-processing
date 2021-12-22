@@ -43,10 +43,11 @@ class RegisterModelTest extends TestCase
 
         $register_model = new RegisterModel();
         $register_model->setDoctrineWrapper($doctrine_wrapper);
-        $register_model->setBCryptWrapper($bcrypt_wrapper);
+        $register_model->setBcryptWrapper($bcrypt_wrapper);
         $register_model->setRegisterCredentials($cleaned_parameters);
 
-        $register_result = $register_model->register();
+        $register_model->register();
+        $register_result = $register_model->getRegisterResult();
 
         $this->assertTrue(
             $register_result

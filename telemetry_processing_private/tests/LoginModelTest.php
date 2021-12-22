@@ -40,10 +40,11 @@ class LoginModelTest extends TestCase
 
         $login_model = new LoginModel();
         $login_model->setDoctrineWrapper($doctrine_wrapper);
-        $login_model->setBCryptWrapper($bcrypt_wrapper);
+        $login_model->setBcryptWrapper($bcrypt_wrapper);
         $login_model->setLoginCredentials($cleaned_parameters);
 
-        $login_result = $login_model->login();
+        $login_model->login();
+        $login_result = $login_model->getLoginResult();
 
         $this->assertTrue($login_result);
 
@@ -70,10 +71,11 @@ class LoginModelTest extends TestCase
 
         $login_model = new LoginModel();
         $login_model->setDoctrineWrapper($doctrine_wrapper);
-        $login_model->setBCryptWrapper($bcrypt_wrapper);
+        $login_model->setBcryptWrapper($bcrypt_wrapper);
         $login_model->setLoginCredentials($cleaned_parameters);
 
-        $login_result = $login_model->login();
+        $login_model->login();
+        $login_result = $login_model->getLoginResult();
 
         $this->assertFalse($login_result);
 
