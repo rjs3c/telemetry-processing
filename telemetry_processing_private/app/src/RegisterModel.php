@@ -58,27 +58,27 @@ class RegisterModel
      */
     public function register() : bool
     {
+        $register_result = false;
 
         //Check if account with username already exists
         $username = $this->register_credentials['username'];
-        $this->doctrine_wrapper->checkIfUsernameAvailable($username);
-        $isAvailable = $this->doctrine_wrapper->getQueryResult();
+        if(!empty($username)) {
+            $this->doctrine_wrapper->checkIfUsernameAvailable($username);
+            $isAvailable = $this->doctrine_wrapper->getQueryResult();
 
-        //Hash password
-        if($isAvailable)
-        {
-            fwrite(STDERR, print_r('is available', TRUE));
-            $password = $this->register_credentials['password'];
-            $hashed_password = $this->bcrypt_wrapper->createHashedPassword($password);
+            //Hash password
+            if ($isAvailable) {
+                fwrite(STDERR, print_r('is available', TRUE));
+                $password = $this->register_credentials['password'];
+                $hashed_password = $this->bcrypt_wrapper->createHashedPassword($password);
 
-            //Store new user details
-            $this->doctrine_wrapper->storeUserDetails($username, $hashed_password);
-            $register_result = $this->doctrine_wrapper->getQueryResult();
-        }else
-        {
-            $register_result = false;
+                //Store new user details
+                if(!empty($hashed_password)) { //if hash of password hasn't failed
+                    $this->doctrine_wrapper->storeUserDetails($username, $hashed_password);
+                    $register_result = $this->doctrine_wrapper->getQueryResult();
+                }
+            }
         }
-
         return $register_result;
     }
 

@@ -1,9 +1,7 @@
 <?php
 /**
- * Wrapper class for the PHP BCrypt library.  Takes the pain out of using the library.
- *
- * @author CF Ingrams <cfi@dmu.ac.uk>
- * @copyright De Montfort University
+ * Wrapper class for the PHP BCrypt library that creates a password hash or compares a un hashed
+ * password with a hashed password
  */
 
 namespace TelemProc;
@@ -11,35 +9,42 @@ namespace TelemProc;
 class BcryptWrapper
 {
 
-  public function __construct(){}
+    public function __construct(){}
 
-  public function __destruct(){}
+    public function __destruct(){}
 
-  public function createHashedPassword($string_to_hash)
-  {
-    $password_to_hash = $string_to_hash;
-    $bcrypt_hashed_password = '';
-
-    if (!empty($password_to_hash))
+    /**
+     * Creates a hash of a given password
+     *
+     * @param $password_to_hash
+     * @return false|string|null
+     */
+    public function createHashedPassword($password_to_hash)
     {
-      $options = array('cost' => BCRYPT_COST);
-      $bcrypt_hashed_password = password_hash($password_to_hash, BCRYPT_ALGO, $options);
-    }
-    return $bcrypt_hashed_password;
-  }
 
-  public function authenticatePassword($string_to_check, $stored_user_password_hash)
-  {
-    $user_authenticated = false;
-    $current_user_password = $string_to_check;
-    $stored_user_password_hash = $stored_user_password_hash;
-    if (!empty($current_user_password) && !empty($stored_user_password_hash))
-    {
-      if (password_verify($current_user_password, $stored_user_password_hash))
-      {
-        $user_authenticated = true;
-      }
+        $options = array('cost' => BCRYPT_COST);
+        $bcrypt_hashed_password = password_hash($password_to_hash, BCRYPT_ALGO, $options);
+
+        return $bcrypt_hashed_password;
     }
-    return $user_authenticated;
-  }
+
+    /**
+     * Compares a given un hashed password with a given hashed password. Returns true if they are the same and
+     * false otherwise
+     *
+     * @param $given_password
+     * @param $stored_password
+     * @return bool
+     */
+    public function authenticatePassword($given_password, $stored_password)
+    {
+        $user_authenticated = false;
+
+        if (password_verify($given_password, $stored_password))
+        {
+            $user_authenticated = true;
+        }
+
+        return $user_authenticated;
+    }
 }

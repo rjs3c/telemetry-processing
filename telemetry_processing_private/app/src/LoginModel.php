@@ -68,17 +68,18 @@ class LoginModel
 
         //fetch password for given username
         $username = $this->login_credentials['username'];
-        $this->doctrine_wrapper->fetchUserPassword($username);
-        $query_result = $this->doctrine_wrapper->getQueryResult();
+        if(!empty($username)) {
+            $this->doctrine_wrapper->fetchUserPassword($username);
+            $query_result = $this->doctrine_wrapper->getQueryResult();
 
-        if(!empty($query_result)) {
-            $fetched_password = $query_result[0]['password'];
+            if (!empty($query_result)) {
+                $fetched_password = $query_result[0]['password'];
 
-            //check if password is equal to given password
-            $given_password = $this->login_credentials['password'];
-            $authenticated = $this->bcrypt_wrapper->authenticatePassword($given_password, $fetched_password);
+                //check if password is equal to given password
+                $given_password = $this->login_credentials['password'];
+                $authenticated = $this->bcrypt_wrapper->authenticatePassword($given_password, $fetched_password);
+            }
         }
-
         return $authenticated;
     }
 
