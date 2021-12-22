@@ -17,6 +17,7 @@ class LoginModel
     private $doctrine_wrapper;
     private $bcrypt_wrapper;
     private $login_credentials;
+    private $login_result;
 
     public function __construct()
     {
@@ -57,14 +58,19 @@ class LoginModel
         $this->login_credentials = $login_credentials;
     }
 
+    public function getLoginResult() : bool
+    {
+        return $this->login_result;
+    }
+
     /**
      * Logs in a user. Returns true if logged in successfully and false otherwise.
      *
      * @return bool
      */
-    public function login() : bool
+    public function login() : void
     {
-        $authenticated = false;
+        $login_result = false;
 
         //fetch password for given username
         $username = $this->login_credentials['username'];
@@ -77,10 +83,10 @@ class LoginModel
 
                 //check if password is equal to given password
                 $given_password = $this->login_credentials['password'];
-                $authenticated = $this->bcrypt_wrapper->authenticatePassword($given_password, $fetched_password);
+                $login_result = $this->bcrypt_wrapper->authenticatePassword($given_password, $fetched_password);
             }
         }
-        return $authenticated;
+        $this->login_result = $login_result;
     }
 
 }
