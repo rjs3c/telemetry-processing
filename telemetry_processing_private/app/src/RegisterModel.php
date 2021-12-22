@@ -10,7 +10,6 @@ class RegisterModel
     private $doctrine_wrapper;
     private $bcrypt_wrapper;
     private $register_credentials;
-    private $register_result;
 
     public function __construct()
     {
@@ -51,18 +50,13 @@ class RegisterModel
         $this->register_credentials = $register_credentials;
     }
 
-    public function getRegisterResult() : bool
-    {
-        return $this->register_result;
-    }
-
     /**
      * Registers new users. Returns true if registered successfully and false if not.
      * Will not allow multiple accounts of the same username and will return false if attempted.
      *
      * @return bool
      */
-    public function register() : void
+    public function register() : bool
     {
         $register_result = false;
 
@@ -74,6 +68,7 @@ class RegisterModel
 
             //Hash password
             if ($isAvailable) {
+                fwrite(STDERR, print_r('is available', TRUE));
                 $password = $this->register_credentials['password'];
                 $hashed_password = $this->bcrypt_wrapper->createHashedPassword($password);
 
@@ -84,7 +79,7 @@ class RegisterModel
                 }
             }
         }
-        $this->register_result = $register_result;
+        return $register_result;
     }
 
 }
