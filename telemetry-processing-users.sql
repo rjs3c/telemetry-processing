@@ -1,7 +1,7 @@
 USE telemetry_db;
 DROP TABLE IF EXISTS `telemetry_users`;
 CREATE TABLE telemetry_users (
- `user_id` INT COLLATE utf8_unicode_ci NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ `id` INT COLLATE utf8_unicode_ci NOT NULL AUTO_INCREMENT PRIMARY KEY,
  `username` varchar(30)COLLATE utf8_unicode_ci NOT NULL,
  `password` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
  `user_created_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON
