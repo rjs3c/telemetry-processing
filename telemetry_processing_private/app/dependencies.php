@@ -112,6 +112,7 @@ $container['soapWrapper'] = function ()
     return new \TelemProc\SoapWrapper();
 };
 
+
 /**
  * AuthenticationValidator.
  */
@@ -121,7 +122,7 @@ $container['authenticationValidator'] = function()
 };
 
 /**
- * <Bcrypt> Functionality
+ * <Bcrypt> Functionality.
  */
 $container['bcryptWrapper'] = function()
 {
@@ -129,17 +130,25 @@ $container['bcryptWrapper'] = function()
 };
 
 /**
- * LoginModel
+ * LoginModel.
  */
 $container['loginModel'] = function()
 {
-    return new \TelemProc\LoginModel();
+    return new \TelemProc\UserLoginModel();
 };
 
 /**
- * RegisterModel
+ * RegisterModel.
  */
 $container['registerModel'] = function()
 {
-    return new \TelemProc\RegisterModel();
+    return new \TelemProc\UserRegisterModel();
+};
+
+/**
+ * SessionWrapper.
+ */
+$container['sessionWrapper'] = function ()
+{
+    return new \TelemProc\SessionWrapper();
 };
