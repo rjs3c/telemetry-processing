@@ -1,75 +1,48 @@
 <?php
 /**
- * BcryptWrapper.php
- *
- * Provides a wrapper for <Bcrypt> functionalities.
- *
- * @package telemetry_processing
- * @\TelemProc
- *
- * @author James Brass
- * @author Mo Aziz
- * @author Ryan Instrell
+ * Wrapper class for the PHP BCrypt library that creates a password hash or compares a un hashed
+ * password with a hashed password
  */
 
 namespace TelemProc;
 
 class BcryptWrapper
 {
-    /** @var array $bcrypt_settings Contains settings for <Bcrypt>. */
-    private array $bcrypt_settings;
 
-    public function __construct()
-    {
-        $this->bcrypt_settings = array();
-    }
+    public function __construct(){}
 
-    public function __destruct() {}
+    public function __destruct(){}
 
     /**
-     * Sets the settings (bcrypt algorithm and cost) for Bcrypt.
+     * Creates a hash of a given password
      *
-     * @param array $bcrypt_settings
-     */
-    public function setBcryptSettings(array $bcrypt_settings) : void
-    {
-        $this->bcrypt_settings = $bcrypt_settings;
-    }
-
-    /**
-     * Creates a hash of an entered password using password_hash.
-     *
-     * @param string $password_to_hash
+     * @param $password_to_hash
      * @return false|string|null
      */
-    public function hashPassword(string $password_to_hash)
+    public function createHashedPassword($password_to_hash)
     {
-        $hashed_password = '';
 
-        if (!empty($password_to_hash)
-            && !empty($this->bcrypt_settings)) {
-            $bcrypt_algorithm = $this->bcrypt_settings['bcrypt_alg'];
-            $options = $this->bcrypt_settings['options'];
-            $hashed_password = password_hash($password_to_hash, $bcrypt_algorithm, $options);
-        }
+        $options = array('cost' => BCRYPT_COST);
+        $bcrypt_hashed_password = password_hash($password_to_hash, BCRYPT_ALGO, $options);
 
-        return $hashed_password;
+        return $bcrypt_hashed_password;
     }
 
     /**
-     * Ensures a supplied and stored hash match.
+     * Compares a given un hashed password with a given hashed password. Returns true if they are the same and
+     * false otherwise
      *
-     * @param string $user_password
-     * @param string $stored_user_password
+     * @param $given_password
+     * @param $stored_password
      * @return bool
      */
-    public function verifyPassword(string $user_password, string $stored_user_password) : bool
+    public function authenticatePassword($given_password, $stored_password)
     {
         $user_authenticated = false;
 
-        if (!empty($user_password)
-            && !empty($stored_user_password)) {
-            $user_authenticated = password_verify($user_password, $stored_user_password);
+        if (password_verify($given_password, $stored_password))
+        {
+            $user_authenticated = true;
         }
 
         return $user_authenticated;
