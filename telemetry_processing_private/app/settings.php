@@ -36,10 +36,6 @@ define('CSS_PATH', $css_path);
 define('TEMPLATE_PATH', $template_path);
 define('LOG_PATH', $log_path);
 
-/** Constants for <Bcrypt> */
-define ('BCRYPT_ALGO', PASSWORD_DEFAULT);
-define ('BCRYPT_COST', 12);
-
 /** Settings for <Twig> (telemetryView), <PDO> (databaseSettings) and <SOAPClient> (soapSettings). **/
 return array(
     'telemetrySettings' => array(
