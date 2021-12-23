@@ -64,6 +64,13 @@ return array(
                 'auto_reload' => true,
             )
         ),
+       /* BCrypt Settings. */
+        'bcryptSettings' => array(
+            'bcrypt_alg' => PASSWORD_DEFAULT,
+            'options' => array(
+                'cost' => PASSWORD_BCRYPT_DEFAULT_COST
+            )
+        ),
         /* Doctrine Settings. */
         'doctrineSettings' => array( # Enter your own DB details!
             'driver' => '',
@@ -93,6 +100,7 @@ To access these settings using SLIM's DIC:
 $app->getContainer()->get('telemetrySettings')['telemetryView'];
 $app->getContainer()->get('telemetrySettings')['doctrineSettings'];
 $app->getContainer()->get('telemetrySettings')['soapSettings'];
+$app->getContainer()->get('telemetrySettings')['bcryptSettings'];
 ```
 ### Misc. 
 Application Constants:
