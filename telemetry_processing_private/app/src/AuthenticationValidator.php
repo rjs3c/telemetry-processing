@@ -21,29 +21,6 @@ class AuthenticationValidator
     public function __destruct() {}
 
     /**
-     * Sanitises and Validates user-entered Email.
-     *
-     * @param string $tainted_user_email
-     * @return string
-     */
-    public function validateUserEmail(string $tainted_user_email) : string
-    {
-        $cleaned_user_email = '';
-
-        if (!empty($tainted_user_email)) {
-            $cleaned_user_email = filter_var(
-                filter_var(
-                    $tainted_user_email,
-                    FILTER_SANITIZE_EMAIL
-                ),
-                FILTER_VALIDATE_EMAIL
-            );
-        }
-
-        return $cleaned_user_email;
-    }
-
-    /**
      * Sanitises Username.
      *
      * @param string $tainted_user_name
