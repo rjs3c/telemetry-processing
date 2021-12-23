@@ -23,10 +23,8 @@ require 'routes/presenttelemetrydata.php';
 /* Sends telemetry data back to the simulated circuit board */
 require 'routes/sendtelemetrydata.php';
 
-/* Application logic and form for users to login */
+/* Presenting the form for users to login */
 require 'routes/loginform.php';
-require 'routes/login.php';
 
-/* Application logic and form for users to register for an account */
+/* Presenting the form for users to register for an account */
 require 'routes/registerform.php';
-require 'routes/register.php';
