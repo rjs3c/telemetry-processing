@@ -1,48 +1,75 @@
 <?php
 /**
- * Wrapper class for the PHP BCrypt library that creates a password hash or compares a un hashed
- * password with a hashed password
+ * BcryptWrapper.php
+ *
+ * Provides a wrapper for <Bcrypt> functionalities.
+ *
+ * @package telemetry_processing
+ * @\TelemProc
+ *
+ * @author James Brass
+ * @author Mo Aziz
+ * @author Ryan Instrell
  */
 
 namespace TelemProc;
 
 class BcryptWrapper
 {
+    /** @var array $bcrypt_settings Contains settings for <Bcrypt>. */
+    private array $bcrypt_settings;
 
-    public function __construct(){}
+    public function __construct()
+    {
+        $this->bcrypt_settings = array();
+    }
 
-    public function __destruct(){}
+    public function __destruct() {}
 
     /**
-     * Creates a hash of a given password
+     * Sets the settings (bcrypt algorithm and cost) for Bcrypt.
      *
-     * @param $password_to_hash
-     * @return false|string|null
+     * @param array $bcrypt_settings
      */
-    public function createHashedPassword($password_to_hash)
+    public function setBcryptSettings(array $bcrypt_settings) : void
     {
-
-        $options = array('cost' => BCRYPT_COST);
-        $bcrypt_hashed_password = password_hash($password_to_hash, BCRYPT_ALGO, $options);
-
-        return $bcrypt_hashed_password;
+        $this->bcrypt_settings = $bcrypt_settings;
     }
 
     /**
-     * Compares a given un hashed password with a given hashed password. Returns true if they are the same and
-     * false otherwise
+     * Creates a hash of an entered password using password_hash.
      *
-     * @param $given_password
-     * @param $stored_password
+     * @param string $password_to_hash
+     * @return false|string|null
+     */
+    public function hashPassword(string $password_to_hash)
+    {
+        $hashed_password = '';
+
+        if (!empty($password_to_hash)
+            && !empty($this->bcrypt_settings)) {
+            $bcrypt_algorithm = $this->bcrypt_settings['bcrypt_alg'];
+            $options = $this->bcrypt_settings['options'];
+            $hashed_password = password_hash($password_to_hash, $bcrypt_algorithm, $options);
+        }
+
+        return $hashed_password;
+    }
+
+    /**
+     * Ensures a supplied and stored hash match.
+     *
+     * @param string $user_password
+     * @param string $stored_user_password
      * @return bool
      */
-    public function authenticatePassword($given_password, $stored_password)
+    public function verifyPassword(string $user_password, string $stored_user_password) : bool
     {
         $user_authenticated = false;
 
-        if (password_verify($given_password, $stored_password))
-        {
-            $user_authenticated = true;
+        if (!empty($user_password)
+            && !empty($stored_user_password)) {
+            $user_authenticated = password_verify($user_password, $stored_user_password);
         }
 
         return $user_authenticated;
