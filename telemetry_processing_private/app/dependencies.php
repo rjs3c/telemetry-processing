@@ -134,7 +134,7 @@ $container['bcryptWrapper'] = function()
  */
 $container['loginModel'] = function()
 {
-    return new \TelemProc\UserLoginModel();
+    return new \TelemProc\LoginModel();
 };
 
 /**
@@ -142,7 +142,7 @@ $container['loginModel'] = function()
  */
 $container['registerModel'] = function()
 {
-    return new \TelemProc\UserRegisterModel();
+    return new \TelemProc\RegisterModel();
 };
 
 /**
