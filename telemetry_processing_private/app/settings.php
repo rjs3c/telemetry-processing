@@ -53,6 +53,12 @@ return array(
                 'auto_reload' => true,
             )
         ),
+        'bcryptSettings' => array(
+            'bcrypt_alg' => PASSWORD_DEFAULT,
+            'options' => array(
+                'cost' => PASSWORD_BCRYPT_DEFAULT_COST
+            )
+        ),
         'soapSettings' => array(
             'ee_m2m_username' => '', # Enter your own details!
             'ee_m2m_password' => '', # Enter your own details!
