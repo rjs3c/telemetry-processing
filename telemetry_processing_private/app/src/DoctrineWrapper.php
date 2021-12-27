@@ -183,7 +183,7 @@ class DoctrineWrapper
             $duplicate_retrieval = $query_builder->execute();
 
             $duplication_result = !empty((bool)$duplicate_retrieval->fetchAll());
-        } catch(\Exception $exception) {
+        } catch (\Exception $exception) {
             if ($this->doctrine_logger !== null) {
                 $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
             }
@@ -227,7 +227,6 @@ class DoctrineWrapper
         $password = null;
 
         try {
-
             $query_builder = $this->query_builder
                 ->select('u.password')
                 ->from('telemetry_users', 'u')
@@ -239,11 +238,11 @@ class DoctrineWrapper
             $query = $query_builder->execute();
             $password = $query->fetchAll();
 
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             if ($this->doctrine_logger !== null) {
                 $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
             }
-        }finally{
+        } finally {
             $this->query_result = $password;
         }
 
@@ -257,7 +256,6 @@ class DoctrineWrapper
      */
     public function storeUserDetails($username, $password) : void
     {
-
         $store_result = false;
 
         try{
@@ -274,14 +272,12 @@ class DoctrineWrapper
 
             $store_result = $query_builder->execute();
 
-            if($store_result == 1)
-            {
+            if ($store_result == 1) {
                 $store_result = true;
-            }else
-            {
+            } else {
                 $store_result = false;
             }
-        }catch(\Exception $exception) {
+        } catch (\Exception $exception) {
             if ($this->doctrine_logger !== null) {
                 $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
             }
@@ -297,7 +293,7 @@ class DoctrineWrapper
      */
     public function checkIfUsernameAvailable($username) : void
     {
-        $isAvailable = false;
+        $is_available = false;
 
         try {
             $query_builder = $this->query_builder
@@ -311,15 +307,15 @@ class DoctrineWrapper
             $query = $query_builder->execute();
             $result = $query->fetchAll();
 
-            if (empty($result)) {//if empty then username is available
-                $isAvailable = true;
+            if (empty($result)) { // If empty, username is available
+                $is_available = true;
             }
-        }catch(\Exception $exception) {
+        } catch (\Exception $exception) {
             if ($this->doctrine_logger !== null) {
                 $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
             }
         } finally {
-            $this->query_result = $isAvailable;
+            $this->query_result = $is_available;
         }
     }
 }
