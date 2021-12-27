@@ -23,7 +23,7 @@ use TelemProc\LoginModel;
 
 class LoginModelTest extends TestCase
 {
-    /** @var array $settings Stores SOAP settings. */
+    /** @var array $settings Stores Doctrine settings. */
     private $settings;
 
     public function __construct($name = null, array $data = [], $dataName = '')
