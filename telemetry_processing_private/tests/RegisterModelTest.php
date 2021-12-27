@@ -1,5 +1,18 @@
-<?php
-
+<?php declare(strict_types=1);
+/**
+ * RegisterModelTest.php
+ *
+ * Tests the registration of a user.
+ * Tests:
+ * - Correct successful registration of a valid user.
+ *
+ * @package telemetry_processing
+ * @\TelemProc
+ *
+ * @author James Brass
+ * @author Mo Aziz
+ * @author Ryan Instrell
+ */
 
 use PHPUnit\Framework\TestCase;
 use Doctrine\DBAL\DriverManager;
@@ -9,7 +22,7 @@ use TelemProc\RegisterModel;
 
 class RegisterModelTest extends TestCase
 {
-
+    /** @var array $settings Stores Doctrine settings. */
     private $settings;
 
     public function __construct($name = null, array $data = [], $dataName = '')
@@ -19,11 +32,10 @@ class RegisterModelTest extends TestCase
     }
 
     /**
-     * Test RegisterModel. Expect to fail if run more than once.
+     * @test RegisterModel for correct registration. Expect to fail if run more than once.
      *
      * @throws \Doctrine\DBAL\Exception
      */
-
     public function testRegisterUser()
     {
         $cleaned_parameters = array(
