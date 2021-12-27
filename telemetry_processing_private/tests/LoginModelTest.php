@@ -1,5 +1,19 @@
-<?php
-
+<?php declare(strict_types=1);
+/**
+ * LoginModelTest.php
+ *
+ * Tests successful and unsuccessful authentication of a user.
+ * Tests:
+ * - Correct successful authentication of a valid user.
+ * - Correct unsuccessful authentication of a invalid user.
+ *
+ * @package telemetry_processing
+ * @\TelemProc
+ *
+ * @author James Brass
+ * @author Mo Aziz
+ * @author Ryan Instrell
+ */
 
 use PHPUnit\Framework\TestCase;
 use Doctrine\DBAL\DriverManager;
@@ -7,10 +21,9 @@ use TelemProc\DoctrineWrapper;
 use TelemProc\BcryptWrapper;
 use TelemProc\LoginModel;
 
-
 class LoginModelTest extends TestCase
 {
-
+    /** @var array $settings Stores SOAP settings. */
     private $settings;
 
     public function __construct($name = null, array $data = [], $dataName = '')
@@ -19,14 +32,14 @@ class LoginModelTest extends TestCase
         $this->settings = require('../app/settings.php');
     }
 
+    /**
+     * @test To identify if a registered user can be authenticated correctly.
+     */
     public function testLoginValidCredentials()
     {
-
         $cleaned_parameters = array(
-
             'username' => 'testUsername',
             'password' => 'testPassword'
-
         );
 
         //doctrine wrapper setup
@@ -50,14 +63,14 @@ class LoginModelTest extends TestCase
 
     }
 
+    /**
+     * @test To identify that an invalid/unregistred user cannot be authenticated.
+     */
     public function testLoginInvalidCredentials()
     {
-
         $cleaned_parameters = array(
-
             'username' => 'invalidUsername',
             'password' => 'invalidPassword'
-
         );
 
         //doctrine wrapper setup
@@ -78,7 +91,5 @@ class LoginModelTest extends TestCase
         $login_result = $login_model->getLoginResult();
 
         $this->assertFalse($login_result);
-
     }
-
 }
