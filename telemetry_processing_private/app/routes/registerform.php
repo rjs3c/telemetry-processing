@@ -1,6 +1,6 @@
 <?php
 /**
- * register.php
+ * registerform.php
  *
  * Displays the form necessary for users to register their information.
  *
@@ -62,33 +62,23 @@ $app->post('/registerform', function (Request $request, Response $response) use 
     $register_model->register();
     $register_result = $register_model->getRegisterResult();
 
-
-    if($register_result) {
-        return $response->withRedirect('/telemetry_processing/', 301);
-    }else{
-        return $this->telemetryView->render($response,
-            'registerform.html.twig',
-            array(
-                'page_title' => APP_TITLE,
-                'css_file' => CSS_PATH,
-                'landing_page' => 'index.php',
-                'heading_1' => 'Unsuccessful',
-                'register_action' => 'registerform',
-                'links' => array(
-                    'register' => 'registerform',
-                    'login' => 'loginform',
-                    'homepage' => 'index.php',
-                    'present_telemetry' => 'presenttelemetrydata',
-                    'fetch_telemetry' => 'fetchtelemetrydata'
-                )
-            )
-        );
+    if ($register_result) {
+        return $response->withRedirect('index.php', 301);
+    } else {
+        return $response->withRedirect('registerform', 301);
     }
 })->setName('registerform');
 
-function cleanRegisterData($app, $tainted_parameters) : array {
-
-    $cleaned_parameters = [];
+/**
+ * Validates user-entered credentials.
+ *
+ * @param $app
+ * @param $tainted_parameters
+ * @return array
+ */
+function cleanRegisterData($app, $tainted_parameters) : array
+{
+    $cleaned_parameters = array();
 
     $authentication_validator = $app->getContainer()->get('authenticationValidator');
 
@@ -96,5 +86,4 @@ function cleanRegisterData($app, $tainted_parameters) : array {
     $cleaned_parameters['password'] = $tainted_parameters['password'];
 
     return $cleaned_parameters;
-
 }

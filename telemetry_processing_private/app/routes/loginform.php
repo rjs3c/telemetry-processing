@@ -62,37 +62,23 @@ $app->post('/loginform', function (Request $request, Response $response) use ($a
     $login_model->login();
     $login_result = $login_model->getLoginResult();
 
-    if($login_result)
-    {
-        return $response->withRedirect('/telemetry_processing/', 301);
-
-    }else
-    {
-        return $this->telemetryView->render($response,
-            'loginform.html.twig',
-            array(
-                'page_title' => APP_TITLE,
-                'css_file' => CSS_PATH,
-                'landing_page' => 'index.php',
-                'heading_1' => 'Unsuccessful',
-                'login_action' => 'loginform',
-                'links'=> array(
-                    'register' => 'registerform',
-                    'login' => 'loginform',
-                    'homepage' => 'index.php',
-                    'present_telemetry'=> 'presenttelemetrydata',
-                    'fetch_telemetry'=> 'fetchtelemetrydata'
-                )
-            )
-        );
+    if ($login_result) {
+        return $response->withRedirect('index.php', 301);
+    } else {
+        return $response->withRedirect('loginform', 301);
     }
-
-
 })->setName('loginform');
 
-function cleanLoginData($app, $tainted_parameters) : array {
-
-    $cleaned_parameters = [];
+/**
+ * Validates user-entered credentials.
+ *
+ * @param $app
+ * @param $tainted_parameters
+ * @return array
+ */
+function cleanLoginData($app, $tainted_parameters) : array
+{
+    $cleaned_parameters = array();
 
     $authentication_validator = $app->getContainer()->get('authenticationValidator');
 
@@ -100,5 +86,4 @@ function cleanLoginData($app, $tainted_parameters) : array {
     $cleaned_parameters['password'] = $tainted_parameters['password'];
 
     return $cleaned_parameters;
-
 }
