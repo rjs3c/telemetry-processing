@@ -2,12 +2,15 @@
 /**
  * LoginModel.php
  *
- * Allows users to login if and only if their credentials are in the database
- * Test:
- * - Logs in user with correct credentials
- * - Doesnt log in user with incorrect credentials.
+ * Allows users to authenticate.
+ *
+ * @package telemetry_processing
+ * @\TelemProc
+ *
+ * @author James Brass
+ * @author Mo Aziz
+ * @author Ryan Instrell
  */
-
 
 namespace TelemProc;
 
