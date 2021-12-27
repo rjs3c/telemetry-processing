@@ -1,5 +1,16 @@
 <?php
-
+/**
+ * RegisterModel.php
+ *
+ * Allows users to register their information.
+ *
+ * @package telemetry_processing
+ * @\TelemProc
+ *
+ * @author James Brass
+ * @author Mo Aziz
+ * @author Ryan Instrell
+ */
 
 namespace TelemProc;
 
