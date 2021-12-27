@@ -258,7 +258,7 @@ class DoctrineWrapper
     {
         $store_result = false;
 
-        try{
+        try {
             $query_builder = $this->query_builder
                 ->insert('telemetry_users')
                 ->values(array(
