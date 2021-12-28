@@ -13,7 +13,7 @@
                         <tr>
                             <td>{{ username|e }}</td>
                             <td>
-                                <a href="manageusersdelete?username={{ username|e }}">Delete User</a>
+                                <a href="manageusersdelete?username={{ username|e('url')|url_encode }}">Delete User</a>
                             </td>
                         </tr>
                     {% endfor %}
