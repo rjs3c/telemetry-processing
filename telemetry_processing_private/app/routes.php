@@ -28,3 +28,7 @@ require 'routes/loginform.php';
 
 /* Presenting the form for users to register for an account */
 require 'routes/registerform.php';
+
+/* Presents facilities to manage currently registered users */
+require 'routes/manageusersform.php';
+require 'routes/manageusersdelete.php';
