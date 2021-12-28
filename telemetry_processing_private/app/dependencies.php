@@ -112,7 +112,6 @@ $container['soapWrapper'] = function ()
     return new \TelemProc\SoapWrapper();
 };
 
-
 /**
  * AuthenticationValidator.
  */
@@ -146,9 +145,17 @@ $container['registerModel'] = function ()
 };
 
 /**
- * SessionWrapper.
+ * ManageUsersModel.
  */
-$container['sessionWrapper'] = function ()
+$container['manageUsersModel'] = function ()
 {
-    return new \TelemProc\SessionWrapper();
+    return new \TelemProc\ManageUsersModel();
+};
+
+/**
+ * ManageUsersValidator.
+ */
+$container['manageUsersValidator'] = function ()
+{
+    return new \TelemProc\ManageUsersValidator();
 };
