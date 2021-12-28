@@ -28,7 +28,8 @@ $app->get('/', function(Request $request, Response $response) use ($app)
                 'login' => 'loginform',
                 'homepage' => '#',
                 'present_telemetry'=> 'presenttelemetrydata',
-                'fetch_telemetry'=> 'fetchtelemetrydata'
+                'fetch_telemetry'=> 'fetchtelemetrydata',
+                'manage_users'=> 'manageusersform'
             )
         )
     );
