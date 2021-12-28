@@ -1,0 +1,25 @@
+{% extends 'boilerplate.html.twig' %}
+    {% block content %}
+        <div class="present-page content">
+            <h1 class="heading">{{ heading_1 }}</h1>
+
+            {% if users_list|length > 0 %}
+                <table border="1">
+                    <tr>
+                        <th>Username</th>
+                        <th>Action(s)</th>
+                    </tr>
+                    {% for username in users_list %}
+                        <tr>
+                            <td>{{ username|e }}</td>
+                            <td>
+                                <a href="manageusersdelete?username={{ username|e }}">Delete User</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p>No users.</p>
+            {% endif %}
+        </div>
+    {% endblock %}
