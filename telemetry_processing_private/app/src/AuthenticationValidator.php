@@ -31,7 +31,7 @@ class AuthenticationValidator
         $cleaned_user_name = '';
 
         if (!empty($tainted_user_name)
-            && strlen($tainted_user_name) <= 32) {
+            && strlen($tainted_user_name) <= 30) {
             $cleaned_user_name = filter_var(
                 $tainted_user_name,
                 FILTER_SANITIZE_STRING,
