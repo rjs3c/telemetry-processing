@@ -183,7 +183,7 @@ class DoctrineWrapper
             $duplicate_retrieval = $query_builder->execute();
 
             $duplication_result = !empty((bool)$duplicate_retrieval->fetchAll());
-        } catch (\Exception $exception) {
+        } catch(\Exception $exception) {
             if ($this->doctrine_logger !== null) {
                 $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
             }
@@ -204,6 +204,31 @@ class DoctrineWrapper
                 ->select('d.*')
                 ->from('telemetry_data', 'd')
                 ->orderBy('d.timestamp', 'DESC');
+
+            $query = $query_builder->execute();
+            $retrieve_result = $query->fetchAll();
+
+        } catch (\Exception $exception) {
+            if ($this->doctrine_logger !== null) {
+                $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
+            }
+        } finally {
+            $this->query_result = $retrieve_result;
+        }
+    }
+
+    /**
+     * Retrieves all currently stored/registered users (specifically, usernames).
+     */
+    public function fetchAllUsers() : void
+    {
+        $retrieve_result = array();
+
+        try {
+            $query_builder = $this->query_builder
+                ->select('u.username')
+                ->from('telemetry_users', 'u')
+                ->orderBy('u.username', 'DESC');
 
             $query = $query_builder->execute();
             $retrieve_result = $query->fetchAll();
@@ -245,7 +270,39 @@ class DoctrineWrapper
         } finally {
             $this->query_result = $password;
         }
+    }
 
+    /**
+     * Uses <Doctrine> to check if a given username is available when registering.
+     *
+     * @param $username
+     */
+    public function checkIfUsernameAvailable($username) : void
+    {
+        $is_available = false;
+
+        try {
+            $query_builder = $this->query_builder
+                ->select('u.*')
+                ->from('telemetry_users', 'u')
+                ->where('u.username = :username')
+                ->setParameters(array(
+                    'username' => $username,
+                ));
+
+            $query = $query_builder->execute();
+            $result = $query->fetchAll();
+
+            if (empty($result)) { // If empty, username is available
+                $is_available = true;
+            }
+        } catch (\Exception $exception) {
+            if ($this->doctrine_logger !== null) {
+                $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
+            }
+        } finally {
+            $this->query_result = $is_available;
+        }
     }
 
     /**
@@ -287,35 +344,28 @@ class DoctrineWrapper
     }
 
     /**
-     * Uses <Doctrine> to check if a given username is available when registering.
+     * Performs DELETE query of specific user entry.
      *
-     * @param $username
+     * @param string $cleaned_username
      */
-    public function checkIfUsernameAvailable($username) : void
+    public function deleteUser(string $cleaned_username) : void
     {
-        $is_available = false;
+        $delete_result = false;
 
         try {
             $query_builder = $this->query_builder
-                ->select('u.*')
-                ->from('telemetry_users', 'u')
-                ->where('u.username = :username')
-                ->setParameters(array(
-                    'username' => $username,
-                ));
+                ->delete('telemetry_users')
+                ->where('username = :username')
+                ->setParameter('username', $cleaned_username);
 
-            $query = $query_builder->execute();
-            $result = $query->fetchAll();
+            $delete_result = $query_builder->execute();
 
-            if (empty($result)) { // If empty, username is available
-                $is_available = true;
-            }
         } catch (\Exception $exception) {
             if ($this->doctrine_logger !== null) {
                 $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
             }
         } finally {
-            $this->query_result = $is_available;
+            $this->query_result = $delete_result;
         }
     }
 }
