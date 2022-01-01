@@ -25,9 +25,9 @@ $app->get('/fetchtelemetrydata', function(Request $request, Response $response) 
 
     if ($store_result !== false) {
         sendTelemetryMessageReceipt($app, $cleaned_telemetry_data);
-        $result_message = '[+] Telemetry Data Retrieved and Stored Successfully.';
+        $result_message = 'Telemetry Data Retrieved and Stored Successfully.';
     } else {
-        $result_message = '[!] Oops, something went wrong. Please try again later.';
+        $result_message = 'Oops, something went wrong. Please try again later.';
     }
 
     return $this->telemetryView->render($response,
