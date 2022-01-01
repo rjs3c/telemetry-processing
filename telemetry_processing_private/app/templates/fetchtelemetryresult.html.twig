@@ -1,10 +1,8 @@
 {% extends 'boilerplate.html.twig' %}
     {% block content %}
-        <h3>{{ heading_1 }}</h3>
-        <p>Group 21-3110-AF</p>
+        <div class="present-page content">
+            <h1 class="heading">{{ heading_1 }}</h1>
 
-        <p>{{ result_message }}</p>
-        <p><a href="{{ present_telem_action }}">Show Stored Telemetry Data</a></p>
-
-        <p><a href="{{ landing_page }}">Home</a></p>
+            <p>{{ result_message }}</p>
+        </div>
     {% endblock %}
