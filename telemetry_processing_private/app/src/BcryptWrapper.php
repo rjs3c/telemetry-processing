@@ -1,48 +1,59 @@
 <?php
 /**
+ * BcryptWrapper.php
+ *
  * Wrapper class for the PHP BCrypt library that creates a password hash or compares a un hashed
  * password with a hashed password
+ *
+ * @package telemetry_processing
+ * @\TelemProc
+ *
+ * @author James Brass
+ * @author Mo Aziz
+ * @author Ryan Instrell
  */
 
 namespace TelemProc;
 
 class BcryptWrapper
 {
+    public function __construct() {}
 
-    public function __construct(){}
-
-    public function __destruct(){}
+    public function __destruct() {}
 
     /**
-     * Creates a hash of a given password
+     * Creates a hash of a given password.
      *
-     * @param $password_to_hash
+     * @param string $password_to_hash
      * @return false|string|null
      */
-    public function createHashedPassword($password_to_hash)
+    public function createHashedPassword(string $password_to_hash)
     {
+        $hashed_password = '';
 
-        $options = array('cost' => BCRYPT_COST);
-        $bcrypt_hashed_password = password_hash($password_to_hash, BCRYPT_ALGO, $options);
+        if (!empty($password_to_hash)) {
+            $options = array('cost' => BCRYPT_COST);
+            $hashed_password = password_hash($password_to_hash, BCRYPT_ALGO, $options);
+        }
 
-        return $bcrypt_hashed_password;
+        return $hashed_password;
     }
 
     /**
      * Compares a given un hashed password with a given hashed password. Returns true if they are the same and
      * false otherwise
      *
-     * @param $given_password
-     * @param $stored_password
+     * @param string $user_password
+     * @param string $stored_user_password
      * @return bool
      */
-    public function authenticatePassword($given_password, $stored_password)
+    public function authenticatePassword(string $user_password, string $stored_user_password) : bool
     {
         $user_authenticated = false;
 
-        if (password_verify($given_password, $stored_password))
-        {
-            $user_authenticated = true;
+        if (!empty($user_password)
+            && !empty($stored_user_password)) {
+            $user_authenticated = password_verify($user_password, $stored_user_password);
         }
 
         return $user_authenticated;
