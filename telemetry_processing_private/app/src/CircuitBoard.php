@@ -105,7 +105,7 @@ class CircuitBoard
             && self::$fan_state !== null
             && self::$temperature !== null
             && self::$keypad_number !== null) {
-            self::setStatusMessage('Circuit board values are updated.');
+            self::setStatusMessage('Circuit board values were updated on ' . gmdate('M d Y H:i:s'));
         }
     }
 
