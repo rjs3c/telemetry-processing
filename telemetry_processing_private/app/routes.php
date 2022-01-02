@@ -32,3 +32,4 @@ require 'routes/registerform.php';
 /* Presents facilities to manage currently registered users */
 require 'routes/manageusersform.php';
 require 'routes/manageusersdelete.php';
+require 'routes/manageuserschangepassword.php';
