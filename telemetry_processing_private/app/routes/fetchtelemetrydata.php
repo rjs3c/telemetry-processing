@@ -20,6 +20,7 @@ $app->get('/fetchtelemetrydata', function(Request $request, Response $response) 
     $cleaned_telemetry_data = validateRetrievedTelemetryData($app, $tainted_telemetry_data);
 
     storeRetrievedTelemetryData($app, $cleaned_telemetry_data);
+    sendTelemetryMessageReceipt($app, $cleaned_telemetry_data);
 
     return $response->withRedirect('presenttelemetrydata', 301);
 })->setName('fetchtelemetrydata');
