@@ -48,8 +48,7 @@ function deleteUsername($app, string $cleaned_username) : bool
         $manage_users_model->setDatabaseSettings($database_connection_settings);
         $manage_users_model->setLoggerHandle($logger_handle);
 
-        $manage_users_model->setUsernameToDelete($cleaned_username);
-        $manage_users_model->deleteRegisteredUser();
+        $manage_users_model->deleteRegisteredUser($cleaned_username);
 
         $deleted_user_result = $manage_users_model->getResult();
     }
