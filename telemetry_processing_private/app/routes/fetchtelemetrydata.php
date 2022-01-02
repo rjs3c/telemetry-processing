@@ -23,7 +23,7 @@ $app->get('/fetchtelemetrydata', function(Request $request, Response $response) 
         sendTelemetryMessageReceipt($app, $cleaned_telemetry_data);
     }
 
-    return $response->withRedirect('presenttelemetrydata', 301);
+    return $response->withRedirect('presenttelemetrydata', 302);
 })->setName('fetchtelemetrydata');
 
 /**
