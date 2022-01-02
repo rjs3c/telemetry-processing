@@ -29,6 +29,13 @@ $app->get('/sendtelemetrydata', function(Request $request, Response $response) u
             'page_title' => APP_TITLE,
             'css_file' => CSS_PATH,
             'landing_page' => 'index.php',
+            'links' => array(
+                'register' => 'registerform',
+                'login' => 'loginform',
+                'homepage' => 'index.php',
+                'present_telemetry'=> 'presenttelemetrydata',
+                'fetch_telemetry'=> 'fetchtelemetrydata'
+            ),
             'heading_1' => 'Send Latest Telemetry Message to Circuit Board',
             'circuit_board_status' => $circuit_board_status
         )
