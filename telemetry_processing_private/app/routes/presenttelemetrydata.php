@@ -31,7 +31,8 @@ $app->get('/presenttelemetrydata', function(Request $request, Response $response
                 'homepage' => 'index.php',
                 'present_telemetry'=> 'presenttelemetrydata',
                 'fetch_telemetry'=> 'fetchtelemetrydata'
-            )
+            ),
+            'telemetry_data' => $cleaned_telemetry_data
         )
     );
 })->setName('presenttelemetrydata');

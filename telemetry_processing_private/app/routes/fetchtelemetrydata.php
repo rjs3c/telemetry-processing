@@ -16,38 +16,12 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->get('/fetchtelemetrydata', function(Request $request, Response $response) use ($app) : Response
 {
-    $result_message = '';
-
     $tainted_telemetry_data = retrieveTelemetryData($app);
     $cleaned_telemetry_data = validateRetrievedTelemetryData($app, $tainted_telemetry_data);
 
-    $store_result = storeRetrievedTelemetryData($app, $cleaned_telemetry_data);
+    storeRetrievedTelemetryData($app, $cleaned_telemetry_data);
 
-    if ($store_result !== false) {
-        sendTelemetryMessageReceipt($app, $cleaned_telemetry_data);
-        $result_message = 'Telemetry Data Retrieved and Stored Successfully.';
-    } else {
-        $result_message = 'Oops, something went wrong. Please try again later.';
-    }
-
-    return $this->telemetryView->render($response,
-        'fetchtelemetryresult.html.twig',
-        array(
-            'page_title' => APP_TITLE,
-            'css_file' => CSS_PATH,
-            'landing_page' => 'index.php',
-            'heading_1' => 'Telemetry Fetch Result',
-            'result_message' => $result_message,
-            'present_telem_action' => 'presenttelemetrydata',
-            'links'=> array(
-                'register' => 'registerform',
-                'login' => 'loginform',
-                'homepage' => 'index.php',
-                'present_telemetry'=> 'presenttelemetrydata',
-                'fetch_telemetry'=> 'fetchtelemetrydata'
-            )
-        )
-    );
+    return $response->withRedirect('presenttelemetrydata', 301);
 })->setName('fetchtelemetrydata');
 
 /**
