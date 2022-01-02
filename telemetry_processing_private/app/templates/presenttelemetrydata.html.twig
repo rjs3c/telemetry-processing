@@ -2,6 +2,36 @@
     {% block content %}
         <div class="present-page content">
             <h1>{{ heading_1 }}</h1>
-            <p>Group 21-3110-AF</p>
+        </div>
+        <div class="data-table-wrapper">
+            {% if telemetry_data|length > 0 %}
+                <table class="data-table">
+                    <tr>
+                        <th>Switch 1</th>
+                        <th>Switch 2</th>
+                        <th>Switch 3</th>
+                        <th>Switch 4</th>
+                        <th>Fan</th>
+                        <th>Temperature</th>
+                        <th>Keypad</th>
+                    </tr>
+
+                        {% for data in telemetry_data %}
+                            <tr>
+                                <td>{{ data.switch_one|e }}</td>
+                                <td>{{ data.switch_two|e }}</td>
+                                <td>{{ data.switch_three|e }}</td>
+                                <td>{{ data.switch_four|e }}</td>
+                                <td>{{ data.fan|e }}</td>
+                                <td>{{ data.temperature|e }}</td>
+                                <td>{{ data.keypad|e }}</td>
+                            </tr>
+                        {% endfor %}
+                </table>
+            {% else %}
+                <p>No telemetry data available.</p>
+            {% endif %}
+
+            <a href="fetchtelemetrydata">Fetch Telemetry Data</a>
         </div>
     {% endblock %}
