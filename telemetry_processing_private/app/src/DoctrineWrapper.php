@@ -368,4 +368,36 @@ class DoctrineWrapper
             $this->query_result = $delete_result;
         }
     }
+
+    /**
+     * Changes the password of a specific stored user.
+     *
+     * @param string $cleaned_username
+     * @param string $new_hashed_password
+     * @return void
+     */
+    public function changeUserPassword(string $cleaned_username, string $new_hashed_password) : void
+    {
+        $user_password_changed = false;
+
+        try {
+            $query_builder = $this->query_builder
+                ->update('telemetry_users', 'u')
+                ->set('u.password', ':password')
+                ->where('u.username = :username')
+                ->setParameter('username', $cleaned_username)
+                ->setParameter('password', $new_hashed_password);
+
+            $user_password_changed = $query_builder->execute();
+
+            var_dump($user_password_changed);
+
+        } catch (\Exception $exception) {
+            if ($this->doctrine_logger !== null) {
+                $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
+            }
+        } finally {
+            $this->query_result = $user_password_changed;
+        }
+    }
 }
