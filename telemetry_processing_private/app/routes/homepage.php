@@ -27,9 +27,9 @@ $app->get('/', function(Request $request, Response $response) use ($app)
                 'register' => 'registerform',
                 'login' => 'loginform',
                 'homepage' => '#',
-                'present_telemetry'=> 'presenttelemetrydata',
-                'fetch_telemetry'=> 'fetchtelemetrydata',
-                'manage_users'=> 'manageusersform'
+                'present_telemetry' => 'presenttelemetrydata',
+                'manage_users' => 'manageusersform',
+                'send_telemetry' => 'sendtelemetrydata'
             )
         )
     );
