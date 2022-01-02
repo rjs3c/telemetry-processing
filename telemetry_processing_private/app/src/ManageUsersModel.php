@@ -18,6 +18,9 @@ use Doctrine\DBAL\DriverManager;
 
 class ManageUsersModel
 {
+    /** @var resource $bcrypt_handle Contains handle to <Bcrypt>. */
+    private $bcrypt_handle;
+
     /** @var resource $doctrine_handle Contains handle to <Doctrine>. */
     private $doctrine_handle;
 
@@ -30,19 +33,27 @@ class ManageUsersModel
     /** @var null $manage_user_result Contains result from query to retrieve telemetry data/ */
     private $manage_user_result;
 
-    /** @var string $username_to_delete Contains the specific username to delete. */
-    private $username_to_delete;
-
     public function __construct()
     {
+        $this->bcrypt_handle = null;
         $this->doctrine_handle = null;
         $this->doctrine_settings = array();
         $this->logger_handle = null;
         $this->manage_user_result = null;
-        $this->username_to_delete = '';
     }
 
     public function __destruct() {}
+
+    /**
+     * Sets handle to <Bcrypt>.
+     *
+     * @param $bcrypt_handle
+     * @return void
+     */
+    public function setBcryptHandle($bcrypt_handle) : void
+    {
+        $this->bcrypt_handle = $bcrypt_handle;
+    }
 
     /**
      * Sets handle to <Doctrine>.
@@ -75,19 +86,7 @@ class ManageUsersModel
     }
 
     /**
-     * Sets the username intended to be deleted.
-     *
-     * @param string $username_to_delete
-     */
-    public function setUsernameToDelete(string $username_to_delete) : void
-    {
-        $this->username_to_delete = $username_to_delete;
-    }
-
-    /**
      * Returns result from queries to retrieve all and delete specific users.
-     *
-     * @return array
      */
     public function getResult()
     {
@@ -120,16 +119,17 @@ class ManageUsersModel
     }
 
     /**
-     * Deletes a specifc user by username, using <Doctrine>.
+     * Deletes a specific user by username, using <Doctrine>.
      *
+     * @param string $cleaned_username
      * @throws \Doctrine\DBAL\Exception
      */
-    public function deleteRegisteredUser() : void
+    public function deleteRegisteredUser(string $cleaned_username) : void
     {
         $delete_user = false;
 
-        if (!empty($this->username_to_delete)
-        && $this->checkUserAvailability($this->username_to_delete) !== true) {
+        if (!empty($cleaned_username)
+        && $this->checkUserAvailability($cleaned_username) !== true) {
             $dbal_connection = DriverManager::getConnection($this->doctrine_settings);
             $query_builder = $dbal_connection->createQueryBuilder();
 
@@ -139,12 +139,49 @@ class ManageUsersModel
 
             $this->doctrine_handle->setQueryBuilder($query_builder);
 
-            $this->doctrine_handle->deleteUser($this->username_to_delete);
+            $this->doctrine_handle->deleteUser($cleaned_username);
 
             $delete_user = $this->doctrine_handle->getQueryResult();
         }
 
         $this->manage_user_result = $delete_user;
+    }
+
+    /**
+     * Changes the password of an existing user using <Doctrine>.
+     *
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function changeUserPassword(array $cleaned_parameters) : void
+    {
+        $user_password_changed = false;
+
+        if (!empty($cleaned_parameters)
+        && $this->checkUserAvailability($cleaned_parameters['username']) !== true) {
+            if ($this->bcrypt_handle !== null) {
+                $hashed_password = $this->bcrypt_handle->createHashedPassword(
+                    $cleaned_parameters['password']
+                );
+
+                $dbal_connection = DriverManager::getConnection($this->doctrine_settings);
+                $query_builder = $dbal_connection->createQueryBuilder();
+
+                if ($this->logger_handle !== null) {
+                    $this->doctrine_handle->setDoctrineLogger($this->logger_handle);
+                }
+
+                $this->doctrine_handle->setQueryBuilder($query_builder);
+
+                $this->doctrine_handle->changeUserPassword(
+                    $cleaned_parameters['username'],
+                    $hashed_password
+                );
+
+                $user_password_changed = $this->doctrine_handle->getQueryResult();
+            }
+        }
+
+        $this->manage_user_result = $user_password_changed;
     }
 
     /**
