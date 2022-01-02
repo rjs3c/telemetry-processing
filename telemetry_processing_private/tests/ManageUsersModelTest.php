@@ -87,8 +87,52 @@ final class ManageUsersModelTest extends TestCase
         $manage_users_model->setDatabaseHandle($doctrine_wrapper);
         $manage_users_model->setDatabaseSettings($database_connection_settings);
 
-        $manage_users_model->setUsernameToDelete($user_to_delete);
-        $manage_users_model->deleteRegisteredUser();
+        $manage_users_model->deleteRegisteredUser($user_to_delete);
+
+        $this->assertNotFalse(
+            $manage_users_model->getResult()
+        );
+    }
+
+    /**
+     * @test To identify if a stored user's password can be successfully updated.
+     *
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testChangeUserPassword()
+    {
+        $manage_users_model = new ManageUsersModel();
+        $doctrine_wrapper = new DoctrineWrapper();
+        $bcrypt_wrapper = new BcryptWrapper();
+
+        $database_connection_settings = $this->settings['telemetrySettings']['doctrineSettings'];
+        $database_connection = DriverManager::getConnection($database_connection_settings);
+
+        $query_builder = $database_connection->createQueryBuilder();
+        $doctrine_wrapper->setQueryBuilder($query_builder);
+
+        $user_credentials = array(
+            'username' => 'testUsername',
+            'password' => $bcrypt_wrapper->createHashedPassword('testPassword')
+        );
+
+        // Creates a user - pre-requisite for test to pass.
+        $doctrine_wrapper->storeUserDetails(
+            $user_credentials['username'],
+            $user_credentials['password']
+        );
+
+        // New Password
+        $user_credentials = array(
+            'username' => 'testUsername',
+            'password' => 'testNewPassword'
+        );
+
+        $manage_users_model->setBcryptHandle($bcrypt_wrapper);
+        $manage_users_model->setDatabaseHandle($doctrine_wrapper);
+        $manage_users_model->setDatabaseSettings($database_connection_settings);
+
+        $manage_users_model->changeUserPassword($user_credentials);
 
         $this->assertNotFalse(
             $manage_users_model->getResult()
