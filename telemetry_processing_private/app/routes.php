@@ -26,6 +26,9 @@ require 'routes/sendtelemetrydata.php';
 /* Presenting the form for users to login */
 require 'routes/loginform.php';
 
+/* Allows users to logout from the system, once authenticated. */
+require 'routes/logout.php';
+
 /* Presenting the form for users to register for an account */
 require 'routes/registerform.php';
 
