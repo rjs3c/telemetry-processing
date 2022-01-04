@@ -14,10 +14,27 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-$app->get('/presenttelemetrydata', function(Request $request, Response $response) use ($app) : Response
+$app->get('/presenttelemetrydata[/{page}]', function(Request $request, Response $response) use ($app) : Response
 {
-    $tainted_telemetry_data = retrieveStoredTelemetryData($app);
+    $tainted_page_number = $request->getQueryParam('page');
+
+
+    if(empty($tainted_page_number)){
+        $tainted_page_number = 1;
+    }
+
+    $cleaned_page_number = validatePageNumber($tainted_page_number);
+
+    $tainted_telemetry_data = retrieveStoredTelemetryData($app, $cleaned_page_number);
     $cleaned_telemetry_data = validateTelemetryData($app, $tainted_telemetry_data);
+
+    //Checks if 21 entries. If there are then next page button can be shown
+    $is_next_page = false;
+    if(count($cleaned_telemetry_data) == 21){
+        $is_next_page = true;
+        array_pop($cleaned_telemetry_data);
+    }
+
 
     return $this->telemetryView->render($response,
         'presenttelemetrydata.html.twig',
@@ -30,18 +47,23 @@ $app->get('/presenttelemetrydata', function(Request $request, Response $response
                 'login' => 'loginform',
                 'homepage' => 'index.php',
                 'present_telemetry'=> 'presenttelemetrydata',
-                'fetch_telemetry'=> 'fetchtelemetrydata'
+                'fetch_telemetry'=> 'fetchtelemetrydata',
+                'prev'=> 'presenttelemetrydata',
+                'next'=> 'presenttelemetrydata'
             ),
-            'telemetry_data' => $cleaned_telemetry_data
+            'telemetry_data' => $cleaned_telemetry_data,
+            'page_number'=> $cleaned_page_number,
+            'is_next_page' => $is_next_page
         )
     );
 })->setName('presenttelemetrydata');
+
 
 /**
  * @param $app
  * @return array
  */
-function retrieveStoredTelemetryData($app) : array
+function retrieveStoredTelemetryData($app, $offset) : array
 {
     $telemetry_model = $app->getContainer()->get('presentTelemetryModel');
     $doctrine_handle = $app->getContainer()->get('doctrineWrapper');
@@ -53,7 +75,8 @@ function retrieveStoredTelemetryData($app) : array
     $telemetry_model->setDatabaseSettings($database_connection_settings);
     $telemetry_model->setLoggerHandle($logger_handle);
 
-    $telemetry_model->retrieveTelemetryData();
+    $offset = ($offset - 1) * 20;//Minus 1 and multiply by 20 to convert page number into offset
+    $telemetry_model->retrieveTelemetryData($offset);
 
     return $telemetry_model->getRetrievalResult();
 }
@@ -69,4 +92,14 @@ function validateTelemetryData($app, array $tainted_telemetry_data) : array
 {
     $telemetry_validator = $app->getContainer()->get('telemetryValidator');
     return $telemetry_validator->validateStoredTelemetryData($tainted_telemetry_data);
+}
+
+function validatePageNumber($tainted_page_number) : Int{
+
+    if (filter_var($tainted_page_number, FILTER_VALIDATE_INT) && $tainted_page_number > 0) {
+        $cleaned_page_number = $tainted_page_number;
+        return $cleaned_page_number;
+    } else {
+        return 1; //default page value
+    }
 }
