@@ -94,6 +94,13 @@ function validateTelemetryData($app, array $tainted_telemetry_data) : array
     return $telemetry_validator->validateStoredTelemetryData($tainted_telemetry_data);
 }
 
+/**
+ * Validates page number url variable for additional security
+ *
+ * @param $tainted_page_number
+ * @return Int
+ */
+
 function validatePageNumber($tainted_page_number) : Int{
 
     if (filter_var($tainted_page_number, FILTER_VALIDATE_INT) && $tainted_page_number > 0) {
