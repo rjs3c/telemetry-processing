@@ -5,7 +5,7 @@
  * Tests successful and unsuccessful authentication of a user.
  * Tests:
  * - Correct successful authentication of a valid user.
- * - Correct unsuccessful authentication of a invalid user.
+ * - Correct unsuccessful authentication of an invalid user.
  *
  * @package telemetry_processing
  * @\TelemProc
@@ -19,6 +19,7 @@ use PHPUnit\Framework\TestCase;
 use Doctrine\DBAL\DriverManager;
 use TelemProc\DoctrineWrapper;
 use TelemProc\BcryptWrapper;
+use TelemProc\SessionWrapper;
 use TelemProc\LoginModel;
 
 class LoginModelTest extends TestCase
@@ -42,7 +43,7 @@ class LoginModelTest extends TestCase
             'password' => 'testPassword'
         );
 
-        //doctrine wrapper setup
+        // Doctrine wrapper setup
         $doctrine_wrapper = new DoctrineWrapper();
         $database_connection_settings = $this->settings['telemetrySettings']['doctrineSettings'];
         $database_connection = DriverManager::getConnection($database_connection_settings);
@@ -50,17 +51,18 @@ class LoginModelTest extends TestCase
         $doctrine_wrapper->setQueryBuilder($query_builder);
 
         $bcrypt_wrapper = new BcryptWrapper();
+        $session_wrapper = new SessionWrapper();
 
         $login_model = new LoginModel();
         $login_model->setDoctrineWrapper($doctrine_wrapper);
         $login_model->setBcryptWrapper($bcrypt_wrapper);
+        $login_model->setSessionWrapper($session_wrapper);
         $login_model->setLoginCredentials($cleaned_parameters);
 
         $login_model->login();
         $login_result = $login_model->getLoginResult();
 
         $this->assertTrue($login_result);
-
     }
 
     /**
@@ -73,7 +75,7 @@ class LoginModelTest extends TestCase
             'password' => 'invalidPassword'
         );
 
-        //doctrine wrapper setup
+        // Doctrine wrapper setup
         $doctrine_wrapper = new DoctrineWrapper();
         $database_connection_settings = $this->settings['telemetrySettings']['doctrineSettings'];
         $database_connection = DriverManager::getConnection($database_connection_settings);
