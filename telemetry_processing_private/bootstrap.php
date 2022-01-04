@@ -11,6 +11,12 @@
  * @author Ryan Instrell
  */
 
+/** Creates a Session. */
+session_start();
+
+/** Regenerates Session ID at each page within application. */
+session_regenerate_id(true);
+
 /** <PSR-4> Autoloading using <Composer>. */
 require 'vendor/autoload.php';
 
