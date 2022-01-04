@@ -17,7 +17,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 $app->get('/logout', function (Request $request, Response $response) use ($app) : Response
 {
     if (checkIfAuthenticated($app)) {
-        logoutUser();
+        logoutUser($app);
     }
 
     return $response->withRedirect('loginform', 302);
@@ -37,11 +37,14 @@ function checkIfAuthenticated($app) : bool
 }
 
 /**
- * Destroys all session data associated with the specific user.
+ * Unsets all session variables associated with the specific user.
  *
+ * @param $app
  * @return void
  */
-function logoutUser() : void
+function logoutUser($app) : void
 {
-     session_destroy();
+    $session_wrapper = $app->getContainer()->get('sessionWrapper');
+
+    $session_wrapper->unsetSessionVar('user');
 }
