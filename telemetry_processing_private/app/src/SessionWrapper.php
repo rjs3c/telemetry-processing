@@ -28,14 +28,14 @@ class SessionWrapper
      */
     public function setSessionVar(string $session_var, string $session_value) : bool
     {
-        $session_set_result = false;
+        $set_session = false;
 
         if (isset($session_var) && !empty($session_value)) {
             $_SESSION[$session_var] = $session_value;
-            $session_set_result = true;
+            $set_session = true;
         }
 
-        return $session_set_result;
+        return $set_session;
     }
 
     /**
