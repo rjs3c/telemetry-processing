@@ -61,15 +61,15 @@ class SessionWrapper
      */
     public function unsetSessionVar(string $session_var) : bool
     {
-        $session_unset_result = false;
+        $unset_session = false;
 
         if (isset($_SESSION[$session_var])) {
             unset($_SESSION[$session_var]);
             if (!isset($_SESSION[$session_var])) {
-                $session_unset_result = true;
+                $unset_session = true;
             }
         }
 
-        return $session_unset_result;
+        return $unset_session;
     }
 }
