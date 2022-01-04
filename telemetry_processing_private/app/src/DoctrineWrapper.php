@@ -195,7 +195,7 @@ class DoctrineWrapper
     /**
      * Uses <Doctrine> to retrieve all stored telemetry data from the telemetry_data table.
      */
-    public function fetchTelemetryData() : void
+    public function fetchTelemetryData($offset = 0) : void
     {
         $retrieve_result = array();
 
@@ -203,7 +203,9 @@ class DoctrineWrapper
             $query_builder = $this->query_builder
                 ->select('d.*')
                 ->from('telemetry_data', 'd')
-                ->orderBy('d.timestamp', 'DESC');
+                ->orderBy('d.timestamp', 'ASC')
+                ->setMaxResults(21)
+                ->setFirstResult($offset);
 
             $query = $query_builder->execute();
             $retrieve_result = $query->fetchAll();
