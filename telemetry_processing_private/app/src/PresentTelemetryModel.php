@@ -85,7 +85,7 @@ class PresentTelemetryModel implements \TelemProc\TelemetryModelInterface
      * @return void
      * @throws \Doctrine\DBAL\Exception
      */
-    public function retrieveTelemetryData() : void
+    public function retrieveTelemetryData($offset = 0) : void
     {
         $retrieve_result = array();
 
@@ -98,7 +98,7 @@ class PresentTelemetryModel implements \TelemProc\TelemetryModelInterface
 
         $this->doctrine_handle->setQueryBuilder($query_builder);
 
-        $this->doctrine_handle->fetchTelemetryData();
+        $this->doctrine_handle->fetchTelemetryData($offset);
 
         $retrieve_result = $this->doctrine_handle->getQueryResult();
 
