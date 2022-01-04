@@ -145,6 +145,14 @@ $container['registerModel'] = function ()
 };
 
 /**
+ * SessionWrapper.
+ */
+$container['sessionWrapper'] = function ()
+{
+    return new \TelemProc\SessionWrapper();
+};
+
+/**
  * ManageUsersModel.
  */
 $container['manageUsersModel'] = function ()
