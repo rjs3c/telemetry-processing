@@ -15,7 +15,7 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use Doctrine\DBAL\DriverManager;
 
-$app->get('/loginform', function (Request $request, Response $response) use ($app)
+$app->get('/loginform', function (Request $request, Response $response) use ($app) : Response
 {
     return $this->telemetryView->render($response,
         'loginform.html.twig',
@@ -36,28 +36,32 @@ $app->get('/loginform', function (Request $request, Response $response) use ($ap
     );
 })->setName('loginform');
 
-$app->post('/loginform', function (Request $request, Response $response) use ($app)
+$app->post('/loginform', function (Request $request, Response $response) use ($app) : Response
 {
-    //Get given credentials
+    // Retrieve user credentials in POST body
     $tainted_parameters = $request->getParsedBody();
     $cleaned_parameters = cleanLoginData($app, $tainted_parameters);
 
-    //Get models
+    // Get models + Wrappers
     $container = $app->getContainer();
     $login_model = $container->get('loginModel');
     $bcrypt_wrapper = $container->get('bcryptWrapper');
     $doctrine_wrapper = $container->get('doctrineWrapper');
+    $session_wrapper = $container->get('sessionWrapper');
+    $telemetry_logger = $container->get('telemetryLogger');
 
-    //Doctrine wrapper setup
+    // Doctrine wrapper setup
     $database_connection_settings = $container->get('telemetrySettings')['doctrineSettings'];
     $database_connection = DriverManager::getConnection($database_connection_settings);
     $query_builder = $database_connection->createQueryBuilder();
     $doctrine_wrapper->setQueryBuilder($query_builder);
 
-    //LoginModel setup
+    // LoginModel setup
     $login_model->setDoctrineWrapper($doctrine_wrapper);
     $login_model->setBcryptWrapper($bcrypt_wrapper);
+    $login_model->setSessionWrapper($session_wrapper);
     $login_model->setLoginCredentials($cleaned_parameters);
+    $login_model->setLoggerHandle($telemetry_logger);
 
     $login_model->login();
     $login_result = $login_model->getLoginResult();

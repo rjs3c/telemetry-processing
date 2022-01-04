@@ -15,7 +15,7 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use Doctrine\DBAL\DriverManager;
 
-$app->get('/registerform', function (Request $request, Response $response) use ($app)
+$app->get('/registerform', function (Request $request, Response $response) use ($app) : Response
 {
     return $this->telemetryView->render($response,
         'registerform.html.twig',
@@ -36,28 +36,30 @@ $app->get('/registerform', function (Request $request, Response $response) use (
     );
 })->setName('registerform');
 
-$app->post('/registerform', function (Request $request, Response $response) use ($app)
+$app->post('/registerform', function (Request $request, Response $response) use ($app) : Response
 {
-    //Get given credentials
+    // Retrieve user credentials in POST body
     $tainted_parameters = $request->getParsedBody();
     $cleaned_parameters = cleanRegisterData($app, $tainted_parameters);
 
-    //Get models
+    // Get models + Wrappers
     $container = $app->getContainer();
     $register_model = $container->get('registerModel');
     $bcrypt_wrapper = $container->get('bcryptWrapper');
     $doctrine_wrapper = $container->get('doctrineWrapper');
+    $telemetry_logger = $container->get('telemetryLogger');
 
-    //Doctrine wrapper setup
+    // Doctrine wrapper setup
     $database_connection_settings = $container->get('telemetrySettings')['doctrineSettings'];
     $database_connection = DriverManager::getConnection($database_connection_settings);
     $query_builder = $database_connection->createQueryBuilder();
     $doctrine_wrapper->setQueryBuilder($query_builder);
 
-    //RegisterModel setup
+    // RegisterModel setup
     $register_model->setDoctrineWrapper($doctrine_wrapper);
     $register_model->setBcryptWrapper($bcrypt_wrapper);
     $register_model->setRegisterCredentials($cleaned_parameters);
+    $register_model->setLoggerHandle($telemetry_logger);
 
     $register_model->register();
     $register_result = $register_model->getRegisterResult();
