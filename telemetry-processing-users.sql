@@ -1,3 +1,6 @@
+--
+-- Telemetry Users Table
+--
 DROP TABLE IF EXISTS `telemetry_users`;
 CREATE TABLE telemetry_users (
  `id` INT COLLATE utf8_unicode_ci NOT NULL AUTO_INCREMENT PRIMARY KEY,
