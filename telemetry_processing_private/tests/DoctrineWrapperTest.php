@@ -8,7 +8,6 @@
  * - Tests that <Doctrine> can successfully retrieve telemetry data stored within the database.
  *
  * @package telemetry_processing
- * @\TelemProc
  *
  * @author James Brass
  * @author Mo Aziz
