@@ -8,7 +8,6 @@
  * - Correct unsuccessful authentication of an invalid user.
  *
  * @package telemetry_processing
- * @\TelemProc
  *
  * @author James Brass
  * @author Mo Aziz
