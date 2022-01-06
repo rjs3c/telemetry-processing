@@ -14,7 +14,7 @@
 
 namespace TelemProc;
 
-class RegisterModel
+class RegisterModel implements \TelemProc\LoginRegisterInterface
 {
     /** @var resource $bcrypt_wrapper Contains the handle to <Bcrypt>. */
     private $bcrypt_wrapper;
@@ -25,8 +25,8 @@ class RegisterModel
     /** @var resource $logger_handle Contains handle to <Monolog>. */
     private $logger_handle;
 
-    /** @var array $register_credentials Contains user-entered credentials. */
-    private $register_credentials;
+    /** @var array $user_credentials Contains user-entered credentials. */
+    private $user_credentials;
 
     /** @var bool $register_result Contains the result from registration. */
     private $register_result;
@@ -36,7 +36,7 @@ class RegisterModel
         $this->bcrypt_wrapper = null;
         $this->doctrine_wrapper = null;
         $this->logger_handle = null;
-        $this->register_credentials = array();
+        $this->user_credentials = array();
         $this->register_result = false;
     }
 
@@ -75,11 +75,11 @@ class RegisterModel
     /**
      * Sets register credentials
      *
-     * @param array $register_credentials
+     * @param array $user_credentials
      */
-    public function setRegisterCredentials(array $register_credentials) : void
+    public function setUserCredentials(array $user_credentials) : void
     {
-        $this->register_credentials = $register_credentials;
+        $this->user_credentials = $user_credentials;
     }
 
     /**
@@ -87,7 +87,7 @@ class RegisterModel
      *
      * @return bool
      */
-    public function getRegisterResult() : bool
+    public function getResult() : bool
     {
         return $this->register_result;
     }
@@ -117,7 +117,7 @@ class RegisterModel
         $register_result = false;
 
         // Check if account with username already exists
-        $username = $this->register_credentials['username'];
+        $username = $this->user_credentials['username'];
 
         if (!empty($username)) {
             $this->doctrine_wrapper->checkIfUsernameAvailable($username);
@@ -125,7 +125,7 @@ class RegisterModel
 
             // Hash password
             if ($is_available) {
-                $password = $this->register_credentials['password'];
+                $password = $this->user_credentials['password'];
                 $hashed_password = $this->bcrypt_wrapper->createHashedPassword($password);
 
                 // Store new user details
@@ -139,7 +139,7 @@ class RegisterModel
         // Log Successful Registration
         if ($register_result !== false
             && $this->logger_handle !== null) {
-                $this->logEvent('User Registration', array($this->register_credentials['username']));
+                $this->logEvent('User Registration', array($this->user_credentials['username']));
         }
 
         $this->register_result = $register_result;

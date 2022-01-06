@@ -14,7 +14,7 @@
 
 namespace TelemProc;
 
-class LoginModel
+class LoginModel implements \TelemProc\LoginRegisterInterface
 {
     /** @var resource $bcrypt_wrapper Contains the handle to <Bcrypt>. */
     private $bcrypt_wrapper;
@@ -28,8 +28,8 @@ class LoginModel
     /** @var resource $session_wrapper Contains the handle to <SessionWrapper>. */
     private $session_wrapper;
 
-    /** @var array $login_credentials Contains user-entered credentials. */
-    private $login_credentials;
+    /** @var array $user_credentials Contains user-entered credentials. */
+    private $user_credentials;
 
     /** @var bool $login_result Contains the result from authentication. */
     private $login_result;
@@ -39,7 +39,7 @@ class LoginModel
         $this->bcrypt_wrapper = null;
         $this->doctrine_wrapper = null;
         $this->logger_handle = null;
-        $this->login_credentials = array();
+        $this->user_credentials = array();
         $this->login_result = false;
     }
 
@@ -76,7 +76,7 @@ class LoginModel
     }
 
     /**
-     * Sets <SessiomnWrapper>.
+     * Sets <SessionWrapper>.
      *
      * @param $session_wrapper
      */
@@ -88,11 +88,11 @@ class LoginModel
     /**
      * Sets login credentials
      *
-     * @param array $login_credentials
+     * @param array $user_credentials
      */
-    public function setLoginCredentials(array $login_credentials) : void
+    public function setUserCredentials(array $user_credentials) : void
     {
-        $this->login_credentials = $login_credentials;
+        $this->user_credentials = $user_credentials;
     }
 
     /**
@@ -100,7 +100,7 @@ class LoginModel
      *
      * @return bool
      */
-    public function getLoginResult() : bool
+    public function getResult() : bool
     {
         return $this->login_result;
     }
@@ -131,7 +131,7 @@ class LoginModel
         $login_result = false;
 
         // Fetch password for given username
-        $username = $this->login_credentials['username'];
+        $username = $this->user_credentials['username'];
 
         if (!empty($username)) {
             $this->doctrine_wrapper->fetchUserPassword($username);
@@ -141,18 +141,18 @@ class LoginModel
                 $fetched_password = $query_result[0]['password'];
 
                 // Check if password is equal to given password
-                $given_password = $this->login_credentials['password'];
+                $given_password = $this->user_credentials['password'];
                 $login_result = $this->bcrypt_wrapper->authenticatePassword($given_password, $fetched_password);
             }
         }
 
         if ($login_result !== false) {
             // Adding to Session Var
-            $this->session_wrapper->setSessionVar('user', $this->login_credentials['username']);
+            $this->session_wrapper->setSessionVar('user', $this->user_credentials['username']);
 
             // Log Successful Authentication
             if ($this->logger_handle !== null) {
-                $this->logEvent('User Authentication', array($this->login_credentials['username']));
+                $this->logEvent('User Authentication', array($this->user_credentials['username']));
             }
         }
 
