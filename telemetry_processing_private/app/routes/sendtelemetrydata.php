@@ -16,7 +16,7 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use \TelemProc\CircuitBoard;
 
-$app->get('/sendtelemetrydata', function(Request $request, Response $response) use ($app) : Response
+$app->get('/sendtelemetrydata', function (Request $request, Response $response) use ($app) : Response
 {
     $tainted_telemetry_data = retrieveStoredTelemetryData($app, 1);
     $cleaned_telemetry_data = validateTelemetryData($app, $tainted_telemetry_data);
@@ -51,12 +51,14 @@ $app->get('/sendtelemetrydata', function(Request $request, Response $response) u
 function sendDataToCircuitBoard(array $cleaned_telemetry_data) : string
 {
     if (!empty($cleaned_telemetry_data)) {
+        
         $switches = array(
             'switch_one' => $cleaned_telemetry_data[0]['switch_one'],
             'switch_two' => $cleaned_telemetry_data[0]['switch_two'],
             'switch_three' => $cleaned_telemetry_data[0]['switch_three'],
             'switch_four' => $cleaned_telemetry_data[0]['switch_four']
         );
+        
         $fan = $cleaned_telemetry_data[0]['fan'];
         $temperature = $cleaned_telemetry_data[0]['temperature'];
         $keypad = $cleaned_telemetry_data[0]['keypad'];
