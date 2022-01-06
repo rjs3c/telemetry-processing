@@ -8,7 +8,6 @@
  * - Legal and Illegal Inputs (Individual Fields)
  *
  * @package telemetry_processing
- * @\TelemProc
  *
  * @author James Brass
  * @author Mo Aziz
