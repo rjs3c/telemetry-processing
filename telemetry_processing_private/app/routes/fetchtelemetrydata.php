@@ -14,7 +14,7 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-$app->get('/fetchtelemetrydata', function(Request $request, Response $response) use ($app) : Response
+$app->get('/fetchtelemetrydata', function (Request $request, Response $response) use ($app) : Response
 {
     $tainted_telemetry_data = retrieveTelemetryData($app);
     $cleaned_telemetry_data = validateRetrievedTelemetryData($app, $tainted_telemetry_data);
