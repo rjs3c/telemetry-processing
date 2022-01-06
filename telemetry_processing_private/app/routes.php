@@ -14,6 +14,9 @@
 /* Homepage */
 require 'routes/homepage.php';
 
+/* Sending Initial/Test Telemetry Messages */
+require 'routes/sendinitialtelemetrymessages.php';
+
 /* Retrieval of Telemetry Data */
 require 'routes/fetchtelemetrydata.php';
 
