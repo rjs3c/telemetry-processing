@@ -82,10 +82,11 @@ class PresentTelemetryModel implements \TelemProc\TelemetryModelInterface
     /**
      * Retrieves stored telemetry data using <Doctrine>.
      *
+     * @param int $offset
      * @return void
      * @throws \Doctrine\DBAL\Exception
      */
-    public function retrieveTelemetryData($offset = 0) : void
+    public function retrieveTelemetryData(int $offset = 0) : void
     {
         $retrieve_result = array();
 
