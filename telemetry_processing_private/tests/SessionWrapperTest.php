@@ -9,7 +9,6 @@
  * - Successful unsetting of previously set session variable.
  *
  * @package telemetry_processing
- * @\TelemProc
  *
  * @author James Brass
  * @author Mo Aziz
@@ -19,7 +18,7 @@
 use PHPUnit\Framework\TestCase;
 use TelemProc\SessionWrapper;
 
-class SessionWrapperTest extends TestCase
+final class SessionWrapperTest extends TestCase
 {
     /**
      * @test For storing data. Expected output is true.
