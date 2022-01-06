@@ -18,7 +18,7 @@ use \TelemProc\CircuitBoard;
 
 $app->get('/sendtelemetrydata', function(Request $request, Response $response) use ($app) : Response
 {
-    $tainted_telemetry_data = retrieveStoredTelemetryData($app);
+    $tainted_telemetry_data = retrieveStoredTelemetryData($app, 1);
     $cleaned_telemetry_data = validateTelemetryData($app, $tainted_telemetry_data);
 
     $circuit_board_status = sendDataToCircuitBoard($cleaned_telemetry_data);
