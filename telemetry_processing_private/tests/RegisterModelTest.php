@@ -4,7 +4,7 @@
  *
  * Tests the registration of a user.
  * Tests:
- * - Correct successful registration of a valid user.
+ * - Correct successful registration of valid user credentials (testUsername).
  *
  * @package telemetry_processing
  * @\TelemProc
@@ -20,7 +20,7 @@ use TelemProc\DoctrineWrapper;
 use TelemProc\BcryptWrapper;
 use TelemProc\RegisterModel;
 
-class RegisterModelTest extends TestCase
+final class RegisterModelTest extends TestCase
 {
     /** @var array $settings Stores Doctrine settings. */
     private $settings;
@@ -39,11 +39,10 @@ class RegisterModelTest extends TestCase
     public function testRegisterUser()
     {
         $cleaned_parameters = array(
-
             'username' => 'testUsername',
             'password' => 'testPassword'
-
         );
+
         //doctrine wrapper setup
         $doctrine_wrapper = new DoctrineWrapper();
         $database_connection_settings =$this->settings['telemetrySettings']['doctrineSettings'];
@@ -56,10 +55,10 @@ class RegisterModelTest extends TestCase
         $register_model = new RegisterModel();
         $register_model->setDoctrineWrapper($doctrine_wrapper);
         $register_model->setBcryptWrapper($bcrypt_wrapper);
-        $register_model->setRegisterCredentials($cleaned_parameters);
+        $register_model->setUserCredentials($cleaned_parameters);
 
         $register_model->register();
-        $register_result = $register_model->getRegisterResult();
+        $register_result = $register_model->getResult();
 
         $this->assertTrue(
             $register_result

@@ -22,7 +22,7 @@ use TelemProc\BcryptWrapper;
 use TelemProc\SessionWrapper;
 use TelemProc\LoginModel;
 
-class LoginModelTest extends TestCase
+final class LoginModelTest extends TestCase
 {
     /** @var array $settings Stores Doctrine settings. */
     private $settings;
@@ -57,16 +57,16 @@ class LoginModelTest extends TestCase
         $login_model->setDoctrineWrapper($doctrine_wrapper);
         $login_model->setBcryptWrapper($bcrypt_wrapper);
         $login_model->setSessionWrapper($session_wrapper);
-        $login_model->setLoginCredentials($cleaned_parameters);
+        $login_model->setUserCredentials($cleaned_parameters);
 
         $login_model->login();
-        $login_result = $login_model->getLoginResult();
+        $login_result = $login_model->getResult();
 
         $this->assertTrue($login_result);
     }
 
     /**
-     * @test To identify that an invalid/unregistred user cannot be authenticated.
+     * @test To identify that an invalid/unregistered user cannot be authenticated.
      */
     public function testLoginInvalidCredentials()
     {
@@ -87,10 +87,10 @@ class LoginModelTest extends TestCase
         $login_model = new LoginModel();
         $login_model->setDoctrineWrapper($doctrine_wrapper);
         $login_model->setBcryptWrapper($bcrypt_wrapper);
-        $login_model->setLoginCredentials($cleaned_parameters);
+        $login_model->setUserCredentials($cleaned_parameters);
 
         $login_model->login();
-        $login_result = $login_model->getLoginResult();
+        $login_result = $login_model->getResult();
 
         $this->assertFalse($login_result);
     }
