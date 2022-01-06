@@ -194,8 +194,10 @@ class DoctrineWrapper
 
     /**
      * Uses <Doctrine> to retrieve all stored telemetry data from the telemetry_data table.
+     *
+     * @param int $offset
      */
-    public function fetchTelemetryData($offset = 0) : void
+    public function fetchTelemetryData(int $offset = 0) : void
     {
         $retrieve_result = array();
 
