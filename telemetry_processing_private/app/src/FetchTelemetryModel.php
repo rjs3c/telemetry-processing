@@ -223,6 +223,41 @@ class FetchTelemetryModel implements \TelemProc\TelemetryModelInterface
     }
 
     /**
+     * Sends initial telemetry messages to EE M2M server - a failsafe if messages cannot be sent from mobile device.
+     */
+    public function sendTelemetryTestMessages() : void
+    {
+        $this->soap_handle->setSoapSettings($this->soap_settings);
+
+        if ($this->logger_handle !== null) {
+            $this->soap_handle->setSoapLogger($this->logger_handle);
+        }
+
+        if ($this->soap_handle->createSoapHandle() !== false) {
+
+            $initial_telemetry_messages = array(
+                '<Content><GID>AF</GID><MSDN>' . $this->soap_settings['ee_m2m_phone_number'] . '</MSDN><SW><SW1>1</SW1><SW2>1</SW2><SW3>1</SW3><SW4>1</SW4></SW><FN>forward</FN><TMP>34.0</TMP><KP>1</KP></Content>',
+                '<Content><GID>AF</GID><MSDN>' . $this->soap_settings['ee_m2m_phone_number'] . '</MSDN><SW><SW1>0</SW1><SW2>0</SW2><SW3>0</SW3><SW4>0</SW4></SW><FN>reverse</FN><TMP>23.5</TMP><KP>5</KP></Content>',
+                '<Content><GID>AF</GID><MSDN>' . $this->soap_settings['ee_m2m_phone_number'] . '</MSDN><SW><SW1>1</SW1><SW2>0</SW2><SW3>1</SW3><SW4>0</SW4></SW><FN>off</FN><TMP>31.9</TMP><KP>9</KP></Content>'
+            );
+
+            $send_messages_args = array(
+                $this->soap_settings['ee_m2m_username'],
+                $this->soap_settings['ee_m2m_password'],
+                $this->soap_settings['ee_m2m_phone_number'],
+                '',
+                false,
+                'SMS'
+            );
+
+            foreach($initial_telemetry_messages as $telemetry_message) {
+                $send_messages_args[3] = $telemetry_message;
+                $this->soap_handle->callSoapFunction('sendMessage', $send_messages_args);
+            }
+        }
+    }
+
+    /**
      * Stores parsed telemetry data using <Doctrine>.
      *
      * @param array $cleaned_telemetry_data
