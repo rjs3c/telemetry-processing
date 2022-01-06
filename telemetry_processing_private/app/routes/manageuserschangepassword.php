@@ -1,6 +1,6 @@
 <?php
 /**
-* mamageuserschangepassword.php
+* manageuserschangepassword.php
 *
 * Responsible for the changing of user passwords through manageusersform.
 *
