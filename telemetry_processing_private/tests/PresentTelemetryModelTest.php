@@ -7,7 +7,6 @@
  * - Correct retrieval of telemetry data using Doctrine.
  *
  * @package telemetry_processing
- * @\TelemProc
  *
  * @author James Brass
  * @author Mo Aziz
@@ -18,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 use TelemProc\PresentTelemetryModel;
 use TelemProc\DoctrineWrapper;
 
-class PresentTelemetryModelTest extends TestCase
+final class PresentTelemetryModelTest extends TestCase
 {
     /** @var array $settings Stores SOAP settings. */
     private $settings;
