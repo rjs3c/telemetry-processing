@@ -8,7 +8,6 @@
  * - Tests that the 'peekMessages' function can be successfully called within the SOAP client.
  *
  * @package telemetry_processing
- * @\TelemProc
  *
  * @author James Brass
  * @author Mo Aziz
