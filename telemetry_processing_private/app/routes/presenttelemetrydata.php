@@ -18,8 +18,7 @@ $app->get('/presenttelemetrydata[/{page}]', function(Request $request, Response 
 {
     $tainted_page_number = $request->getQueryParam('page');
 
-
-    if(empty($tainted_page_number)){
+    if (empty($tainted_page_number)) {
         $tainted_page_number = 1;
     }
 
@@ -28,13 +27,13 @@ $app->get('/presenttelemetrydata[/{page}]', function(Request $request, Response 
     $tainted_telemetry_data = retrieveStoredTelemetryData($app, $cleaned_page_number);
     $cleaned_telemetry_data = validateTelemetryData($app, $tainted_telemetry_data);
 
-    //Checks if 21 entries. If there are then next page button can be shown
+    // Checks if 21 entries exist. If there are then next page button can be shown
     $is_next_page = false;
-    if(count($cleaned_telemetry_data) == 21){
+    
+    if (count($cleaned_telemetry_data) == 21) {
         $is_next_page = true;
         array_pop($cleaned_telemetry_data);
     }
-
 
     return $this->telemetryView->render($response,
         'presenttelemetrydata.html.twig',
@@ -95,18 +94,17 @@ function validateTelemetryData($app, array $tainted_telemetry_data) : array
 }
 
 /**
- * Validates page number url variable for additional security
+ * Validates page number GET variable for additional security
  *
- * @param $tainted_page_number
- * @return Int
+ * @param int $tainted_page_number
+ * @return int
  */
-
-function validatePageNumber($tainted_page_number) : Int{
-
+function validatePageNumber(int $tainted_page_number) : int 
+{
     if (filter_var($tainted_page_number, FILTER_VALIDATE_INT) && $tainted_page_number > 0) {
         $cleaned_page_number = $tainted_page_number;
         return $cleaned_page_number;
     } else {
-        return 1; //default page value
+        return 1; // Default page value
     }
 }
