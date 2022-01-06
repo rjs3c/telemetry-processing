@@ -8,7 +8,6 @@
  * - Correct storage of telemetry data using Doctrine.
  *
  * @package telemetry_processing
- * @\TelemProc
  *
  * @author James Brass
  * @author Mo Aziz
@@ -20,7 +19,7 @@ use TelemProc\FetchTelemetryModel;
 use TelemProc\SoapWrapper;
 use TelemProc\DoctrineWrapper;
 
-class FetchTelemetryModelTest extends TestCase
+final class FetchTelemetryModelTest extends TestCase
 {
     /** @var array $settings Stores SOAP settings. */
     private $settings;
