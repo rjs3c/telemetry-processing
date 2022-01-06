@@ -2,7 +2,7 @@
 /**
  * presenttelemetrydata.php
  *
- * Presents stored telemetry data to user.
+ * Presents stored telemetry data to the user.
  *
  * @package telemetry_processing
  *
@@ -14,7 +14,7 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-$app->get('/presenttelemetrydata[/{page}]', function(Request $request, Response $response) use ($app) : Response
+$app->get('/presenttelemetrydata[/{page}]', function (Request $request, Response $response) use ($app) : Response
 {
     $tainted_page_number = $request->getQueryParam('page');
 
@@ -57,12 +57,14 @@ $app->get('/presenttelemetrydata[/{page}]', function(Request $request, Response 
     );
 })->setName('presenttelemetrydata');
 
-
 /**
+ * Retrieves stored telemetry data.
+ *
  * @param $app
+ * @param int $offset
  * @return array
  */
-function retrieveStoredTelemetryData($app, $offset) : array
+function retrieveStoredTelemetryData($app, int $offset) : array
 {
     $telemetry_model = $app->getContainer()->get('presentTelemetryModel');
     $doctrine_handle = $app->getContainer()->get('doctrineWrapper');
@@ -74,7 +76,7 @@ function retrieveStoredTelemetryData($app, $offset) : array
     $telemetry_model->setDatabaseSettings($database_connection_settings);
     $telemetry_model->setLoggerHandle($logger_handle);
 
-    $offset = ($offset - 1) * 20;//Minus 1 and multiply by 20 to convert page number into offset
+    $offset = ($offset - 1) * 20; // Minus 1 and multiply by 20 to convert page number into offset
     $telemetry_model->retrieveTelemetryData($offset);
 
     return $telemetry_model->getRetrievalResult();
