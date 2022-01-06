@@ -8,7 +8,6 @@
  * - Correct validation of an invalid username (testing if this strips tags and handles empty usernames successfully).
  *
  * @package telemetry_processing
- * @\TelemProc
  *
  * @author James Brass
  * @author Mo Aziz
