@@ -8,7 +8,6 @@
  * - Correct deletion of a stored user.
  *
  * @package telemetry_processing
- * @\TelemProc
  *
  * @author James Brass
  * @author Mo Aziz
