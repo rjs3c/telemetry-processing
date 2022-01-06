@@ -16,22 +16,23 @@
                                 <td>
                                     <form action="manageuserschangepassword" method="post">
                                         <input name="username" type="hidden" value="{{ username|e }}">
-                                        <input id="new-password" name="password" type="password" placeholder="Password" size="30"  size="33" maxlength="32" tabindex="2" required>
-                                        <button id="show-new-password" type="button" onclick="maskPassword()"><i class="fa fa-eye-slash"></i></button>
+                                        <input id="new-password-{{ username|e }}" name="password" type="password" placeholder="Password" size="30"  size="33" maxlength="32" tabindex="2" required>
+                                        <button id="show-new-password-{{ username|e }}" type="button" onclick="maskPassword('{{ username|e }}')"><i class="fa fa-eye-slash"></i></button>
                                         <button type="submit">Change Password</button>
                                         <a href="manageusersdelete?username={{ username|e('url')|url_encode }}">
                                             <button type="button"><i class="fa fa-trash"></i></button>
                                         </a>
                                         <script type="text/javascript">
-                                            function maskPassword() {
-                                                let password = document.querySelector('#new-password');
-                                                let show_new_password = document.querySelector('#show-new-password')
+                                            function maskPassword(username) {
+                                                let password = document.querySelector('#new-password-' + username);
+                                                let show_new_password = document.querySelector('#show-new-password-' + username);
+
                                                 if (password.type === "password") {
                                                     password.type = "text";
                                                     show_new_password.innerHTML = "<i class='fa fa-eye'>";
                                                 } else {
                                                     password.type = "password";
-                                                    show_new_password.innerHTML = "<i class='fa fa-eye-slash' >";
+                                                    show_new_password.innerHTML = "<i class='fa fa-eye-slash'>";
                                                 }
                                             }
                                         </script>
