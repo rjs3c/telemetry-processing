@@ -60,11 +60,11 @@ $app->post('/loginform', function (Request $request, Response $response) use ($a
     $login_model->setDoctrineWrapper($doctrine_wrapper);
     $login_model->setBcryptWrapper($bcrypt_wrapper);
     $login_model->setSessionWrapper($session_wrapper);
-    $login_model->setLoginCredentials($cleaned_parameters);
+    $login_model->setUserCredentials($cleaned_parameters);
     $login_model->setLoggerHandle($telemetry_logger);
 
     $login_model->login();
-    $login_result = $login_model->getLoginResult();
+    $login_result = $login_model->getResult();
 
     if ($login_result) {
         return $response->withRedirect('index.php', 301);
@@ -77,10 +77,10 @@ $app->post('/loginform', function (Request $request, Response $response) use ($a
  * Validates user-entered credentials.
  *
  * @param $app
- * @param $tainted_parameters
+ * @param array $tainted_parameters
  * @return array
  */
-function cleanLoginData($app, $tainted_parameters) : array
+function cleanLoginData($app, array $tainted_parameters) : array
 {
     $cleaned_parameters = array();
 

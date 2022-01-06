@@ -58,11 +58,11 @@ $app->post('/registerform', function (Request $request, Response $response) use 
     // RegisterModel setup
     $register_model->setDoctrineWrapper($doctrine_wrapper);
     $register_model->setBcryptWrapper($bcrypt_wrapper);
-    $register_model->setRegisterCredentials($cleaned_parameters);
+    $register_model->setUserCredentials($cleaned_parameters);
     $register_model->setLoggerHandle($telemetry_logger);
 
     $register_model->register();
-    $register_result = $register_model->getRegisterResult();
+    $register_result = $register_model->getResult();
 
     if ($register_result) {
         return $response->withRedirect('index.php', 301);
@@ -75,10 +75,10 @@ $app->post('/registerform', function (Request $request, Response $response) use 
  * Validates user-entered credentials.
  *
  * @param $app
- * @param $tainted_parameters
+ * @param array $tainted_parameters
  * @return array
  */
-function cleanRegisterData($app, $tainted_parameters) : array
+function cleanRegisterData($app, array $tainted_parameters) : array
 {
     $cleaned_parameters = array();
 
