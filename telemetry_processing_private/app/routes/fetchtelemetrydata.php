@@ -58,7 +58,8 @@ function retrieveTelemetryData($app) : array
  * @param array $cleaned_telemetry_data
  * @return bool
  */
-function storeRetrievedTelemetryData($app, array $cleaned_telemetry_data) : bool {
+function storeRetrievedTelemetryData($app, array $cleaned_telemetry_data) : bool 
+{
     $telemetry_model = $app->getContainer()->get('fetchTelemetryModel');
     $doctrine_handle = $app->getContainer()->get('doctrineWrapper');
     $logger_handle = $app->getContainer()->get('telemetryLogger');
