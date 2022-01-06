@@ -52,13 +52,13 @@ function retrieveTelemetryData($app) : array
 }
 
 /**
- * @TODO Doctrine functionality (from Model).
+ * Store the retrieved telemetry data.
  *
  * @param $app
- * @param $cleaned_telemetry_data
+ * @param array $cleaned_telemetry_data
  * @return bool
  */
-function storeRetrievedTelemetryData($app, $cleaned_telemetry_data) : bool {
+function storeRetrievedTelemetryData($app, array $cleaned_telemetry_data) : bool {
     $telemetry_model = $app->getContainer()->get('fetchTelemetryModel');
     $doctrine_handle = $app->getContainer()->get('doctrineWrapper');
     $logger_handle = $app->getContainer()->get('telemetryLogger');
