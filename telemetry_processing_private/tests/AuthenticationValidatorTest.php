@@ -9,7 +9,6 @@
  * - Tests that an invalid username (that exceeds the 30 character length) can be successfully validated.
  *
  * @package telemetry_processing
- * @\TelemProc
  *
  * @author James Brass
  * @author Mo Aziz
