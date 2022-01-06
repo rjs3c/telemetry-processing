@@ -7,7 +7,6 @@
  * - Correct successful registration of valid user credentials (testUsername).
  *
  * @package telemetry_processing
- * @\TelemProc
  *
  * @author James Brass
  * @author Mo Aziz
