@@ -9,7 +9,6 @@
  * - Tests that, if all values are set on the Circuit Board, the status message will reflect this.
  *
  * @package telemetry_processing
- * @\TelemProc
  *
  * @author James Brass
  * @author Mo Aziz
