@@ -14,7 +14,7 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-$app->get('/manageusersdelete', function(Request $request, Response $response) use ($app) : Response
+$app->get('/manageusersdelete', function (Request $request, Response $response) use ($app) : Response
 {
     $tainted_username = $request->getQueryParam('username');
 
