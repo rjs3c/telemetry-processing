@@ -183,6 +183,7 @@ class DoctrineWrapper
             $duplicate_retrieval = $query_builder->execute();
 
             $duplication_result = !empty((bool)$duplicate_retrieval->fetchAll());
+
         } catch(\Exception $exception) {
             if ($this->doctrine_logger !== null) {
                 $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
@@ -249,9 +250,9 @@ class DoctrineWrapper
     /**
      * Uses <Doctrine> to fetch the password of the given username
      *
-     * @param $username
+     * @param string $cleaned_username
      */
-    public function fetchUserPassword($username) : void
+    public function fetchUserPassword(string $cleaned_username) : void
     {
         $password = null;
 
@@ -261,7 +262,7 @@ class DoctrineWrapper
                 ->from('telemetry_users', 'u')
                 ->where('u.username = :username')
                 ->setParameters(array(
-                    'username' => $username,
+                    'username' => $cleaned_username,
                 ));
 
             $query = $query_builder->execute();
@@ -279,9 +280,9 @@ class DoctrineWrapper
     /**
      * Uses <Doctrine> to check if a given username is available when registering.
      *
-     * @param $username
+     * @param string $cleaned_username
      */
-    public function checkIfUsernameAvailable($username) : void
+    public function checkIfUsernameAvailable(string $cleaned_username) : void
     {
         $is_available = false;
 
@@ -291,15 +292,14 @@ class DoctrineWrapper
                 ->from('telemetry_users', 'u')
                 ->where('u.username = :username')
                 ->setParameters(array(
-                    'username' => $username,
+                    'username' => $cleaned_username,
                 ));
 
             $query = $query_builder->execute();
             $result = $query->fetchAll();
 
-            if (empty($result)) { // If empty, username is available
-                $is_available = true;
-            }
+            $is_available = empty($result); // If empty, username is available
+
         } catch (\Exception $exception) {
             if ($this->doctrine_logger !== null) {
                 $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
@@ -312,10 +312,10 @@ class DoctrineWrapper
     /**
      * Uses <Doctrine> to store new user details
      *
-     * @param $username
-     * @param $password
+     * @param string $cleaned_username
+     * @param string $cleaned_password
      */
-    public function storeUserDetails($username, $password) : void
+    public function storeUserDetails(string $cleaned_username, string $cleaned_password) : void
     {
         $store_result = false;
 
@@ -327,17 +327,14 @@ class DoctrineWrapper
                     'password' => ':password'
                 ))
                 ->setParameters(array(
-                    'username' => $username,
-                    'password' => $password
+                    'username' => $cleaned_username,
+                    'password' => $cleaned_password
                 ));
 
             $store_result = $query_builder->execute();
 
-            if ($store_result == 1) {
-                $store_result = true;
-            } else {
-                $store_result = false;
-            }
+            $store_result = $store_result == 1;
+
         } catch (\Exception $exception) {
             if ($this->doctrine_logger !== null) {
                 $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
@@ -393,8 +390,6 @@ class DoctrineWrapper
                 ->setParameter('password', $new_hashed_password);
 
             $user_password_changed = $query_builder->execute();
-
-            var_dump($user_password_changed);
 
         } catch (\Exception $exception) {
             if ($this->doctrine_logger !== null) {
