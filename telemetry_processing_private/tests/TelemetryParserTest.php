@@ -8,7 +8,6 @@
  * - Tests that, if no group-specific messages exist amidst many others, an empty result is returned.
  *
  * @package telemetry_processing
- * @\TelemProc
  *
  * @author James Brass
  * @author Mo Aziz
