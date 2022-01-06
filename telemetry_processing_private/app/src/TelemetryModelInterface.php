@@ -5,6 +5,7 @@
  * Provides an template for PresentTelemetryModel and FetchTelemetryModel.
  *
  * @package telemetry_processing
+ * @\TelemProc
  *
  * @author James Brass
  * @author Mo Aziz
