@@ -26,6 +26,15 @@ require 'routes/sendtelemetrydata.php';
 /* Presenting the form for users to login */
 require 'routes/loginform.php';
 
+/*Middleware - checks if user is admin*/
+//$container = $app->getContainer();
+//$session_wrapper = $container->get('sessionWrapper');
+//$doctrine_wrapper = $container->get('doctrineWrapper');
+//$middleware = new \TelemProc\AuthenticationMiddleware();
+//$middleware->setDoctrineWrapper($doctrine_wrapper);
+//$middleware->setSessionWrapper($session_wrapper);
+//$app->add($middleware);
+
 /* Allows users to logout from the system, once authenticated. */
 require 'routes/logout.php';
 

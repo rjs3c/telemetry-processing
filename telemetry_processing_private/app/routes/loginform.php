@@ -30,7 +30,8 @@ $app->get('/loginform', function (Request $request, Response $response) use ($ap
                 'login' => 'loginform',
                 'homepage' => 'index.php',
                 'present_telemetry'=> 'presenttelemetrydata',
-                'fetch_telemetry'=> 'fetchtelemetrydata'
+                'fetch_telemetry'=> 'fetchtelemetrydata',
+                'logout'=>'logout'
             )
         )
     );

@@ -7,7 +7,9 @@
                 <div class="homepage-links">
                     <div class="homepage-link"><a href="{{ links.present_telemetry }}">Fetch and Present Telemetry Data</a> </div>
                     <div class="homepage-link"><a href="{{ links.send_telemetry }}">Circuit Board Status</a> </div>
+                    {% if isAdmin %}
                     <div class="homepage-link"><a href="{{ links.manage_users }}">Manage Registered Users</a> </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

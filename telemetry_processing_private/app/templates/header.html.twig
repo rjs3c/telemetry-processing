@@ -3,10 +3,19 @@
         <div class="not-header-links">
             Telemetry Processing
         </div>
-        <div class="header-links">
-            <a href={{ links.homepage }}>Home</a>
-            <a href={{ links.login }}>Login</a>
-            <a href={{ links.register }}>Register</a>
-        </div>
+
+        {% if isAdmin %}
+            <div class="header-links">
+                <a href={{ links.homepage }}>Home</a>
+                <a href={{ links.logout }}>Logout</a>
+            </div>
+        {% else %}
+            <div class="header-links">
+                <a href={{ links.homepage }}>Home</a>
+                <a href={{ links.login }}>Login</a>
+                <a href={{ links.register }}>Register</a>
+            </div>
+        {% endif %}
+
     </div>
 {% endblock %}

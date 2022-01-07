@@ -5,6 +5,9 @@
         </div>
         <div class="data-table-wrapper">
             {% if telemetry_data|length > 0 %}
+                <div class="data-table-info">
+                    <p>Page:{{ page_number }}</p>
+                </div>
                 <table class="data-table">
                     <tr>
                         <th>Switch 1</th>
@@ -27,26 +30,25 @@
                             </tr>
                         {% endfor %}
                 </table>
+                <div class="data-buttons">
+                    {% if page_number > 1 %}
+                        <form method="get" action="presenttelemetrydata">
+                            <input type="hidden" name="page" value={{ page_number - 1}} />
+                            <button id="prev" type="submit">Prev</button>
+                        </form>
+                    {% endif %}
+                    <button onclick="window.location.href='fetchtelemetrydata'">Fetch</button>
+                    {% if is_next_page %}
+                        <form action="presenttelemetrydata">
+                            <input type="hidden" name="page" value={{ page_number + 1}} />
+                            <button id="next" type="submit">Next</button>
+                        </form>
+                    {% endif %}
+                </div>
             {% else %}
                 <p>No telemetry data available.</p>
+                <button id="fetchbutton" onclick="window.location.href='fetchtelemetrydata'">Fetch</button>
             {% endif %}
 
-            <a href="fetchtelemetrydata">Fetch Telemetry Data</a>
-            <div style="display: flex;">
-                {% if page_number > 1 %}
-                    <form method="get" action="presenttelemetrydata">
-                        <input type="hidden" name="page" value={{ page_number - 1}} />
-                        <button id="prev" type="submit">Prev</button>
-                    </form>
-                {% endif %}
-                {% if is_next_page %}
-                    <form action="presenttelemetrydata">
-                        <input type="hidden" name="page" value={{ page_number + 1}} />
-                        <button id="next" type="submit">Next</button>
-                    </form>
-                {% endif %}
-
-            </div>
-            <p>Page:{{ page_number }}</p>
         </div>
     {% endblock %}

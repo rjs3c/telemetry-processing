@@ -402,4 +402,32 @@ class DoctrineWrapper
             $this->query_result = $user_password_changed;
         }
     }
+
+    /**
+     * @param string $cleaned_username
+     * @return void
+     * Checks if a user is admin or not.
+     */
+    public function checkIfAdmin(string $cleaned_username)
+    {
+        $is_admin = false;
+        try{
+            $query_builder = $this->query_builder
+                ->select('u.admin')
+                ->from('telemetry_users', 'u')
+                ->where('u.username = :username')
+                ->setParameter("username", $cleaned_username);
+
+            $is_admin = $query_builder->execute();
+        } catch(\Exception $exception) {
+            if ($this->doctrine_logger !== null) {
+                $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
+            }
+        } finally {
+            $this->query_result = $is_admin;
+        }
+
+
+    }
+
 }

@@ -3,45 +3,49 @@
         <div class="present-page content">
             <h1 class="heading">{{ heading_1 }}</h1>
         </div>
-        {% if users_list|length > 0 %}
-                <div class="data-table-wrapper">
-                    <table class="data-table">
-                        <tr>
-                            <th>Username</th>
-                            <th>Actions</th>
-                        </tr>
-                        {% for username in users_list %}
-                            <tr>
-                                <td>{{ username|e }}</td>
-                                <td>
-                                    <form action="manageuserschangepassword" method="post">
-                                        <input name="username" type="hidden" value="{{ username|e }}">
-                                        <input id="new-password" name="password" type="password" placeholder="Password" size="30"  size="33" maxlength="32" tabindex="2" required>
-                                        <button id="show-new-password" type="button" onclick="maskPassword()"><i class="fa fa-eye-slash"></i></button>
-                                        <button type="submit">Change Password</button>
-                                        <a href="manageusersdelete?username={{ username|e('url')|url_encode }}">
-                                            <button type="button"><i class="fa fa-trash"></i></button>
-                                        </a>
-                                        <script type="text/javascript">
-                                            function maskPassword() {
-                                                let password = document.querySelector('#new-password');
-                                                let show_new_password = document.querySelector('#show-new-password')
-                                                if (password.type === "password") {
-                                                    password.type = "text";
-                                                    show_new_password.innerHTML = "<i class='fa fa-eye'>";
-                                                } else {
-                                                    password.type = "password";
-                                                    show_new_password.innerHTML = "<i class='fa fa-eye-slash' >";
-                                                }
-                                            }
-                                        </script>
-                                    </form>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-            {% else %}
-                <p>No users.</p>
-            {% endif %}
+        {% if users_list.length > 0 %}
+        <div class="data-table-wrapper">
+            <table class="data-table">
+                <tr>
+                    <th>Username</th>
+                    <th>Actions</th>
+                </tr>
+                {% for username in users_list %}
+                    <tr>
+                        <td>{{ username|e }}</td>
+                        <td>
+                            <form action="manageuserschangepassword" method="post">
+                                <input class="form-input-text" name="username" type="hidden" value="{{ username|e }}">
+                                <div class="form-input">
+                                    <input id="password" name="password" type="password" placeholder="Password" size="30"  size="33" maxlength="32" tabindex="2" required>
+                                    <button id="show-password" type="button" onclick="maskPassword()"><i class="fa fa-eye-slash"></i></button>
+                                </div>
+                                <button class="form-input-button"  type="submit">Change Password</button>
+                                <script type="text/javascript">
+                                    function maskPassword() {
+                                        let password = document.querySelector('#new-password');
+                                        let show_new_password = document.querySelector('#show-new-password')
+                                        if (password.type === "password") {
+                                            password.type = "text";
+                                            show_new_password.innerHTML = "<i class='fa fa-eye'>";
+                                        } else {
+                                            password.type = "password";
+                                            show_new_password.innerHTML = "<i class='fa fa-eye-slash' >";
+                                        }
+                                    }
+                                </script>
+                            </form>
+                        </td>
+                        <td>
+                            <div class="form-button">
+                                <a href="manageusersdelete?username={{ username|e('url')|url_encode }}">
+                                    <button class="delete-input-button" type="button">Delete</button>
+                                </a>
+                            </div>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
     {% endblock %}

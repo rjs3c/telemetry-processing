@@ -16,6 +16,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->get('/presenttelemetrydata[/{page}]', function(Request $request, Response $response) use ($app) : Response
 {
+
     $tainted_page_number = $request->getQueryParam('page');
 
 

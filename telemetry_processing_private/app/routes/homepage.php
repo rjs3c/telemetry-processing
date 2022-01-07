@@ -29,7 +29,8 @@ $app->get('/', function(Request $request, Response $response) use ($app)
                 'homepage' => '#',
                 'present_telemetry' => 'presenttelemetrydata',
                 'manage_users' => 'manageusersform',
-                'send_telemetry' => 'sendtelemetrydata'
+                'send_telemetry' => 'sendtelemetrydata',
+                'logout'=>'logout'
             )
         )
     );

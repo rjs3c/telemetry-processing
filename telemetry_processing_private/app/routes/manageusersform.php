@@ -18,7 +18,7 @@ $app->get('/manageusersform', function(Request $request, Response $response) use
 {
     $tainted_users = retrieveUsers($app);
     $cleaned_users = validateUsernames($app, $tainted_users);
-
+    $is_admin = $request->getAttribute('isAdmin');
     return $this->telemetryView->render($response,
         'manageusersform.html.twig',
         array(
@@ -32,9 +32,12 @@ $app->get('/manageusersform', function(Request $request, Response $response) use
                 'login' => 'loginform',
                 'homepage' => 'index.php',
                 'present_telemetry'=> 'presenttelemetrydata',
-                'fetch_telemetry'=> 'fetchtelemetrydata'
+                'fetch_telemetry'=> 'fetchtelemetrydata',
+                'logout'=>'logout',
+                'isAdmin'=>$is_admin
+
             ),
-            'users_list' => $cleaned_users
+        'users_list' => $cleaned_users
         )
     );
 })->setName('manageusersform');
