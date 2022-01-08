@@ -26,12 +26,6 @@ $settings = require __DIR__ . '/app/' . 'settings.php';
 /** Points to relative /app/ directory. */
 $app_path = __DIR__ . APP_PATH;
 
-/** XDebug Start Trace/Profiling */
-if (function_exists(xdebug_start_trace()))
-{
-    xdebug_start_trace();
-}
-
 /** Instantiation of Slim DIC. */
 $container = new \Slim\Container($settings);
 
@@ -45,9 +39,3 @@ $app = new \Slim\App($container);
 require $app_path . 'routes.php';
 
 $app->run();
-
-/** XDebug Stop Trace/Profiling */
-if (function_exists(xdebug_stop_trace()))
-{
-    xdebug_stop_trace();
-}
