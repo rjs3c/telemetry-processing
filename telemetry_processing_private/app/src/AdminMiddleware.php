@@ -109,7 +109,6 @@ class AdminMiddleware
         }
 
         $request = $request->withAttribute('isAdmin', $is_admin);
-
         $response = $next($request, $response);
 
         return $response;
