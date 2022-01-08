@@ -57,7 +57,6 @@ class AuthenticationMiddleware
         }
 
         $request = $request->withAttribute('isAuthenticated', $is_authenticated);
-
         $response = $next($request, $response);
 
         return $response;
