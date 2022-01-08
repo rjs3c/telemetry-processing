@@ -49,7 +49,7 @@ return array(
         'debug' => true,
         'telemetryView' => array(
             'twig_attributes' => array(
-                'cache' => CACHE_PATH . 'twig/',
+                'cache' => false,
                 'auto_reload' => true,
             )
         ),
