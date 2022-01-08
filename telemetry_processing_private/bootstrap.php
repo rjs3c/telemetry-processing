@@ -35,7 +35,8 @@ require $app_path . 'dependencies.php';
 /** Instantiation of Slim App. */
 $app = new \Slim\App($container);
 
-/** Routes File - provides different routes. */
+/** Routes and Middleware. */
 require $app_path . 'routes.php';
+require $app_path . 'middleware.php';
 
 $app->run();
