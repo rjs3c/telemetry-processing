@@ -345,6 +345,36 @@ class DoctrineWrapper
     }
 
     /**
+     * Checks if a user is an admin or not.
+     *
+     * @param string $cleaned_username
+     */
+    public function checkIfAdmin(string $cleaned_username) : void
+    {
+        $is_admin = false;
+
+        try {
+            $query_builder = $this->query_builder
+                ->select('u.admin')
+                ->from('telemetry_users', 'u')
+                ->where('u.username = :username')
+                ->setParameter('username', $cleaned_username);
+
+            $query = $query_builder->execute();
+            $result = $query->fetch();
+
+            $is_admin = $result['admin'] == 1;
+
+        } catch (\Exception $exception) {
+            if ($this->doctrine_logger !== null) {
+                $this->logDoctrineError('Doctrine Error', array($exception->getMessage()));
+            }
+        } finally {
+            $this->query_result = $is_admin;
+        }
+    }
+
+    /**
      * Performs DELETE query of specific user entry.
      *
      * @param string $cleaned_username
