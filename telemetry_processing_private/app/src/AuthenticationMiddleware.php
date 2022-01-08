@@ -38,7 +38,7 @@ class AuthenticationMiddleware
     }
 
     /**
-     * Invoke method for AuthenticationMiddleware.
+     * Invoke method for AdminMiddleware.
      *
      * @param Request $request PSR7 request
      * @param Response $response PSR7 response
@@ -54,9 +54,9 @@ class AuthenticationMiddleware
 
         if (!empty($username)) {
             $is_authenticated = true;
+            $request = $request->withAttribute('isAuthenticated', $is_authenticated);
         }
 
-        $request = $request->withAttribute('isAuthenticated', $is_authenticated);
         $response = $next($request, $response);
 
         return $response;

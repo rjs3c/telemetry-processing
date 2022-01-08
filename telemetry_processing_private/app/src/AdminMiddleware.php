@@ -106,9 +106,10 @@ class AdminMiddleware
 
             $this->doctrine_wrapper->checkifAdmin($cleaned_username);
             $is_admin = $this->doctrine_wrapper->getQueryResult();
+
+            $request = $request->withAttribute('isAdmin', $is_admin);
         }
 
-        $request = $request->withAttribute('isAdmin', $is_admin);
         $response = $next($request, $response);
 
         return $response;
