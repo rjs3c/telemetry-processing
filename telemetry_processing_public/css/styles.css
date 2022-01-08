@@ -20,6 +20,7 @@ body{
 }
 
 .header-links a{
+    margin-right:1em;
     color: white;
     text-decoration: none;
     border-bottom: 1px solid black;
@@ -161,4 +162,85 @@ body{
 .message-info span{
     font-size: .9em;
     text-align: center;
+}
+
+/**PRESENT TELEMETRY DATA**/
+.data-table-wrapper{
+    display:flex;
+    flex-direction: column;
+    background-color: white;
+    margin:auto;
+    justify-content: center;
+
+}
+#fetchbutton{
+    padding:1em 2em 1em 2em;
+    color:white;
+    border:1px solid black;
+    background-color: black;
+    border:none;
+}
+#fetchbutton:hover{
+    background-color: white;
+    border:1px solid black;
+    color:black;
+    cursor:pointer;
+
+}
+
+.data-table{
+    background-color: black;
+}
+.data-table th{
+    background-color:black;
+    padding:1em;
+    color:white;
+}
+.data-table tr td{
+    padding:.7em;
+    background-color: white;
+    text-align: center;
+
+}
+.data-table-info{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.data-table-info a{
+    border:1px solid black;
+
+
+}
+.data-buttons{
+    width:100%;
+    display:flex;
+    flex-direction: row;
+    margin-top:1em;
+    justify-content: space-between;
+}
+
+.data-buttons button{
+    padding:1em 2em 1em 2em;
+    color:white;
+    border:1px solid black;
+    background-color: black;
+    border:none;
+}
+
+
+.data-buttons button:hover{
+    background-color: white;
+    border:1px solid black;
+    color:black;
+    cursor:pointer;
+
+}
+/** MANAGE USERS **/
+.delete-input-button{
+    width:100%;
+    background-color: black;
+    color: white;
+    padding:1em;
 }
