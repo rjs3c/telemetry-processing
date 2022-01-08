@@ -19,9 +19,6 @@
                                         <input id="new-password-{{ username|e }}" name="password" type="password" placeholder="Password" size="30"  size="33" maxlength="32" tabindex="2" required>
                                         <button id="show-new-password-{{ username|e }}" type="button" onclick="maskPassword('{{ username|e }}')"><i class="fa fa-eye-slash"></i></button>
                                         <button type="submit">Change Password</button>
-                                        <a href="manageusersdelete?username={{ username|e('url')|url_encode }}">
-                                            <button type="button"><i class="fa fa-trash"></i></button>
-                                        </a>
                                         <script type="text/javascript">
                                             function maskPassword(username) {
                                                 let password = document.querySelector('#new-password-' + username);
@@ -37,6 +34,13 @@
                                             }
                                         </script>
                                     </form>
+                                </td>
+                                <td>
+                                    <div class="form-button">
+                                        <a href="manageusersdelete?username={{ username|e('url')|url_encode }}">
+                                            <button type="button"><i class="fa fa-trash"></i></button>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         {% endfor %}
