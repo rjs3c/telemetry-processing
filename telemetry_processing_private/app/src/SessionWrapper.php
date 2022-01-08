@@ -45,7 +45,7 @@ class SessionWrapper
      */
     public function getSessionVar(string $session_var)
     {
-        $returned_var = null;
+        $returned_var = '';
 
         if (isset($_SESSION[$session_var])) {
             $returned_var = $_SESSION[$session_var];
