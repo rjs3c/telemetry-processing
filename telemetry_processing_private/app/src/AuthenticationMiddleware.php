@@ -38,7 +38,7 @@ class AuthenticationMiddleware
     }
 
     /**
-     * Invoke method for AdminMiddleware.
+     * Invoke method for AuthenticationMiddleware.
      *
      * @param Request $request PSR7 request
      * @param Response $response PSR7 response
