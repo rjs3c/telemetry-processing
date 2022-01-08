@@ -17,6 +17,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 $app->get('/presenttelemetrydata[/{page}]', function (Request $request, Response $response) use ($app) : Response
 {
     $tainted_page_number = $request->getQueryParam('page');
+    $is_authenticated = $request->getAttribute('isAuthenticated');
 
     if (empty($tainted_page_number)) {
         $tainted_page_number = 1;
@@ -52,7 +53,8 @@ $app->get('/presenttelemetrydata[/{page}]', function (Request $request, Response
             ),
             'telemetry_data' => $cleaned_telemetry_data,
             'page_number'=> $cleaned_page_number,
-            'is_next_page' => $is_next_page
+            'is_next_page' => $is_next_page,
+            'isAuthenticated' => $is_authenticated
         )
     );
 })->setName('presenttelemetrydata');

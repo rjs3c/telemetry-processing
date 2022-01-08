@@ -16,6 +16,9 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->get('/', function (Request $request, Response $response) use ($app) : Response
 {
+    $is_admin = $request->getAttribute('isAdmin');
+    $is_authenticated = $request->getAttribute('isAuthenticated');
+
     return $this->telemetryView->render($response,
         'homepage.html.twig',
         array(
@@ -30,8 +33,11 @@ $app->get('/', function (Request $request, Response $response) use ($app) : Resp
                 'send_initial_messages' => 'sendinitialtelemetrymessages',
                 'present_telemetry' => 'presenttelemetrydata',
                 'manage_users' => 'manageusersform',
-                'send_telemetry' => 'sendtelemetrydata'
-            )
+                'send_telemetry' => 'sendtelemetrydata',
+                'logout' => 'logout'
+            ),
+            'isAuthenticated' => $is_authenticated,
+            'isAdmin' => $is_admin
         )
     );
 })->setName('homepage');

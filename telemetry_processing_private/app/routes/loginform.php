@@ -67,9 +67,9 @@ $app->post('/loginform', function (Request $request, Response $response) use ($a
     $login_result = $login_model->getResult();
 
     if ($login_result) {
-        return $response->withRedirect('index.php', 301);
+        return $response->withRedirect('index.php', 302);
     } else {
-        return $response->withRedirect('loginform', 301);
+        return $response->withRedirect('loginform', 302);
     }
 })->setName('loginform');
 

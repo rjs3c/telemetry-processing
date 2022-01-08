@@ -16,27 +16,36 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->get('/manageusersform', function (Request $request, Response $response) use ($app) : Response
 {
-    $tainted_users = retrieveUsers($app);
-    $cleaned_users = validateUsernames($app, $tainted_users);
+    $is_admin = $request->getAttribute('isAdmin');
+    $is_authenticated = $request->getAttribute('isAuthenticated');
 
-    return $this->telemetryView->render($response,
-        'manageusersform.html.twig',
-        array(
-            'page_title' => APP_TITLE,
-            'css_file' => CSS_PATH,
-            'landing_page' => 'index.php',
-            'heading_1' => 'Manage Users',
-            'register_action' => 'registerform',
-            'links' => array(
-                'register' => 'registerform',
-                'login' => 'loginform',
-                'homepage' => 'index.php',
-                'present_telemetry'=> 'presenttelemetrydata',
-                'fetch_telemetry'=> 'fetchtelemetrydata'
-            ),
-            'users_list' => $cleaned_users
-        )
-    );
+    if ($is_admin) {
+        $tainted_users = retrieveUsers($app);
+        $cleaned_users = validateUsernames($app, $tainted_users);
+
+        return $this->telemetryView->render($response,
+            'manageusersform.html.twig',
+            array(
+                'page_title' => APP_TITLE,
+                'css_file' => CSS_PATH,
+                'landing_page' => 'index.php',
+                'heading_1' => 'Manage Users',
+                'register_action' => 'registerform',
+                'links' => array(
+                    'register' => 'registerform',
+                    'login' => 'loginform',
+                    'homepage' => 'index.php',
+                    'present_telemetry'=> 'presenttelemetrydata',
+                    'fetch_telemetry'=> 'fetchtelemetrydata',
+                    'logout' => 'logout'
+                ),
+                'users_list' => $cleaned_users,
+                'isAuthenticated' => $is_authenticated
+            )
+        );
+    } else {
+        return $response->withRedirect('index.php', 302);
+    }
 })->setName('manageusersform');
 
 /**
