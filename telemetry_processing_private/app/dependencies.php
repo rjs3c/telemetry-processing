@@ -167,3 +167,19 @@ $container['manageUsersValidator'] = function ()
 {
     return new \TelemProc\ManageUsersValidator();
 };
+
+/**
+ * AdminMiddleware.
+ */
+$container['adminMiddleware'] = function ()
+{
+    return new \TelemProc\AdminMiddleware();
+};
+
+/**
+ * AuthenticationMiddleware.
+ */
+$container['authenticationMiddleware'] = function ()
+{
+    return new \TelemProc\AuthenticationMiddleware();
+};
