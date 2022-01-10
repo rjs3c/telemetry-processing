@@ -10,6 +10,7 @@
                 </div>
                 <table class="data-table">
                     <tr>
+                        <th>Source SIM Number</th>
                         <th>Switch 1</th>
                         <th>Switch 2</th>
                         <th>Switch 3</th>
@@ -20,6 +21,7 @@
                     </tr>
                     {% for data in telemetry_data %}
                         <tr>
+                            <td>{{ data.sender_number|e }}</td>
                             <td>{{ data.switch_one|e }}</td>
                             <td>{{ data.switch_two|e }}</td>
                             <td>{{ data.switch_three|e }}</td>
