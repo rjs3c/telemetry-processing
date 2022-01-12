@@ -4,10 +4,14 @@ Telemetry Data Processing using PHP and EE's M2M SOAP Service.
 ## Team
 **21-3110-AF**
 ## Created by
-* @MoAziz123
-* @JamesB38
-* @rjs3c
-## Important Configuration (Must Read!)
+* Mo Aziz
+* James Brass
+* Ryan Instrell
+## Contents
+1. [Important Configuration](#important-configuration)
+2. [Access](#access)
+3. [Usage](#usage)
+## Important Configuration
 ### Directory structure
 ```markdown
 ├── includes
@@ -94,6 +98,12 @@ $app->getContainer()->get('telemetrySettings')['telemetryView'];
 $app->getContainer()->get('telemetrySettings')['doctrineSettings'];
 $app->getContainer()->get('telemetrySettings')['soapSettings'];
 ```
+### Administrator User
+For correct user management, a user with the 'admin' flag exist in the telemetry_users table.
+By default, there is a user of administrator access.
+**Username**:telemetry_user
+**Password**:telemetry_user_pass
+NB. The credentials can be changed by using the administration interface and changing their password.
 ### Misc. 
 Application Constants:
 * **APP_PATH** : `telemetry_processing/app` directory
@@ -106,3 +116,27 @@ $css_file_name = 'styles.css';
 ```
 * **TEMPLATE_PATH** : `telemetry_processing/app/templates` directory
 * **LOG_PATH** : `includes/logs` directory 
+## Access
+* Go to your web browser (i.e. Firefox, Edge, Chrome, etc).
+* Navigate to the web root of your Apache web server.
+* Click on telemetry_processing directory.
+* Enjoy!
+## Usage
+### Homepage
+Main entry point of application. Provides numerous options/routes:
+* Send Test Telemetry Messages (*Unauthenticated*)
+        * Uses SOAP to send test telemetry data to EE's M2M server (if your mobile device doesn't work).
+* Fetch and Present Telemetry Data (*Unauthenticated*)
+        * Shows all currently stored telemetry data in the telemetry_data table.
+        * Allows refreshing of the data using 'Fetch' button.
+* Update Circuit Board Status (*Unauthenticated*)
+        * Allows you to update a simulated circuit board using the most recently stored telemetry values.
+* Manage Users (*Authenticated*)
+        * Allows a user of administrator status to manage all register users.
+                * Changing of Passwords
+                * Deletion
+        * For a user to be of administrator status, the 'admin' flag must be set in the telemetry_users table.
+* Login
+        * Allows registered users to authenticate.
+* Register
+        * Allows unauthenticated users to register their information.
