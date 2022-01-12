@@ -101,7 +101,7 @@ $app->getContainer()->get('telemetrySettings')['soapSettings'];
 ### Administrator User
 For correct user management, a user with the 'admin' flag **must** exist in the telemetry_users table.
 
-By default, there is a user of administrator status included. NB. The credentials can and **should** be changed by using the administration interface and changing their password.
+By default, there is a user of administrator status included. NB. The credentials can and **should** be changed by using the User Management interface.
 
 * **Username** : telemetry_user
 * **Password** : telemetry_user_pass
