@@ -127,18 +127,18 @@ $css_file_name = 'styles.css';
 ### Homepage
 This is the main entry point of the application. This provides numerous options/routes:
 * **Send Test Telemetry Messages** (Unauthenticated)
-        + Uses SOAP to send test telemetry data to EE's M2M server (if your mobile device doesn't work).
+                * Uses SOAP to send test telemetry data to EE's M2M server (if your mobile device doesn't work).
 * **Fetch and Present Telemetry Data** (Unauthenticated)
-+ Shows all currently stored telemetry data in the telemetry_data table.
-        + Allows refreshing of the data using 'Fetch' button.
+                * Shows all currently stored telemetry data in the telemetry_data table.
+                * Allows refreshing of the data using 'Fetch' button.
 * **Update Circuit Board Status** (Unauthenticated)
-        + Allows you to update a simulated circuit board using the most recently stored telemetry values.
+                * Allows you to update a simulated circuit board using the most recently stored telemetry values.
 * **Manage Users** (Authenticated)
-        + Allows a user of administrator status to manage all register users.
-  * Changing of Passwords
-  * Deletion
-+ For a user to be of administrator status, the 'admin' flag must be set in the telemetry_users table.
+                * Allows a user of administrator status to manage all register users.
+                                * Changing of Passwords
+                                * Deletion
+                * For a user to be of administrator status, the 'admin' flag must be set in the telemetry_users table.
 * **Login**
-        + Allows registered users to authenticate.
+                * Allows registered users to authenticate.
 * **Register**
-        + Allows unauthenticated users to register their information.
+                * Allows unauthenticated users to register their information.
