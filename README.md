@@ -138,8 +138,10 @@ This is the main entry point of the application. The options/routes accessible t
     
 * **Manage Users** (Authenticated Route)
     * Allows a user (of administrator status) to manage registered users. This includes:
+    
         * Changing passwords.
         * Account removal.
+        
     * NB For a user to classify as an administrator, the 'admin' flag must be set in the telemetry_users table.
     
 * **Login**
