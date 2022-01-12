@@ -99,14 +99,12 @@ $app->getContainer()->get('telemetrySettings')['doctrineSettings'];
 $app->getContainer()->get('telemetrySettings')['soapSettings'];
 ```
 ### Administrator User
-For correct user management, a user with the 'admin' flag exist in the telemetry_users table.
+For correct user management, a user with the 'admin' flag **must** exist in the telemetry_users table.
 
-By default, there is a user of administrator status.
+By default, there is a user of administrator status included. NB. The credentials can and **should** be changed by using the administration interface and changing their password.
 
 * **Username** : telemetry_user
 * **Password** : telemetry_user_pass
-
-NB. The credentials can be changed by using the administration interface and changing their password.
 
 ### Misc. 
 Application Constants:
@@ -142,5 +140,5 @@ This is the main entry point of the application. This provides numerous options/
         * For a user to be of administrator status, the 'admin' flag must be set in the telemetry_users table.
 * **Login**
         * Allows registered users to authenticate.
-***Register**
+* **Register**
         * Allows unauthenticated users to register their information.
