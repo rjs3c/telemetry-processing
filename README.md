@@ -136,7 +136,7 @@ This is the main entry point of the application. The options/routes accessible t
 * **Update Circuit Board Status** (Unauthenticated Route)
     * Allows you to update a simulated circuit board using the most recently stored telemetry values.
     
-* **Manage Users** (Authenticated)
+* **Manage Users** (Authenticated Route)
     * Allows a user (of administrator status) to manage registered users. This includes:
         * Changing passwords.
         * Account removal.
