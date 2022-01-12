@@ -103,8 +103,8 @@ For correct user management, a user with the 'admin' flag exist in the telemetry
 
 By default, there is a user of administrator status.
 
-**Username** : telemetry_user
-**Password** : telemetry_user_pass
+* **Username** : telemetry_user
+* **Password** : telemetry_user_pass
 
 NB. The credentials can be changed by using the administration interface and changing their password.
 
