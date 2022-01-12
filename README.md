@@ -99,9 +99,9 @@ $app->getContainer()->get('telemetrySettings')['doctrineSettings'];
 $app->getContainer()->get('telemetrySettings')['soapSettings'];
 ```
 ### Administrator User
-For correct user management, a user with the 'admin' flag **must** exist in the telemetry_users table.
+To be able to manage users, a user with the 'admin' flag **must** exist in the telemetry_users table **and** be logged in.
 
-By default, there is a user of administrator status included. NB. The credentials can and **should** be changed by using the User Management interface.
+By default, there is a user of administrator status pre-included. NB The credentials can and **should** be changed by using the User Management interface.
 
 * **Username** : telemetry_user
 * **Password** : telemetry_user_pass
@@ -127,7 +127,7 @@ $css_file_name = 'styles.css';
 ### Homepage
 This is the main entry point of the application. The options/routes accessible through this page are as follows:
 * **Send Test Telemetry Messages** (Unauthenticated Route)
-    * Uses SOAP to send test telemetry data to EE's M2M server (NB. an alternative to using your mobile device, if this doesn't work).
+    * Uses SOAP to send test telemetry data to EE's M2M server (NB An alternative to using your mobile device, if this method doesn't work).
     
 * **Fetch and Present Telemetry Data** (Unauthenticated Route)
     * Shows all currently stored telemetry data in the telemetry_data table.
@@ -140,7 +140,7 @@ This is the main entry point of the application. The options/routes accessible t
     * Allows a user (of administrator status) to manage registered users. This includes:
         * Changing passwords.
         * Account removal.
-    * NB. For a user to classify as an administrator, the 'admin' flag must be set in the telemetry_users table.
+    * NB For a user to classify as an administrator, the 'admin' flag must be set in the telemetry_users table.
     
 * **Login**
     * Allows registered users to authenticate.
