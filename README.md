@@ -134,11 +134,16 @@ This is the main entry point of the application. This provides numerous options/
 * **Update Circuit Board Status** (Unauthenticated)
         * Allows you to update a simulated circuit board using the most recently stored telemetry values.
 * **Manage Users** (Authenticated)
+        
         * Allows a user of administrator status to manage all register users.
                 * Changing of Passwords
                 * Deletion
         * For a user to be of administrator status, the 'admin' flag must be set in the telemetry_users table.
+        
 * **Login**
+        
         * Allows registered users to authenticate.
+        
 * **Register**
+        
         * Allows unauthenticated users to register their information.
