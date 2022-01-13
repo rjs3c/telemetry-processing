@@ -54,7 +54,7 @@ $container['telemetryView'] = function ($container)
         $container['telemetrySettings']['telemetryView']['twig_attributes']
     );
 
-    $base_uri = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBasePath()), '/'); // Seek a replacement
+    $base_uri = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBasePath()), '/');
     $router = $container['router'];
 
     $telemetry_view->addExtension(new TwigExtension($router, $base_uri));
