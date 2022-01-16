@@ -34,6 +34,7 @@ $app->get('/sendtelemetrydata', function (Request $request, Response $response) 
             'links' => array(
                 'register' => 'registerform',
                 'login' => 'loginform',
+                'logout'=> 'logout',
                 'homepage' => 'index.php',
                 'present_telemetry'=> 'presenttelemetrydata',
                 'fetch_telemetry'=> 'fetchtelemetrydata'

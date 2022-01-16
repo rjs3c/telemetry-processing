@@ -45,6 +45,7 @@ $app->get('/presenttelemetrydata[/{page}]', function (Request $request, Response
             'links'=> array(
                 'register' => 'registerform',
                 'login' => 'loginform',
+                'logout'=> 'logout',
                 'homepage' => 'index.php',
                 'present_telemetry'=> 'presenttelemetrydata',
                 'fetch_telemetry'=> 'fetchtelemetrydata',
