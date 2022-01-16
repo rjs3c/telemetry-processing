@@ -1,8 +1,8 @@
 {% extends 'boilerplate.html.twig' %}
     {% block content %}
         <div class="present-page content">
-            <h1>{{ heading_1 }}</h1>
-        </div>
+            <h1 class="heading">{{ heading_1 }}</h1>
+        
         <div class="data-table-wrapper">
             {% if telemetry_data|length > 0 %}
                 <div class="data-table-info">
@@ -53,4 +53,5 @@
             {% endif %}
 
         </div>
+</div>
     {% endblock %}
