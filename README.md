@@ -4,10 +4,14 @@ Telemetry Data Processing using PHP and EE's M2M SOAP Service.
 ## Team
 **21-3110-AF**
 ## Created by
-* @MoAziz123
-* @JamesB38
-* @rjs3c
-## Important Configuration (Must Read!)
+* Mo Aziz
+* James Brass
+* Ryan Instrell
+## Contents
+1. [Important Configuration](#important-configuration)
+2. [Access](#access)
+3. [Usage](#usage)
+## Important Configuration
 ### Directory structure
 ```markdown
 ├── includes
@@ -94,6 +98,14 @@ $app->getContainer()->get('telemetrySettings')['telemetryView'];
 $app->getContainer()->get('telemetrySettings')['doctrineSettings'];
 $app->getContainer()->get('telemetrySettings')['soapSettings'];
 ```
+### Administrator User
+To be able to manage users, a user with the 'admin' flag **must** exist in the telemetry_users table **and** be logged in.
+
+By default, there is a user of administrator status pre-included. NB The credentials can and **should** be changed by using the User Management interface.
+
+* **Username** : telemetry_user
+* **Password** : telemetry_user_pass
+
 ### Misc. 
 Application Constants:
 * **APP_PATH** : `telemetry_processing/app` directory
@@ -106,3 +118,35 @@ $css_file_name = 'styles.css';
 ```
 * **TEMPLATE_PATH** : `telemetry_processing/app/templates` directory
 * **LOG_PATH** : `includes/logs` directory 
+## Access
+* Go to your web browser (i.e. Firefox, Edge, Chrome, etc).
+* Navigate to the web root of your Apache web server.
+* Click on telemetry_processing directory.
+* Enjoy!
+## Usage
+### Homepage
+This is the main entry point of the application. The options/routes accessible through this page are as follows:
+* **Send Test Telemetry Messages** (Unauthenticated Route)
+    * Uses SOAP to send test telemetry data to EE's M2M server (NB An alternative to using your mobile device, if this method doesn't work).
+    
+* **Fetch and Present Telemetry Data** (Unauthenticated Route)
+    * Shows all currently stored telemetry data in the telemetry_data table.
+    * Allows refreshing of the data using 'Fetch' button. This uses SOAP to retrieve telemetry data, and stores this in the telemetry_data table.
+    
+* **Update Circuit Board Status** (Unauthenticated Route)
+    * Allows you to update a simulated circuit board using the most recently stored telemetry values.
+    
+* **Manage Users** (Authenticated Route)
+    * Allows a user (of administrator status) to manage registered users. This includes:
+    
+        * Changing passwords.
+        * Account removal.
+        
+    * NB For a user to classify as an administrator, the 'admin' flag must be set in the telemetry_users table.
+    
+* **Login**
+    * Allows registered users to authenticate.
+    
+* **Register**
+    * Allows unauthenticated users to register their information.
+    

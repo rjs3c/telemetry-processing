@@ -2,7 +2,7 @@
     {% block content %}
         <div class="present-page content">
             <h1 class="heading">{{ heading_1 }}</h1>
-        </div>
+        
         {% if users_list|length > 0 %}
                 <div class="data-table-wrapper">
                     <table class="data-table">
@@ -17,11 +17,8 @@
                                     <form action="manageuserschangepassword" method="post">
                                         <input name="username" type="hidden" value="{{ username|e }}">
                                         <input id="new-password-{{ username|e }}" name="password" type="password" placeholder="Password" size="30"  size="33" maxlength="32" tabindex="2" required>
-                                        <button id="show-new-password-{{ username|e }}" type="button" onclick="maskPassword('{{ username|e }}')"><i class="fa fa-eye-slash"></i></button>
-                                        <button type="submit">Change Password</button>
-                                        <a href="manageusersdelete?username={{ username|e('url')|url_encode }}">
-                                            <button type="button"><i class="fa fa-trash"></i></button>
-                                        </a>
+                                        <button class-"form-input-button" id="show-new-password-{{ username|e }}" type="button" onclick="maskPassword('{{ username|e }}')"><i class="fa fa-eye-slash"></i></button>
+                                        <button class="form-input-button" id="change-password-button" type="submit">Change Password</button>
                                         <script type="text/javascript">
                                             function maskPassword(username) {
                                                 let password = document.querySelector('#new-password-' + username);
@@ -38,6 +35,13 @@
                                         </script>
                                     </form>
                                 </td>
+                                <td>
+                                    <div class="form-button">
+                                        <a href="manageusersdelete?username={{ username|e('url')|url_encode }}">
+                                            <button class="form-input-button" type="button"><i class="fa fa-trash"></i></button>
+                                        </a>
+                                    </div>
+                                </td>
                             </tr>
                         {% endfor %}
                     </table>
@@ -45,4 +49,5 @@
             {% else %}
                 <p>No users.</p>
             {% endif %}
+</div>
     {% endblock %}

@@ -18,6 +18,8 @@ use \TelemProc\CircuitBoard;
 
 $app->get('/sendtelemetrydata', function (Request $request, Response $response) use ($app) : Response
 {
+    $is_authenticated = $request->getAttribute('isAuthenticated');
+
     $tainted_telemetry_data = retrieveStoredTelemetryData($app, 1);
     $cleaned_telemetry_data = validateTelemetryData($app, $tainted_telemetry_data);
 
@@ -32,12 +34,14 @@ $app->get('/sendtelemetrydata', function (Request $request, Response $response) 
             'links' => array(
                 'register' => 'registerform',
                 'login' => 'loginform',
+                'logout'=> 'logout',
                 'homepage' => 'index.php',
                 'present_telemetry'=> 'presenttelemetrydata',
                 'fetch_telemetry'=> 'fetchtelemetrydata'
             ),
             'heading_1' => 'Send Latest Telemetry Message to Circuit Board',
-            'circuit_board_status' => $circuit_board_status
+            'circuit_board_status' => $circuit_board_status,
+            'isAuthenticated' => $is_authenticated,
         )
     );
 })->setName('sendtelemetrydata');

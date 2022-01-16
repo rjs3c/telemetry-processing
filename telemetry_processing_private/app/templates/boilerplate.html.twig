@@ -9,14 +9,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Telemetry Processing</title>
 </head>
-<header>
-    {{ block("header", "header.html.twig" )}}
-</header>
 <body>
+{{ block("header", "header.html.twig" )}}
 {% block content %}{% endblock %}
-</body>
 <footer>
-    {{ block("footer", "footer.html.twig") }}
+{{ block("footer", "footer.html.twig") }}
 </footer>
+</body>
 </html>
 {% endhtmlcompress %}

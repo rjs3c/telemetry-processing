@@ -16,14 +16,20 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->get('/manageusersdelete', function (Request $request, Response $response) use ($app) : Response
 {
-    $tainted_username = $request->getQueryParam('username');
+    $is_admin = $request->getAttribute('isAdmin');
 
-    if ($tainted_username !== null) {
-        $cleaned_username = validateUsername($app, $tainted_username);
-        deleteUsername($app, $cleaned_username);
+    if ($is_admin) {
+        $tainted_username = $request->getQueryParam('username');
+
+        if ($tainted_username !== null) {
+            $cleaned_username = validateUsername($app, $tainted_username);
+            deleteUsername($app, $cleaned_username);
+        }
+
+        return $response->withRedirect('manageusersform', 302);
+    } else {
+        return $response->withRedirect('index.php', 302);
     }
-
-    return $response->withRedirect('manageusersform', 301);
 });
 
 /**

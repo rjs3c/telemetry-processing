@@ -20,7 +20,7 @@ $app->get('/logout', function (Request $request, Response $response) use ($app) 
         logoutUser($app);
     }
 
-    return $response->withRedirect('loginform', 302);
+    return $response->withRedirect('index.php', 302);
 })->setName('logout');
 
 /**

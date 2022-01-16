@@ -16,14 +16,20 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->post('/manageuserschangepassword', function (Request $request, Response $response) use ($app) : Response
 {
-    $tainted_parameters = $request->getParsedBody();
+    $is_admin = $request->getAttribute('isAdmin');
 
-    if (!empty($tainted_parameters)) {
-        $cleaned_parameters = validateUsernameAndPassword($app, $tainted_parameters);
-        changeUserPassword($app, $cleaned_parameters);
+    if ($is_admin) {
+        $tainted_parameters = $request->getParsedBody();
+
+        if (!empty($tainted_parameters)) {
+            $cleaned_parameters = validateUsernameAndPassword($app, $tainted_parameters);
+            changeUserPassword($app, $cleaned_parameters);
+        }
+
+        return $response->withRedirect('manageusersform', 301);
+    } else {
+        return $response->withRedirect('index.php', 302);
     }
-
-    return $response->withRedirect('manageusersform', 301);
 });
 
 /**
